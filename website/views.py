@@ -11,6 +11,8 @@ def home(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
+            # todo: create a profile page and redirecto user there
             return redirect('home')
         else:
             messages.error(request, 'Invalid login')
@@ -30,8 +32,9 @@ def register_user(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(request, username=username, password=password)
             login(request, user)
-            return redirect('home')
 
+            # todo: create a profile page and redirecto user there
+            return redirect('home')
     else:
         form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
@@ -43,3 +46,7 @@ def register_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+def add_profileinfo(request):
+    return render(request, 'add_profileinfo.html')
