@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistrationForm, AddProfileInfoForm
+from .forms import RegistrationForm
+from .models import PersonalInformation
 
 
 def home(request):
@@ -49,16 +50,33 @@ def logout_user(request):
 
 
 def add_profileinfo(request):
-    form = AddProfileInfoForm(request.POST or None)
     if request.user.is_authenticated:
         if request.method == 'POST':
-            if form.is_valid():
-                profile_info = form.save(commit=False)
-                profile_info.user_id = request.user
-                profile_info.save()
-                return redirect('home')
+            if request.POST.get('recruiter'):
+                recruiter_check = True
+            else:
+                recruiter_check = False
 
-        return render(request, 'add_profileinfo.html', {'form': form})
+            # Put logic here to validate data and strip unwanted characters
+
+            profile_info = PersonalInformation(
+                user_id=request.user,
+                recruiter=recruiter_check,
+                first_name=request.POST.get('first_name'),
+                last_name=request.POST.get('last_name'),
+                city=request.POST.get('city'),
+                state=request.POST.get('state'),
+                email=request.POST.get('email'),
+                phone=request.POST.get('phone'),
+                linked_in=request.POST.get('linked_in'),
+                facebook=request.POST.get('facebook'),
+                about=request.POST.get('about'),
+                profile_image=request.POST.get('profile_image'),
+            )
+            profile_info.save()
+            return redirect('home')
+
+        return render(request, 'add_profileinfo.html')
     else:
         # you can add a message here you must be logged in
         return redirect('home')
