@@ -5,20 +5,20 @@
     {% if user.is_authenticated %}
     <h1>content here</h1>
     {% else %}
-    <H1>Login</H1>
-    <form method="POST" action="{% url 'home' %}">
-        {% csrf_token %}
-        <form>
-        <div class="mb-3">
-            <input type="text" name="username" placeholder="Username" required class="form-control">
-        </div>
-        <div class="mb-3">
-            <input type="password" name="password" placeholder="Password" required class="form-control">
-        </div>
+    <div class="mt-5">
+        <H1>Login</H1>
+        <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" name="username" placeholder="Username" required class="form-control">
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" placeholder="Password" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-secondary">Login</button>
+        </form>
+    </div>
 
-        <button type="submit" class="btn btn-secondary">Login</button>
-</form>
-    </form>
 </div>
 {% endif %}
 {% endblock %}
