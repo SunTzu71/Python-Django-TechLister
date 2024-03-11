@@ -4,6 +4,10 @@
 
 <div class="col-md6 offset-md-3">
 <h1>Add Personal Information</h1>
-
+<form method="POST" action="{% url 'add_profileinfo' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <button type="submit" class="btn btn-secondary">Save</button>
+    </form>
 </div>
 {% endblock %}

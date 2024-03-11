@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistrationForm
+from .forms import RegistrationForm, AddProfileInfoForm
 
 
 def home(request):
@@ -12,7 +12,7 @@ def home(request):
         if user is not None:
             login(request, user)
 
-            # todo: create a profile page and redirecto user there
+            # todo: create a profile page and redirect user there
             return redirect('home')
         else:
             messages.error(request, 'Invalid login')
@@ -33,7 +33,7 @@ def register_user(request):
             user = authenticate(request, username=username, password=password)
             login(request, user)
 
-            # todo: create a profile page and redirecto user there
+            # todo: create a profile page and redirect user there
             return redirect('home')
     else:
         form = RegistrationForm()
@@ -49,4 +49,16 @@ def logout_user(request):
 
 
 def add_profileinfo(request):
-    return render(request, 'add_profileinfo.html')
+    form = AddProfileInfoForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if form.is_valid():
+                profile_info = form.save(commit=False)
+                profile_info.user_id = request.user
+                profile_info.save()
+                return redirect('home')
+
+        return render(request, 'add_profileinfo.html', {'form': form})
+    else:
+        # you can add a message here you must be logged in
+        return redirect('home')
