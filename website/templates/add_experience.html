@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Add Experience</h1>
+            <form method="POST" action="{% url 'add_experience' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" name="company" class="form-control" id="company" placeholder="Company">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="position" class="form-control" id="position" placeholder="Position">
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <select name="start_month" class="form-control">
+                            <option value="">Start Month</option>
+                            <option value="Jan">January</option>
+                            <option value="Feb">February</option>
+                            <option value="Mar">March</option>
+                            <option value="Apr">April</option>
+                            <option value="May">May</option>
+                            <option value="Jun">June</option>
+                            <option value="Jul">July</option>
+                            <option value="Aug">August</option>
+                            <option value="Sep">September</option>
+                            <option value="Oct">October</option>
+                            <option value="Nov">November</option>
+                            <option value="Dec">December</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="start_year" class="form-control" required id="start_year" placeholder="Start Year">
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <select name="end_month" class="form-control">
+                            <option value="">Start Month</option>
+                            <option value="Jan">January</option>
+                            <option value="Feb">February</option>
+                            <option value="Mar">March</option>
+                            <option value="Apr">April</option>
+                            <option value="May">May</option>
+                            <option value="Jun">June</option>
+                            <option value="Jul">July</option>
+                            <option value="Aug">August</option>
+                            <option value="Sep">September</option>
+                            <option value="Oct">October</option>
+                            <option value="Nov">November</option>
+                            <option value="Dec">December</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="end_year" class="form-control" required id="end_year" placeholder="End Year">
+                    </div>
+                </div>
+                <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" name="currently_working" class="form-check-input" id="id_recruiter">
+                            <label class="form-check-label" for="id_recruiter">Currently working here</label>
+                        </div>
+                </div>
+
+                <div class="mb-3">
+                    Add tasks that you completed for this position.
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_one" class="form-control" id="task_one" placeholder="Task one">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_two" class="form-control" id="task_two" placeholder="Task two">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_three" class="form-control" id="task_three" placeholder="Task three">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_four" class="form-control" id="task_four" placeholder="Task four">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_five" class="form-control" id="task_five" placeholder="Task five">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_six" class="form-control" id="task_six" placeholder="Task six">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_seven" class="form-control" id="task_seven" placeholder="Task seven">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_eight" class="form-control" id="task_eight" placeholder="Task eight">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_nine" class="form-control" id="task_nine" placeholder="Task nine">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="task_ten" class="form-control" id="task_ten" placeholder="Task ten">
+                </div>
+                <button type="submit" class="btn btn-secondary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

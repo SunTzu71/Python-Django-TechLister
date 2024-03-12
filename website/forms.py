@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import PersonalInformation, Education
+from .models import PersonalInformation, Education, Experience
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
@@ -41,3 +41,11 @@ class AddEducationForm(forms.ModelForm):
     class Meta:
         model = Education
         fields = ['title', 'description']
+
+
+class AddExperienceForm(forms.ModelForm):
+    class Meta:
+        model = Experience
+        fields = ['company', 'position', 'start_month', 'start_month', 'start_year', 'end_month', 'end_year',
+                  'currently_working', 'task_one', 'task_two', 'task_three', 'task_four', 'task_five', 'task_six',
+                  'task_seven', 'task_eight', 'task_nine', 'task_ten', 'order']

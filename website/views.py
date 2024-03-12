@@ -2,8 +2,7 @@ from PIL import Image
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm
-from .models import PersonalInformation
+from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddExperienceForm
 
 
 def home(request):
@@ -68,6 +67,31 @@ def add_education(request):
         return redirect('home')
 
 
+def add_experience(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AddExperienceForm(request.POST)
+
+            if form.is_valid():
+                add_experience = form.save(commit=False)
+                add_experience.user_id = request.user
+                add_experience.start_year = int(request.POST['start_year'])
+                add_experience.end_year = int(request.POST['end_year'])
+                add_experience.save()
+                return redirect("home")
+            else:
+                print(request.POST)
+                return render(request, 'add_experience.html', {'form': form})
+        else:
+            form = AddExperienceForm()
+            return render(request, 'add_experience.html', {'form': form})
+
+    else:
+        return redirect('home')
+
+
+
+
 def add_personal_info(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -77,6 +101,7 @@ def add_personal_info(request):
                 add_personal_info.user_id = request.user
 
                 # Process the image file if it's in the form
+                # todo: put this into a utils class - we will be doing more image resizing
                 if 'profile_image' in request.FILES:
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)

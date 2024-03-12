@@ -33,3 +33,29 @@ class Education(models.Model):
     def __str__(self):
         return f'{self.user_id} {self.title}'
 
+
+class Experience(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    company = models.CharField(max_length=100)
+    position = models.CharField(max_length=100)
+    start_month = models.CharField(max_length=10)
+    start_year = models.IntegerField(null=True, blank=True)
+    end_month = models.CharField(max_length=10, null=True, blank=True)
+    end_year = models.IntegerField(null=True, blank=True)
+    currently_working = models.BooleanField(default=False, null=True, blank=True)
+    task_one = models.CharField(max_length=255, null=True, blank=True)
+    task_two = models.CharField(max_length=255, null=True, blank=True)
+    task_three = models.CharField(max_length=255, null=True, blank=True)
+    task_four = models.CharField(max_length=255, null=True, blank=True)
+    task_five = models.CharField(max_length=255, null=True, blank=True)
+    task_six = models.CharField(max_length=255, null=True, blank=True)
+    task_seven = models.CharField(max_length=255, null=True, blank=True)
+    task_eight = models.CharField(max_length=255, null=True, blank=True)
+    task_nine = models.CharField(max_length=255, null=True, blank=True)
+    task_ten = models.CharField(max_length=255, null=True, blank=True)
+    order = models.IntegerField(default=0, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user_id} {self.company}'
