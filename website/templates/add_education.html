@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Add Education/Certifications</h1>
+            <form method="POST" action="{% url 'add_education' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="description" class="form-control" id="description" placeholder="Description">
+                </div>
+                <button type="submit" class="btn btn-secondary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

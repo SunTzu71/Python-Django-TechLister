@@ -2,7 +2,7 @@ from PIL import Image
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistrationForm, AddPersonalInfoForm
+from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm
 from .models import PersonalInformation
 
 
@@ -50,6 +50,24 @@ def logout_user(request):
     return redirect('home')
 
 
+def add_education(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AddEducationForm(request.POST)
+            if form.is_valid():
+                add_education = form.save(commit=False)
+                add_education.user_id = request.user
+                add_education.save()
+                return redirect('home')
+            else:
+                return render(request, 'add_education.html', {'form': form})
+        else:
+            form = AddEducationForm()
+            return render(request, 'add_education.html', {'form': form})
+    else:
+        return redirect('home')
+
+
 def add_personal_info(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -95,3 +113,6 @@ def add_personal_info(request):
             return render(request, 'add_personalinfo.html', {'form': form})
     else:
         return redirect('home')
+
+
+

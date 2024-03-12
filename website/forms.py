@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import PersonalInformation
+from .models import PersonalInformation, Education
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
@@ -31,8 +31,13 @@ class RegistrationForm(UserCreationForm):
 
 
 class AddPersonalInfoForm(forms.ModelForm):
-
     class Meta:
         model = PersonalInformation
         fields = ['recruiter', 'first_name', 'last_name', 'city', 'state', 'email', 'phone', 'linked_in', 'facebook',
                   'about', 'profile_image']
+
+
+class AddEducationForm(forms.ModelForm):
+    class Meta:
+        model = Education
+        fields = ['title', 'description']
