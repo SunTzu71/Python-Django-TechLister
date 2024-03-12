@@ -1,4 +1,5 @@
 from PIL import Image
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -6,20 +7,7 @@ from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddE
 
 
 def home(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-
-            # todo: create a profile page and redirect user there
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid login')
-            return redirect('home')
-    else:
-        return render(request, 'home.html', {})
+    return render(request, 'home.html', {})
 
 
 def register_user(request):
@@ -42,6 +30,21 @@ def register_user(request):
 
     # The view website.views.register_user didn't return an HttpResponse object. It returned None instead.
     return render(request, 'register.html', {'form': form})
+
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('user_profile')
+        else:
+            messages.error(request, 'Invalid login')
+            return redirect('home')
+    else:
+        return render(request, 'home.html', {})
 
 
 def logout_user(request):
@@ -88,8 +91,6 @@ def add_experience(request):
 
     else:
         return redirect('home')
-
-
 
 
 def add_personal_info(request):
@@ -139,5 +140,7 @@ def add_personal_info(request):
     else:
         return redirect('home')
 
-
-
+@login_required
+def user_profile(request):
+    user = request.user
+    return render(request, 'user_profile.html')
