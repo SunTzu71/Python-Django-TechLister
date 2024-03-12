@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddExperienceForm
+from .models import PersonalInformation
 
 
 def home(request):
@@ -30,21 +31,6 @@ def register_user(request):
 
     # The view website.views.register_user didn't return an HttpResponse object. It returned None instead.
     return render(request, 'register.html', {'form': form})
-
-
-def login_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('user_profile')
-        else:
-            messages.error(request, 'Invalid login')
-            return redirect('home')
-    else:
-        return render(request, 'home.html', {})
 
 
 def logout_user(request):
@@ -140,7 +126,37 @@ def add_personal_info(request):
     else:
         return redirect('home')
 
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # check if user is a recruiter then redirect to correct template
+            try:
+                personal_info = PersonalInformation.objects.get(user_id=user)
+                is_recruiter = personal_info.recruiter
+                if is_recruiter:
+                    return redirect('recruiter_profile')
+                else:
+                    return redirect('user_profile')
+            except PersonalInformation.DoesNotExist:
+                # there is no personal information for current user so redirect to personal info form
+                return redirect('add_personalinfo')
+        else:
+            messages.error(request, 'Invalid login')
+            return redirect('home')
+    else:
+        return render(request, 'home.html', {})
+
+
 @login_required
 def user_profile(request):
-    user = request.user
-    return render(request, 'user_profile.html')
+    return render(request, 'user_profile.html', {})
+
+
+@login_required
+def recruiter_profile(request):
+    return render(request, 'recruiter_profile.html', {})

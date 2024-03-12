@@ -12,7 +12,8 @@ urlpatterns = [
     path('add_personalinfo', views.add_personal_info, name='add_personalinfo'),
     path('add_education', views.add_education, name='add_education'),
     path('add_experience', views.add_experience, name='add_experience'),
-    path('user/profile', views.user_profile, name='user_profile')
+    path('user_profile/', views.user_profile, name='user_profile'),
+    path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
