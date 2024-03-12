@@ -1,7 +1,8 @@
+from PIL import Image
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistrationForm
+from .forms import RegistrationForm, AddPersonalInfoForm
 from .models import PersonalInformation
 
 
@@ -49,34 +50,48 @@ def logout_user(request):
     return redirect('home')
 
 
-def add_profileinfo(request):
+def add_personal_info(request):
     if request.user.is_authenticated:
-        if request.method == 'POST':
-            if request.POST.get('recruiter'):
-                recruiter_check = True
+        if request.method == "POST":
+            form = AddPersonalInfoForm(request.POST, request.FILES)
+            if form.is_valid():
+                add_personal_info = form.save(commit=False)
+                add_personal_info.user_id = request.user
+
+                # Process the image file if it's in the form
+                if 'profile_image' in request.FILES:
+                    profile_image = request.FILES['profile_image']
+                    img = Image.open(profile_image)
+
+                    if img.height > 300 or img.width > 300:
+                        output_size = (300, 300)
+                        img.thumbnail(output_size)
+
+                        # Create a BytesIO object to temporarily hold the resized image
+                        from io import BytesIO
+                        output_io = BytesIO()
+
+                        # Save the resized image to the BytesIO object
+                        img.save(output_io, format=img.format)
+
+                        # Get the file name and extension from the original image
+                        file_name = profile_image.name
+                        file_ext = file_name.split('.')[-1].lower()
+
+                        # Create a new InMemoryUploadedFile with the resized image data
+                        from django.core.files.uploadedfile import InMemoryUploadedFile
+                        resized_image = InMemoryUploadedFile(output_io, None, file_name, f'image/{file_ext}',
+                                                             output_io.tell(), None)
+
+                        # Assign the resized image to the profile info
+                        add_personal_info.profile_image = resized_image
+
+                add_personal_info.save()  # Save the profile info with the resized image
+                return redirect('home')
             else:
-                recruiter_check = False
-
-            # Put logic here to validate data and strip unwanted characters
-
-            profile_info = PersonalInformation(
-                user_id=request.user,
-                recruiter=recruiter_check,
-                first_name=request.POST.get('first_name'),
-                last_name=request.POST.get('last_name'),
-                city=request.POST.get('city'),
-                state=request.POST.get('state'),
-                email=request.POST.get('email'),
-                phone=request.POST.get('phone'),
-                linked_in=request.POST.get('linked_in'),
-                facebook=request.POST.get('facebook'),
-                about=request.POST.get('about'),
-                profile_image=request.POST.get('profile_image'),
-            )
-            profile_info.save()
-            return redirect('home')
-
-        return render(request, 'add_profileinfo.html')
+                return render(request, 'add_personalinfo.html', {'form': form})
+        else:
+            form = AddPersonalInfoForm()
+            return render(request, 'add_personalinfo.html', {'form': form})
     else:
-        # you can add a message here you must be logged in
         return redirect('home')

@@ -30,7 +30,7 @@ class RegistrationForm(UserCreationForm):
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
 
 
-class AddProfileInfoForm(forms.ModelForm):
+class AddPersonalInfoForm(forms.ModelForm):
 
     class Meta:
         model = PersonalInformation
