@@ -63,3 +63,10 @@ class Experience(models.Model):
 
 class Skill(models.Model):
     skill = models.CharField(max_length=50)
+
+
+class UserSkill(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    skill_id = models.BigIntegerField()
+    skill_name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)

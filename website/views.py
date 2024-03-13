@@ -1,10 +1,11 @@
 from PIL import Image
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddExperienceForm
-from .models import PersonalInformation, Education, Experience, Skill
+from .models import PersonalInformation, Education, Experience, Skill, UserSkill
 
 
 def home(request):
@@ -194,3 +195,10 @@ def skill_search(request):
 
     return render(request, 'skill_search.html', {'skills': skill_results})
 
+
+@login_required
+@require_POST
+def add_user_skill(request, pk, skill_name):
+    skill_id = pk
+    user_id = request.user
+    UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user_id=user_id)
