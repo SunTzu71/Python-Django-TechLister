@@ -66,10 +66,48 @@
               <h3>Experience</h3>
             </div>
             <div class="card-body">
+              <!-- start -->
               {% for exp in exps %}
-              <h5 class="card-title">{{ exp.company }}</h5>
-              <p class="card-text">{{ exp.position }}</p>
+              <div class="container">
+                <!-- First row with 2 columns -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div><h5>{{ exp.company }}</h5></div>
+                  </div>
+                  <div class="col-md-6">
+                    <div>
+                      {{ exp.start_month }}-{{ exp.start_year}}
+                      {{ exp.end_month }}-{{ exp.end_year}}
+                      <!-- add currently with logic to show it -->
+                      <button type="button" class="btn btn-primary"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button>
+                      <button type="button" class="btn btn-danger"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Second row expanding both columns -->
+                <div class="row">
+                  <div>
+                    <div>
+                      {{ exp.position }}<br />
+                      {{ exp.task_one }}<br />
+                      {% if exp.task_two %} {{ exp.task_two }}<br />{% endif %}
+                      {% if exp.task_three %} {{ exp.task_three }}<br />{% endif %}
+                      {% if exp.task_four %} {{ exp.task_four }}<br />{% endif %}
+                      {% if exp.task_five %} {{ exp.task_five }}<br />{% endif %}
+                      {% if exp.task_six %} {{ exp.task_six }}<br />{% endif %}
+                      {% if exp.task_seven %} {{ exp.task_seven }}<br />{% endif %}
+                      {% if exp.task_eight %} {{ exp.task_eight }}<br />{% endif %}
+                      {% if exp.task_nine %} {{ exp.task_nine }}<br />{% endif %}
+                      {% if exp.task_ten %} {{ exp.task_ten }}<br />{% endif %}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
               {% endfor %}
+              <!-- end -->
             </div>
           </div>
         </section>
