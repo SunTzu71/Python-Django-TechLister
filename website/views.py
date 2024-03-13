@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddExperienceForm
-from .models import PersonalInformation
+from .models import PersonalInformation, Education, Experience
 
 
 def home(request):
@@ -117,7 +117,15 @@ def add_personal_info(request):
                         add_personal_info.profile_image = resized_image
 
                 add_personal_info.save()  # Save the profile info with the resized image
-                return redirect('home')
+
+                # check if recruiter or user and redirecto to profile page
+                personal_info = PersonalInformation.objects.get(user_id=request.user)
+                is_recruiter = personal_info.recruiter
+                if is_recruiter:
+                    return redirect('recruiter_profile')
+                else:
+                    return redirect('user_profile')
+
             else:
                 return render(request, 'add_personalinfo.html', {'form': form})
         else:
@@ -144,7 +152,7 @@ def login_user(request):
                     return redirect('user_profile')
             except PersonalInformation.DoesNotExist:
                 # there is no personal information for current user so redirect to personal info form
-                return redirect('add_personalinfo')
+                return redirect('user_profile')
         else:
             messages.error(request, 'Invalid login')
             return redirect('home')
@@ -154,9 +162,21 @@ def login_user(request):
 
 @login_required
 def user_profile(request):
-    return render(request, 'user_profile.html', {})
+    user_id = request.user.id
+    try:
+        personal_info = PersonalInformation.objects.get(user_id=user_id)
+        education_info = Education.objects.filter(user_id=user_id)
+        experience_info = Experience.objects.filter(user_id=user_id)
+        context = {'pii': personal_info,
+                   'edus': education_info,
+                   'exps': experience_info}
+    except PersonalInformation.DoesNotExist:
+        return redirect('add_personalinfo')
+
+    return render(request, 'user_profile.html',  context)
 
 
 @login_required
 def recruiter_profile(request):
+
     return render(request, 'recruiter_profile.html', {})

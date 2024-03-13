@@ -3,7 +3,80 @@
 
 {% if user.is_authenticated %}
 
-    <p>Place user profile content here.</p>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <section class="section1">
+          <!-- Content for Section 1 -->
+          <div class="card">
+            <div class="card-header bg-secondary">
+              <h3>Personal Information</h3>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ pii.first_name }} {{ pii.last_name }}</h5>
+              <p class="card-text">{{ pii.city }}, {{ pii.state }}</p>
+                  <p class="card-text">{{ pii.email }}</p>
+                  <p class="card-text">{{ pii.phone }}</p>
+                  <p class="card-text">{{ pii.linked_in }}</p>
+                  <p class="card-text">{{ pii.facebook }}</p>
+                  <p class="card-text">{{ pii.about }}</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-6">
+        <section class="section2">
+          <!-- Content for Section 2 -->
+          <div class="card">
+            <div class="card-header bg-secondary">
+              <h3>Skills</h3>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Python PHP Java MySQL React</p>
+              <h5 class="card-title">Search bor goes here</h5>
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <section class="section3">
+          <!-- Content for Section 3 -->
+          <div class="card">
+            <div class="card-header bg-secondary">
+              <h3>Education / Certificates</h3>
+            </div>
+            <div class="card-body">
+              {% for edu in edus %}
+              <h5 class="card-title">{{ edu.title }}</h5>
+              <p class="card-text">{{ edu.description }}</p>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-6">
+        <section class="section4">
+          <!-- Content for Section 4 -->
+          <div class="card">
+            <div class="card-header bg-secondary">
+              <h3>Experience</h3>
+            </div>
+            <div class="card-body">
+              {% for exp in exps %}
+              <h5 class="card-title">{{ exp.company }}</h5>
+              <p class="card-text">{{ exp.position }}</p>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
 
 {% endif %}
 {% endblock %}
