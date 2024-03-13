@@ -33,8 +33,18 @@
             </div>
             <div class="card-body">
               <p class="card-text">Python PHP Java MySQL React</p>
-              <h5 class="card-title">Search bor goes here</h5>
-
+              <div class="d-flex" role="search">
+                <input class="form-control me-2"
+                       type="search"
+                       name="skill_input" placeholder="Search skill"
+                       hx-get="/skill_search"
+                       hx-trigger="input changed delay:500ms, search"
+                       hx-target="#search-results"
+                       hx-indicator=".htmx-indicator">
+            </div>
+                  <div id="search-results" class="mt-2">
+                    {% include 'skill_search.html' %}
+                  </div>
             </div>
           </div>
         </section>
@@ -77,8 +87,12 @@
                   <div class="col-md-6">
                     <div>
                       {{ exp.start_month }}-{{ exp.start_year}}
+                      {% if exp.currently_working %}
+                       Current
+                      {% else %}
                       {{ exp.end_month }}-{{ exp.end_year}}
-                      <!-- add currently with logic to show it -->
+                      {% endif %}
+
                       <button type="button" class="btn btn-primary"
                               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button>
                       <button type="button" class="btn btn-danger"
@@ -90,7 +104,7 @@
                 <div class="row">
                   <div>
                     <div>
-                      {{ exp.position }}<br />
+                      <strong>{{ exp.position }}</strong><br />
                       {{ exp.task_one }}<br />
                       {% if exp.task_two %} {{ exp.task_two }}<br />{% endif %}
                       {% if exp.task_three %} {{ exp.task_three }}<br />{% endif %}

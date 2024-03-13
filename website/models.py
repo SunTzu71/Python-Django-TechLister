@@ -59,3 +59,7 @@ class Experience(models.Model):
 
     def __str__(self):
         return f'{self.user_id} {self.company}'
+
+
+class Skill(models.Model):
+    skill = models.CharField(max_length=50)

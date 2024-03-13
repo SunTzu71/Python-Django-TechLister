@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddExperienceForm
-from .models import PersonalInformation, Education, Experience
+from .models import PersonalInformation, Education, Experience, Skill
 
 
 def home(request):
@@ -180,3 +180,17 @@ def user_profile(request):
 def recruiter_profile(request):
 
     return render(request, 'recruiter_profile.html', {})
+
+
+@login_required
+def skill_search(request):
+    skill_input = request.GET.get('skill_input', None)
+    skill_results = None
+
+    if skill_input:
+        print(skill_input)
+        skill_results = Skill.objects.filter(skill__icontains=skill_input)
+        print(skill_results)
+
+    return render(request, 'skill_search.html', {'skills': skill_results})
+
