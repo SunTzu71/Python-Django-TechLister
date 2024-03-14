@@ -1,6 +1,6 @@
 from PIL import Image
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
@@ -76,6 +76,22 @@ def add_experience(request):
             form = AddExperienceForm()
             return render(request, 'add_experience.html', {'form': form})
 
+    else:
+        return redirect('home')
+
+
+def edit_personal_info(request, pk):
+    if request.user.is_authenticated:
+        personal_info = PersonalInformation.objects.get(id=pk)
+        if request.method == 'POST':
+            form = AddPersonalInfoForm(request.POST, instance=personal_info)
+            if form.is_valid():
+                form.save()
+                # todo: need to get the recruiter flag then redirect to correct profile page
+                return redirect('user_profile')
+        else:
+            form = AddPersonalInfoForm(instance=personal_info)
+        return render(request, 'edit_personalinfo.html', {'form': form})
     else:
         return redirect('home')
 
