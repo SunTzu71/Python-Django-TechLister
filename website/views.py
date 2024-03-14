@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from .forms import RegistrationForm, AddPersonalInfoForm, AddEducationForm, AddExperienceForm
+from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill
 
 
@@ -47,7 +47,7 @@ def add_education(request):
                 add_education = form.save(commit=False)
                 add_education.user_id = request.user
                 add_education.save()
-                return redirect('home')
+                return redirect('user_profile')
             else:
                 return render(request, 'add_education.html', {'form': form})
         else:
@@ -84,13 +84,13 @@ def edit_personal_info(request, pk):
     if request.user.is_authenticated:
         personal_info = PersonalInformation.objects.get(id=pk)
         if request.method == 'POST':
-            form = AddPersonalInfoForm(request.POST, instance=personal_info)
+            form = PersonalInformationForm(request.POST, instance=personal_info)
             if form.is_valid():
                 form.save()
                 # todo: need to get the recruiter flag then redirect to correct profile page
                 return redirect('user_profile')
         else:
-            form = AddPersonalInfoForm(instance=personal_info)
+            form = PersonalInformationForm(instance=personal_info)
         return render(request, 'edit_personalinfo.html', {'form': form})
     else:
         return redirect('home')
@@ -99,7 +99,7 @@ def edit_personal_info(request, pk):
 def add_personal_info(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            form = AddPersonalInfoForm(request.POST, request.FILES)
+            form = PersonalInformationForm(request.POST, request.FILES)
             if form.is_valid():
                 add_personal_info = form.save(commit=False)
                 add_personal_info.user_id = request.user
@@ -146,7 +146,7 @@ def add_personal_info(request):
             else:
                 return render(request, 'add_personalinfo.html', {'form': form})
         else:
-            form = AddPersonalInfoForm()
+            form = PersonalInformationForm()
             return render(request, 'add_personalinfo.html', {'form': form})
     else:
         return redirect('home')

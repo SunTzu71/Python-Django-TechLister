@@ -30,7 +30,7 @@ class RegistrationForm(UserCreationForm):
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
 
 
-class AddPersonalInfoForm(forms.ModelForm):
+class PersonalInformationForm(forms.ModelForm):
     class Meta:
         model = PersonalInformation
         fields = ['recruiter', 'first_name', 'last_name', 'city', 'state', 'email', 'phone', 'linked_in', 'facebook',
@@ -41,6 +41,10 @@ class AddEducationForm(forms.ModelForm):
     class Meta:
         model = Education
         fields = ['title', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'})
+        }
 
 
 class AddExperienceForm(forms.ModelForm):
