@@ -206,3 +206,5 @@ def add_user_skill(request, pk, skill_name):
     skill_id = pk
     user_id = request.user
     UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user_id=user_id)
+
+    return redirect('user_profile')
