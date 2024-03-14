@@ -70,3 +70,7 @@ class UserSkill(models.Model):
     skill_id = models.BigIntegerField()
     skill_name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f'{self.user_id} {self.skill_id} {self.skill_name}'
