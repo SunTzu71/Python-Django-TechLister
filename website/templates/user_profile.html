@@ -13,13 +13,21 @@
               <h3>Personal Information</h3>
             </div>
             <div class="card-body">
-              <h5 class="card-title">{{ pii.first_name }} {{ pii.last_name }}</h5>
+
+              <div class="row row-cols-2">
+                <div class="col"><h5 class="card-title">{{ pii.first_name }} {{ pii.last_name }}</h5></div>
+                <div class="col d-flex justify-content-end">
+                  <a href="{% url 'edit_pii' %}"><button type="button" class="btn btn-primary mx-1"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button></a>
+                </div>
+              </div>
+
               <p class="card-text">{{ pii.city }}, {{ pii.state }}</p>
-                  <p class="card-text">{{ pii.email }}</p>
-                  <p class="card-text">{{ pii.phone }}</p>
-                  <p class="card-text">{{ pii.linked_in }}</p>
-                  <p class="card-text">{{ pii.facebook }}</p>
-                  <p class="card-text">{{ pii.about }}</p>
+              <p class="card-text">{{ pii.email }}</p>
+              <p class="card-text">{{ pii.phone }}</p>
+              <p class="card-text">{{ pii.linked_in }}</p>
+              <p class="card-text">{{ pii.facebook }}</p>
+              <p class="card-text">{{ pii.about }}</p>
             </div>
           </div>
         </section>
@@ -31,6 +39,26 @@
             <div class="card-header bg-secondary">
               <h3>Skills</h3>
             </div>
+
+            <div class="card-body">
+                <div class="container text-center">
+                  <div class="row row-cols-4">
+                    {% for skill in uskills %}
+                      <div class="col">{{ skill.skill_name }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+              <div class="d-flex" role="search">
+                <input class="form-control me-2"
+                       type="search"
+                       name="skill_input" placeholder="Search skill"
+                       hx-get="/skill_search"
+                       hx-trigger="input changed delay:500ms, search"
+                       hx-target="#search-results"
+                       hx-indicator=".htmx-indicator">
+              </div>
+            </div>
+
             <div id="search-results" class="mt-2">
               {% include 'skill_search.html' %}
             </div>
@@ -43,16 +71,26 @@
       <div class="col-md-6">
         <section class="section3">
           <!-- Content for Section 3 -->
-          <div class="card">
+          <div class="card border">
             <div class="card-header bg-secondary">
               <h3>Education / Certificates</h3>
             </div>
             <div class="card-body">
               {% for edu in edus %}
-              <h5 class="card-title">{{ edu.title }}</h5>
+              <div class="row row-cols-2">
+                <div class="col"><h5>{{ edu.title }}</h5></div>
+                <div class="col d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary mx-1"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button>
+                      <button type="button" class="btn btn-danger mx-1"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button>
+                </div>
+              </div>
               <p class="card-text">{{ edu.description }}</p>
+              <hr />
               {% endfor %}
             </div>
+
           </div>
         </section>
       </div>
@@ -65,29 +103,32 @@
             </div>
             <div class="card-body">
               <!-- start -->
+
+
+
               {% for exp in exps %}
               <div class="container">
                 <!-- First row with 2 columns -->
-                <div class="row">
-                  <div class="col-md-6">
+                <div class="row rows-cols-3">
+                  <div class="col">
                     <div><h5>{{ exp.company }}</h5></div>
                   </div>
-                  <div class="col-md-6">
-                    <div>
+                  <div class="col d-flex justify-content-end">
                       {{ exp.start_month }}-{{ exp.start_year}}
                       {% if exp.currently_working %}
                        Current
                       {% else %}
                       {{ exp.end_month }}-{{ exp.end_year}}
                       {% endif %}
-
-                      <button type="button" class="btn btn-primary"
+                  </div>
+                  <div class="col d-flex justify-content-end  ">
+                      <button type="button" class="btn btn-primary mx-1"
                               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button>
-                      <button type="button" class="btn btn-danger"
+                      <button type="button" class="btn btn-danger mx-1"
                               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button>
-                    </div>
                   </div>
                 </div>
+
                 <!-- Second row expanding both columns -->
                 <div class="row">
                   <div>
@@ -108,6 +149,7 @@
 
                 </div>
               </div>
+              <hr />
               {% endfor %}
               <!-- end -->
             </div>
