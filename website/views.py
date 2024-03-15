@@ -57,6 +57,30 @@ def add_education(request):
         return redirect('home')
 
 
+def edit_education(request, pk):
+    if request.user.is_authenticated:
+        education = Education.objects.get(pk=pk)
+        if request.method == 'POST':
+            form = AddEducationForm(request.POST, instance=education)
+            if form.is_valid():
+                form.save()
+                return redirect('user_profile')
+        else:
+            form = AddEducationForm(instance=education)
+            return render(request, 'edit_education.html', {'form': form})
+    else:
+        return redirect('home')
+
+
+def delete_education(request, pk):
+    if request.user.is_authenticated:
+        delete_education = Education.objects.get(pk=pk)
+        delete_education.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('home')
+
+
 def add_experience(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -76,21 +100,6 @@ def add_experience(request):
             form = AddExperienceForm()
             return render(request, 'add_experience.html', {'form': form})
 
-    else:
-        return redirect('home')
-
-
-def edit_education(request, pk):
-    if request.user.is_authenticated:
-        education = Education.objects.get(pk=pk)
-        if request.method == 'POST':
-            form = AddEducationForm(request.POST, instance=education)
-            if form.is_valid():
-                form.save()
-                return redirect('user_profile')
-        else:
-            form = AddEducationForm(instance=education)
-            return render(request, 'edit_education.html', {'form': form})
     else:
         return redirect('home')
 
