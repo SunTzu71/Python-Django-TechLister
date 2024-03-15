@@ -12,7 +12,6 @@ class PersonalInformation(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=50, null=True, blank=True)
     linked_in = models.URLField(null=True, blank=True)
-    facebook = models.URLField(null=True, blank=True)
     about = models.TextField()
     profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
     created_at = models.DateTimeField(auto_now_add=True)

@@ -32,9 +32,75 @@ class RegistrationForm(UserCreationForm):
 
 class PersonalInformationForm(forms.ModelForm):
     class Meta:
+        state_list = [
+            ('AL', 'Alabama'),
+            ('AK', 'Alaska'),
+            ('AZ', 'Arizona'),
+            ('AR', 'Arkansas'),
+            ('CA', 'California'),
+            ('CO', 'Colorado'),
+            ('CT', 'Connecticut'),
+            ('DE', 'Delaware'),
+            ('FL', 'Florida'),
+            ('GA', 'Georgia'),
+            ('HI', 'Hawaii'),
+            ('ID', 'Idaho'),
+            ('IL', 'Illinois'),
+            ('IN', 'Indiana'),
+            ('IA', 'Iowa'),
+            ('KS', 'Kansas'),
+            ('KY', 'Kentucky'),
+            ('LA', 'Louisiana'),
+            ('ME', 'Maine'),
+            ('MD', 'Maryland'),
+            ('MA', 'Massachusetts'),
+            ('MI', 'Michigan'),
+            ('MN', 'Minnesota'),
+            ('MS', 'Mississippi'),
+            ('MO', 'Missouri'),
+            ('MT', 'Montana'),
+            ('NE', 'Nebraska'),
+            ('NV', 'Nevada'),
+            ('NH', 'New Hampshire'),
+            ('NJ', 'New Jersey'),
+            ('NM', 'New Mexico'),
+            ('NY', 'New York'),
+            ('NC', 'North Carolina'),
+            ('ND', 'North Dakota'),
+            ('OH', 'Ohio'),
+            ('OK', 'Oklahoma'),
+            ('OR', 'Oregon'),
+            ('PA', 'Pennsylvania'),
+            ('RI', 'Rhode Island'),
+            ('SC', 'South Carolina'),
+            ('SD', 'South Dakota'),
+            ('TN', 'Tennessee'),
+            ('TX', 'Texas'),
+            ('UT', 'Utah'),
+            ('VT', 'Vermont'),
+            ('VA', 'Virginia'),
+            ('WA', 'Washington'),
+            ('WV', 'West Virginia'),
+            ('WI', 'Wisconsin'),
+            ('WY', 'Wyoming')
+        ]
+
         model = PersonalInformation
-        fields = ['recruiter', 'first_name', 'last_name', 'city', 'state', 'email', 'phone', 'linked_in', 'facebook',
-                  'about', 'profile_image']
+        fields = ['recruiter', 'first_name', 'last_name', 'city', 'state',
+                  'email', 'phone', 'linked_in', 'about', 'profile_image']
+
+        widgets = {
+            'recruiter': forms.CheckboxInput(),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City'}),
+            'state': forms.Select(choices=state_list, attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+            'linked_in': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Linked In'}),
+            'about': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'About yourself'}),
+            'profile_image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
 
 
 class AddEducationForm(forms.ModelForm):
