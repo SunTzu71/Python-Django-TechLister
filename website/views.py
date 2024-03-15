@@ -80,6 +80,21 @@ def add_experience(request):
         return redirect('home')
 
 
+def edit_education(request, pk):
+    if request.user.is_authenticated:
+        education = Education.objects.get(pk=pk)
+        if request.method == 'POST':
+            form = AddEducationForm(request.POST, instance=education)
+            if form.is_valid():
+                form.save()
+                return redirect('user_profile')
+        else:
+            form = AddEducationForm(instance=education)
+            return render(request, 'edit_education.html', {'form': form})
+    else:
+        return redirect('home')
+
+
 def edit_personal_info(request, pk):
     if request.user.is_authenticated:
         personal_info = PersonalInformation.objects.get(id=pk)
@@ -91,7 +106,7 @@ def edit_personal_info(request, pk):
                 return redirect('user_profile')
         else:
             form = PersonalInformationForm(instance=personal_info)
-        return render(request, 'edit_personalinfo.html', {'form': form})
+            return render(request, 'edit_personalinfo.html', {'form': form})
     else:
         return redirect('home')
 

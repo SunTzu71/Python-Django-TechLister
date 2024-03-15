@@ -5,23 +5,25 @@
                 {% for skill in skills %}
                 <li class="list-group-item">
                     <div class="container text-center">
-                  <div class="row">
-                    <div class="col">
-                      {{ skill.skill }}
+                      <div class="row">
+                        <div class="col">
+                          {{ skill.skill }}
+                        </div>
+                        <div class="col">
+                            <form action="{% url 'add_user_skill' skill.pk skill.skill %}" method="post">
+                                {% csrf_token %}
+                                <div class="col">
+                                    <button type="submit"
+                                            class="btn btn-primary"
+                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col">
-                        <form action="{% url 'add_user_skill' skill.pk skill.skill %}" method="post">
-                            {% csrf_token %}
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </div>
-                        </form>
-                    </div>
-                  </div>
-                </div>
                 </li>
                 {% endfor %}
-                  </ul>
+              </ul>
         </div>
         {% endif %}
 </div>

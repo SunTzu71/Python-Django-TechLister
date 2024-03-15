@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Add Education/Certifications</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.description }}
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-secondary">Save</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
