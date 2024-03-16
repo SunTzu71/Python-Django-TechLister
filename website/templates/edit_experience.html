@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <h1>Add Experience</h1>
-            <form method="POST" action="{% url 'add_experience' %}">
+            <form method="POST" >
                 {% csrf_token %}
                 <div class="mb-3">
                     {{ form.company }}

@@ -115,7 +115,57 @@ class AddEducationForm(forms.ModelForm):
 
 class AddExperienceForm(forms.ModelForm):
     class Meta:
+
+        start_month = [
+            ('...', 'Start Month'),
+            ('Jan', 'January'),
+            ('Feb', 'February'),
+            ('Mar', 'March'),
+            ('Apr', 'April'),
+            ('May', 'May'),
+            ('Jun', 'June'),
+            ('Jul', 'July'),
+            ('Aug', 'August'),
+            ('Sep', 'September'),
+            ('Oct', 'October'),
+            ('Nov', 'November'),
+            ('Dec', 'December')
+        ]
+        end_month = [
+            ('...', 'End Month'),
+            ('Jan', 'January'),
+            ('Feb', 'February'),
+            ('Mar', 'March'),
+            ('Apr', 'April'),
+            ('May', 'May'),
+            ('Jun', 'June'),
+            ('Jul', 'July'),
+            ('Aug', 'August'),
+            ('Sep', 'September'),
+            ('Oct', 'October'),
+            ('Nov', 'November'),
+            ('Dec', 'December')
+        ]
         model = Experience
-        fields = ['company', 'position', 'start_month', 'start_month', 'start_year', 'end_month', 'end_year',
+        fields = ['company', 'position', 'start_month', 'start_year', 'end_month', 'end_year',
                   'currently_working', 'task_one', 'task_two', 'task_three', 'task_four', 'task_five', 'task_six',
                   'task_seven', 'task_eight', 'task_nine', 'task_ten', 'order']
+        widgets = {
+            'company': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Company'}),
+            'position': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Position'}),
+            'start_month': forms.Select(choices=start_month, attrs={'class': 'form-control'}),
+            'start_year': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Start Year'}),
+            'end_month': forms.Select(choices=end_month, attrs={'class': 'form-control'}),
+            'end_year': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'End Year'}),
+            'currently_working': forms.CheckboxInput(),
+            'task_one': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task one'}),
+            'task_two': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task two'}),
+            'task_three': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task three'}),
+            'task_four': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task four'}),
+            'task_five': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task five'}),
+            'task_six': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task six'}),
+            'task_seven': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task seven'}),
+            'task_eight': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task eight'}),
+            'task_nine': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task nine'}),
+            'task_ten': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task ten'}),
+        }

@@ -92,7 +92,7 @@ def add_experience(request):
                 add_experience.start_year = int(request.POST['start_year'])
                 add_experience.end_year = int(request.POST['end_year'])
                 add_experience.save()
-                return redirect("home")
+                return redirect('user_profile')
             else:
                 print(request.POST)
                 return render(request, 'add_experience.html', {'form': form})
@@ -100,6 +100,30 @@ def add_experience(request):
             form = AddExperienceForm()
             return render(request, 'add_experience.html', {'form': form})
 
+    else:
+        return redirect('home')
+
+
+def edit_experience(request, pk):
+    if request.user.is_authenticated:
+        edit_experience = Experience.objects.get(pk=pk)
+        if request.method == 'POST':
+            form = AddExperienceForm(request.POST, instance=edit_experience)
+            if form.is_valid():
+                form.save()
+                return redirect('user_profile')
+        else:
+            form = AddExperienceForm(instance=edit_experience)
+            return render(request, 'edit_experience.html', {'form': form})
+    else:
+        return redirect('home')
+
+
+def delete_experience(request, pk):
+    if request.user.is_authenticated:
+        delete_experience = Experience.objects.get(pk=pk)
+        delete_experience.delete()
+        return redirect('user_profile')
     else:
         return redirect('home')
 
