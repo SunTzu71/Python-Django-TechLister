@@ -257,11 +257,23 @@ def skill_search(request):
     skill_results = None
 
     if skill_input:
-        print(skill_input)
         skill_results = Skill.objects.filter(skill__icontains=skill_input)
-        print(skill_results)
+        if skill_results:
+            print(skill_results)
+            return render(request, 'skill_search.html', {'skills': skill_results})
+        else:
+            # todo: need a better way to add skill when not found
+            return render(request, 'skill_search.html', {'skill_input': skill_input})
 
-    return render(request, 'skill_search.html', {'skills': skill_results})
+
+@login_required
+@require_POST
+def add_skill(request, skill_input):
+    # todo: need to sanitize the data
+    skill = Skill.objects.create(skill=skill_input)
+    UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user)
+
+    return redirect('user_profile')
 
 
 @login_required
