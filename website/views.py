@@ -284,3 +284,13 @@ def add_user_skill(request, pk, skill_name):
     UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user_id=user_id)
 
     return redirect('user_profile')
+
+
+@login_required
+def delete_user_skill(request, pk):
+    if request.user.is_authenticated:
+        delete_skill = UserSkill.objects.get(pk=pk)
+        delete_skill.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('home')
