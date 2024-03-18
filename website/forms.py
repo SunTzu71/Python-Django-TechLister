@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import PersonalInformation, Education, Experience
+from .models import PersonalInformation, Education, Experience, Portfolio
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
@@ -110,6 +111,18 @@ class AddEducationForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
             'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'})
+        }
+
+
+class PortfolioForm(forms.ModelForm):
+    class Meta:
+        model = Portfolio
+        fields = ['title', 'description', 'website_link', 'portfolio_image']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
+            'website_link': forms.URLInput(attrs={'class': 'form-control'}),
+            'portfolio_image': forms.FileInput(attrs={'class': 'form-control'})
         }
 
 

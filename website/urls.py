@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
 
-    # user profile
+    # user section
     path('user_profile/', views.user_profile, name='user_profile'),
     path('add_personalinfo', views.add_personal_info, name='add_personalinfo'),
     path('edit_personalinfo/<int:pk>', views.edit_personal_info, name='edit_personalinfo'),
@@ -22,8 +22,10 @@ urlpatterns = [
     path('add_experience', views.add_experience, name='add_experience'),
     path('edit_experience/<int:pk>', views.edit_experience, name='edit_experience'),
     path('delete_experience/<int:pk>', views.delete_experience, name='delete_experience'),
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
+    #path('portfilio/add/<int:pk>', views.add_portfilio, name='user_portfilio'),
 
-    # recruiter profile
+    # recruiter section
     path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile'),
 
 

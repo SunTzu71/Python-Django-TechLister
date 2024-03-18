@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm
+from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
+    PortfolioForm
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill
 
 
@@ -144,6 +145,14 @@ def edit_personal_info(request, pk):
         return redirect('home')
 
 
+# def add_portfolio(request, pk):
+#     if request.user.is_authenticated:
+#         if request.method == 'POST':
+#             form = PortfolioForm(request.POST, request.FILES)
+#             if form.is_valid():
+#                 add_portfolio = form.save(commit=False)
+
+
 def add_personal_info(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -243,6 +252,25 @@ def user_profile(request):
         return redirect('add_personalinfo')
 
     return render(request, 'user_profile.html',  context)
+
+
+def user_resume(request, pk):
+    try:
+        personal_info = PersonalInformation.objects.get(user_id=pk)
+        education_info = Education.objects.filter(user_id=pk)
+        experience_info = Experience.objects.filter(user_id=pk)
+        user_skills = UserSkill.objects.filter(user_id=pk)
+
+        context = {'pii': personal_info,
+                   'edus': education_info,
+                   'exps': experience_info,
+                   'uskills': user_skills}
+
+    except PersonalInformation.DoesNotExist:
+        return redirect('user_profile')
+
+    return render(request, 'user_resume.html', context)
+
 
 
 @login_required
