@@ -53,7 +53,7 @@ class Experience(models.Model):
     start_month = models.CharField(max_length=10)
     start_year = models.IntegerField(null=True, blank=True)
     end_month = models.CharField(max_length=10, null=True, blank=True)
-    end_year = models.IntegerField(null=True, blank=True)
+    end_year = models.IntegerField(null=True, blank=True, default=0000)
     currently_working = models.BooleanField(default=False, null=True, blank=True)
     task_one = models.CharField(max_length=255, null=True, blank=True)
     task_two = models.CharField(max_length=255, null=True, blank=True)
