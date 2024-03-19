@@ -23,7 +23,7 @@ urlpatterns = [
     path('edit_experience/<int:pk>', views.edit_experience, name='edit_experience'),
     path('delete_experience/<int:pk>', views.delete_experience, name='delete_experience'),
     path('resume/<int:pk>', views.user_resume, name='user_resume'),
-    #path('portfilio/add/<int:pk>', views.add_portfilio, name='user_portfilio'),
+    path('portfolio/add', views.add_portfolio, name='add_user_portfolio'),
 
     # recruiter section
     path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile'),

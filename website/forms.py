@@ -120,8 +120,8 @@ class PortfolioForm(forms.ModelForm):
         fields = ['title', 'description', 'website_link', 'portfolio_image']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
-            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
-            'website_link': forms.URLInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Description'}),
+            'website_link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Website Link'}),
             'portfolio_image': forms.FileInput(attrs={'class': 'form-control'})
         }
 

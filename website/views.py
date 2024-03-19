@@ -130,12 +130,33 @@ def delete_experience(request, pk):
         return redirect('home')
 
 
-def add_portfolio(request, pk):
+def add_portfolio(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = PortfolioForm(request.POST, request.FILES)
+            print('form')
+            print(form)
             if form.is_valid():
                 add_portfolio = form.save(commit=False)
+                add_portfolio.user_id = request.user
+
+                if 'portfilio_image' in request.FILES:
+                    portfolio_image = request.FILES['portfilio_image']
+                    img = Image.open(portfolio_image)
+
+                    add_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
+
+                add_portfolio.save()
+                # todo: need to get the recruiter flag redirect to correct profile page
+                return redirect('user_profile')
+
+            else:
+                return render(request, 'add_portfolio.html', {'form': form})
+        else:
+            form = PortfolioForm()
+            return render(request, 'add_portfolio.html', {'form': form})
+    else:
+        return redirect('home')
 
 
 def edit_personal_info(request, pk):
