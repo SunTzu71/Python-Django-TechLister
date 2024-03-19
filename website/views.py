@@ -7,6 +7,7 @@ from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill
+from.utility.image_resize import image_resize
 
 
 def home(request):
@@ -129,41 +130,30 @@ def delete_experience(request, pk):
         return redirect('home')
 
 
+def add_portfolio(request, pk):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PortfolioForm(request.POST, request.FILES)
+            if form.is_valid():
+                add_portfolio = form.save(commit=False)
+
+
 def edit_personal_info(request, pk):
     if request.user.is_authenticated:
         personal_info = PersonalInformation.objects.get(id=pk)
         if request.method == 'POST':
             form = PersonalInformationForm(request.POST, instance=personal_info)
             if form.is_valid():
+                edit_personal_info = form.save(commit=False)
 
                 if 'profile_image' in request.FILES:
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)
 
-                    if img.height > 300 or img.width > 300:
-                        output_size = (300, 300)
-                        img.thumbnail(output_size)
+                    # Assign the resized image to the profile info
+                    edit_personal_info.profile_image = image_resize(img, profile_image, 125, 125)
 
-                        # Create a BytesIO object to temporarily hold the resized image
-                        from io import BytesIO
-                        output_io = BytesIO()
-
-                        # Save the resized image to the BytesIO object
-                        img.save(output_io, format=img.format)
-
-                        # Get the file name and extension from the original image
-                        file_name = profile_image.name
-                        file_ext = file_name.split('.')[-1].lower()
-
-                        # Create a new InMemoryUploadedFile with the resized image data
-                        from django.core.files.uploadedfile import InMemoryUploadedFile
-                        resized_image = InMemoryUploadedFile(output_io, None, file_name, f'image/{file_ext}',
-                                                             output_io.tell(), None)
-
-                        # Assign the resized image to the profile info
-                        form.profile_image = resized_image
-
-                form.save()
+                edit_personal_info.save()
                 # todo: need to get the recruiter flag then redirect to correct profile page
                 return redirect('user_profile')
         else:
@@ -171,14 +161,6 @@ def edit_personal_info(request, pk):
             return render(request, 'edit_personalinfo.html', {'form': form})
     else:
         return redirect('home')
-
-
-# def add_portfolio(request, pk):
-#     if request.user.is_authenticated:
-#         if request.method == 'POST':
-#             form = PortfolioForm(request.POST, request.FILES)
-#             if form.is_valid():
-#                 add_portfolio = form.save(commit=False)
 
 
 def add_personal_info(request):
@@ -189,34 +171,12 @@ def add_personal_info(request):
                 add_personal_info = form.save(commit=False)
                 add_personal_info.user_id = request.user
 
-                # Process the image file if it's in the form
-                # todo: put this into a utils class - we will be doing more image resizing
                 if 'profile_image' in request.FILES:
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)
 
-                    if img.height > 300 or img.width > 300:
-                        output_size = (300, 300)
-                        img.thumbnail(output_size)
-
-                        # Create a BytesIO object to temporarily hold the resized image
-                        from io import BytesIO
-                        output_io = BytesIO()
-
-                        # Save the resized image to the BytesIO object
-                        img.save(output_io, format=img.format)
-
-                        # Get the file name and extension from the original image
-                        file_name = profile_image.name
-                        file_ext = file_name.split('.')[-1].lower()
-
-                        # Create a new InMemoryUploadedFile with the resized image data
-                        from django.core.files.uploadedfile import InMemoryUploadedFile
-                        resized_image = InMemoryUploadedFile(output_io, None, file_name, f'image/{file_ext}',
-                                                             output_io.tell(), None)
-
-                        # Assign the resized image to the profile info
-                        add_personal_info.profile_image = resized_image
+                    # Assign the resized image to the profile info
+                    add_personal_info.profile_image = image_resize(img, profile_image, 125, 125)
 
                 add_personal_info.save()  # Save the profile info with the resized image
 
