@@ -2,6 +2,20 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import PersonalInformation, Education, Experience, Portfolio
+from .utility.validators import validate_title_length, validate_description_length
+
+
+class CustomModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.add_custom_validators()
+
+    def add_custom_validators(self):
+        # Add validators to specific fields
+        for field_name, validators in self.custom_validators.items():
+            field = self.fields.get(field_name)
+            if field:
+                field.validators.extend(validators)
 
 
 class RegistrationForm(UserCreationForm):
@@ -104,14 +118,31 @@ class PersonalInformationForm(forms.ModelForm):
         }
 
 
-class AddEducationForm(forms.ModelForm):
+class AddEducationForm(CustomModelForm):
+    custom_validators = {
+        'title': [validate_title_length],
+        'description': [validate_description_length],
+    }
+
     class Meta:
         model = Education
         fields = ['title', 'description']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'},),
             'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'})
         }
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if len(title) <= 3:
+            raise forms.ValidationError("Title must be longer than 3 characters.")
+        return title
+
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
+        if len(description) <= 5:
+            raise forms.ValidationError("Description must be longer than 5 characters.")
+        return description
 
 
 class PortfolioForm(forms.ModelForm):
