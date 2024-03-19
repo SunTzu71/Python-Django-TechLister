@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <h1>Add Education/Certifications</h1>
+            <h1>Add Website</h1>
                 <form method="POST" action="{% url 'add_user_portfolio' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
@@ -28,5 +28,29 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-5">
+  {% for item in port_list %}
+    {% if forloop.counter0|divisibleby:2 %}
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% endif %}
+    <div class="col">
+      <div class="card mt-4">
+        <img src="../media/{{ item.portfolio_image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <p class="card-text">{{ item.description}}</p>
+            <a href="{{ item.website_link }}">
+                <button class="btn btn-secondary float-end">View Webiste</button>
+            </a>
+        </div>
+      </div>
+    </div>
+    {% if forloop.counter|divisibleby:2 or forloop.last %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
 
 {% endblock %}

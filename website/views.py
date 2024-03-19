@@ -148,13 +148,16 @@ def add_portfolio(request):
 
                 add_portfolio.save()
                 # todo: need to get the recruiter flag redirect to correct profile page
-                return redirect('user_profile')
+                return redirect('/portfolio/add')
 
             else:
                 return render(request, 'add_portfolio.html', {'form': form})
         else:
-            form = PortfolioForm()
-            return render(request, 'add_portfolio.html', {'form': form})
+            # get the form and list of portfolio entries to show under form
+            list_portfolio = Portfolio.objects.filter(user_id=request.user.id)
+            context = {'form': PortfolioForm(), 'port_list': list_portfolio}
+
+            return render(request, 'add_portfolio.html', context)
     else:
         return redirect('home')
 
