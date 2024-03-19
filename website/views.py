@@ -162,6 +162,40 @@ def add_portfolio(request):
         return redirect('home')
 
 
+def edit_portfolio(request, pk):
+    if request.user.is_authenticated:
+
+        portfolio = Portfolio.objects.get(pk=pk)
+        print(portfolio)
+        if request.method == 'POST':
+            form = PortfolioForm(request.POST, instance=portfolio)
+            if form.is_valid():
+                edit_portfolio = form.save(commit=False)
+
+                if 'portfolio_image' in request.FILES:
+                    portfolio_image = request.FILES['portfolio_image']
+                    img = Image.open(portfolio_image)
+
+                    edit_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
+
+                edit_portfolio.save()
+                return redirect('/portfolio/add')
+        else:
+            form = PortfolioForm(instance=portfolio)
+            return render(request, 'edit_portfolio.html', {'form': form})
+    else:
+        return redirect('home')
+
+
+def delete_portfolio(request, pk):
+    if request.user.is_authenticated:
+        delete_portfolio = Portfolio.objects.get(pk=pk)
+        delete_portfolio.delete()
+        return redirect('add_user_portfolio')
+    else:
+        return redirect('home')
+
+
 def edit_personal_info(request, pk):
     if request.user.is_authenticated:
         personal_info = PersonalInformation.objects.get(id=pk)

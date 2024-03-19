@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <h1>Add Website</h1>
+            <h1>Add Website to Portfolio</h1>
                 <form method="POST" action="{% url 'add_user_portfolio' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
@@ -36,10 +36,16 @@
     {% endif %}
     <div class="col">
       <div class="card mt-4">
-        <img src="../media/{{ item.portfolio_image }}" class="card-img-top" alt="...">
+        <img src="../media/{{ item.portfolio_image }}" class="card-img-top" alt="Portfolio Image">
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text">{{ item.description}}</p>
+
+            <a href="{% url 'edit_portfolio' item.pk %}"><button type="button" class="btn btn-primary mx-1"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button></a>
+                  <a href="{% url 'delete_portfolio' item.pk %}"><button type="button" class="btn btn-danger mx-1"
+                                      style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
+
             <a href="{{ item.website_link }}">
                 <button class="btn btn-secondary float-end">View Webiste</button>
             </a>

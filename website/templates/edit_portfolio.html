@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'user_navbar.html' %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Add Website</h1>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.description }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.website_link}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.portfolio_image}}
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-secondary">Save</button>
+                    </div>
+                </form>
+
+            <!-- Display the uploaded image -->
+            <div class="mt-5">
+                Current uploaded image.
+                {% if form.instance.portfolio_image %}
+                <img src="{{ form.instance.portfolio_image.url }}" class="card-img-top" alt="Portfolio Image">
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

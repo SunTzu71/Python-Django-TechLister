@@ -24,6 +24,8 @@ urlpatterns = [
     path('delete_experience/<int:pk>', views.delete_experience, name='delete_experience'),
     path('resume/<int:pk>', views.user_resume, name='user_resume'),
     path('portfolio/add', views.add_portfolio, name='add_user_portfolio'),
+    path('portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
+    path('portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
 
     # recruiter section
     path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile'),
