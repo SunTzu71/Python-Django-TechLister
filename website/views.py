@@ -26,8 +26,7 @@ def register_user(request):
             user = authenticate(request, username=username, password=password)
             login(request, user)
 
-            # todo: create a profile page and redirect user there
-            return redirect('home')
+            return redirect('add_personalinfo')
     else:
         form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
