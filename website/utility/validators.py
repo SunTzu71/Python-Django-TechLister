@@ -3,7 +3,7 @@ from django import forms
 
 def validate_title_length(value):
     if len(value) <= 3:
-        raise forms.ValidationError("Title must be longer than 3 characters. adfaf")
+        raise forms.ValidationError("Title must be longer than 3 characters.")
 
 
 def validate_description_length(value):
