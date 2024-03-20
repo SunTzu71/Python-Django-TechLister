@@ -54,7 +54,7 @@ def add_education(request):
                 return render(request, 'add_education.html', {'form': form})
         else:
             form = AddEducationForm()
-            return render(request, 'add_education.html', {'form': form})
+        return render(request, 'add_education.html', {'form': form})
     else:
         return redirect('home')
 
@@ -69,7 +69,7 @@ def edit_education(request, pk):
                 return redirect('user_profile')
         else:
             form = AddEducationForm(instance=education)
-            return render(request, 'edit_education.html', {'form': form})
+        return render(request, 'edit_education.html', {'form': form})
     else:
         return redirect('home')
 
@@ -91,8 +91,8 @@ def add_experience(request):
             if form.is_valid():
                 add_experience = form.save(commit=False)
                 add_experience.user_id = request.user
-                add_experience.start_year = int(request.POST['start_year'])
-                add_experience.end_year = int(request.POST['end_year'])
+                #add_experience.start_year = int(request.POST['start_year'])
+                #add_experience.end_year = int(request.POST['end_year'])
                 add_experience.save()
                 return redirect('user_profile')
             else:
@@ -100,7 +100,7 @@ def add_experience(request):
                 return render(request, 'add_experience.html', {'form': form})
         else:
             form = AddExperienceForm()
-            return render(request, 'add_experience.html', {'form': form})
+        return render(request, 'add_experience.html', {'form': form})
 
     else:
         return redirect('home')
@@ -116,7 +116,7 @@ def edit_experience(request, pk):
                 return redirect('user_profile')
         else:
             form = AddExperienceForm(instance=edit_experience)
-            return render(request, 'edit_experience.html', {'form': form})
+        return render(request, 'edit_experience.html', {'form': form})
     else:
         return redirect('home')
 

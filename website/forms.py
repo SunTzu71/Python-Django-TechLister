@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import PersonalInformation, Education, Experience, Portfolio
 from .utility.validators import (validate_title_length, validate_description_length, validate_first_name,
-                                 validate_last_name, validate_city, validate_state, validate_email, validate_about)
+                                 validate_last_name, validate_city, validate_state, validate_email, validate_about,
+                                 validate_company, validate_position, validate_start_month, validate_start_year,
+                                 validate_task_one)
 
 
 class CustomModelForm(forms.ModelForm):
@@ -58,6 +60,7 @@ class PersonalInformationForm(CustomModelForm):
 
     class Meta:
         state_list = [
+            ('', 'Select State'),
             ('AL', 'Alabama'),
             ('AK', 'Alaska'),
             ('AZ', 'Arizona'),
@@ -155,11 +158,19 @@ class PortfolioForm(forms.ModelForm):
         }
 
 
-class AddExperienceForm(forms.ModelForm):
+class AddExperienceForm(CustomModelForm):
+    custom_validators = {
+        'company': [validate_company],
+        'position': [validate_position],
+        'start_month': [validate_start_month],
+        'start_year': [validate_start_year],
+        'task_one': [validate_task_one]
+    }
+
     class Meta:
 
         start_month = [
-            ('...', 'Start Month'),
+            ('', 'Start Month'),
             ('Jan', 'January'),
             ('Feb', 'February'),
             ('Mar', 'March'),
@@ -174,7 +185,7 @@ class AddExperienceForm(forms.ModelForm):
             ('Dec', 'December')
         ]
         end_month = [
-            ('...', 'End Month'),
+            ('', 'End Month'),
             ('Jan', 'January'),
             ('Feb', 'February'),
             ('Mar', 'March'),

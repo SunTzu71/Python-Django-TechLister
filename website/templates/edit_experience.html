@@ -9,16 +9,28 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     {{ form.company }}
+                    {% for error in form.company.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     {{ form.position }}
+                    {% for error in form.position.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         {{ form.start_month }}
+                        {% for error in form.start_month.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="col-md-6">
                         {{ form.start_year}}
+                        {% for error in form.start_year.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
@@ -41,6 +53,9 @@
                 </div>
                 <div class="mb-3">
                     {{ form.task_one }}
+                    {% for error in form.task_one.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     {{ form.task_two }}

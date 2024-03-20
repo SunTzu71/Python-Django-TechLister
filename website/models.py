@@ -51,11 +51,11 @@ class Experience(models.Model):
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     start_month = models.CharField(max_length=10)
-    start_year = models.IntegerField(null=True, blank=True)
+    start_year = models.IntegerField()
     end_month = models.CharField(max_length=10, null=True, blank=True)
-    end_year = models.IntegerField(null=True, blank=True, default=0000)
+    end_year = models.IntegerField(null=True, blank=True)
     currently_working = models.BooleanField(default=False, null=True, blank=True)
-    task_one = models.CharField(max_length=255, null=True, blank=True)
+    task_one = models.CharField(max_length=255)
     task_two = models.CharField(max_length=255, null=True, blank=True)
     task_three = models.CharField(max_length=255, null=True, blank=True)
     task_four = models.CharField(max_length=255, null=True, blank=True)
@@ -82,7 +82,6 @@ class UserSkill(models.Model):
     skill_id = models.BigIntegerField()
     skill_name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return f'{self.user_id} {self.skill_id} {self.skill_name}'

@@ -2,8 +2,8 @@ from django import forms
 
 
 def validate_title_length(value):
-    if len(value) <= 3:
-        raise forms.ValidationError("Title must be longer than 3 characters.")
+    if not value:
+        raise forms.ValidationError("Title is required.")
 
 
 def validate_description_length(value):
@@ -39,3 +39,32 @@ def validate_email(value):
 def validate_about(value):
     if len(value) <= 5:
         raise forms.ValidationError("About must be longer than 5 characters.")
+
+
+def validate_company(value):
+    if not value:
+        raise forms.ValidationError("Company is required.")
+
+
+def validate_position(value):
+    if not value:
+        raise forms.ValidationError("Position is required.")
+
+
+def validate_start_month(value):
+    if not value:
+        raise forms.ValidationError("Start month is required.")
+
+
+def validate_start_year(value):
+    if not value:
+        raise forms.ValidationError("Start year is required.")
+    if not isinstance(value, int):
+        raise forms.ValidationError("Start year must be an integer.")
+    if len(str(value)) != 4:
+        raise forms.ValidationError("Start year must be exactly 4 characters long.")
+
+
+def validate_task_one(value):
+    if not value:
+        raise forms.ValidationError("You need at least one task.")
