@@ -20,21 +20,36 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         {{ form.first_name }}
+                        {% for error in form.first_name.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="col-md-6">
                         {{ form.last_name }}
+                        {% for error in form.last_name.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         {{ form.city }}
+                        {% for error in form.city.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="col-md-6">
                         {{ form.state }}
+                        {% for error in form.state.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="mb-3">
                     {{ form.email }}
+                    {% for error in form.email.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     {{ form.phone}}
@@ -45,6 +60,9 @@
                 <div class="mb-3">
                     <label class="form-label">About</label>
                     {{ form.about }}
+                    {% for error in form.about.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Profile Image</label>
