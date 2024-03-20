@@ -68,3 +68,13 @@ def validate_start_year(value):
 def validate_task_one(value):
     if not value:
         raise forms.ValidationError("You need at least one task.")
+
+
+def validate_website_link(value):
+    if not value:
+        raise forms.ValidationError("Website link is required.")
+
+
+def validate_portfolio_image(value):
+    if not value:
+        raise forms.ValidationError("Portfolio image is required.")

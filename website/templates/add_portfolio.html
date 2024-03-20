@@ -10,15 +10,27 @@
                     {% csrf_token %}
                     <div class="mb-3">
                         {{ form.title }}
+                        {% for error in form.title.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         {{ form.description }}
+                        {% for error in form.description.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         {{ form.website_link}}
+                        {% for error in form.website_link.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         {{ form.portfolio_image}}
+                        {% for error in form.portfolio_image.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
 
                     <div>

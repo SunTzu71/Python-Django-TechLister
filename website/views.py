@@ -133,7 +133,7 @@ def delete_experience(request, pk):
 def add_portfolio(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = PortfolioForm(request.POST, request.FILES)
+            form = PortfolioForm(request.POST, request.FILES, is_adding=True)
             print('form')
             print(form)
             if form.is_valid():
@@ -168,7 +168,7 @@ def edit_portfolio(request, pk):
         portfolio = Portfolio.objects.get(pk=pk)
         print(portfolio)
         if request.method == 'POST':
-            form = PortfolioForm(request.POST, instance=portfolio)
+            form = PortfolioForm(request.POST, instance=portfolio, is_adding=False)
             if form.is_valid():
                 edit_portfolio = form.save(commit=False)
 
@@ -182,7 +182,7 @@ def edit_portfolio(request, pk):
                 return redirect('/portfolio/add')
         else:
             form = PortfolioForm(instance=portfolio)
-            return render(request, 'edit_portfolio.html', {'form': form})
+        return render(request, 'edit_portfolio.html', {'form': form})
     else:
         return redirect('home')
 

@@ -5,7 +5,7 @@ from .models import PersonalInformation, Education, Experience, Portfolio
 from .utility.validators import (validate_title_length, validate_description_length, validate_first_name,
                                  validate_last_name, validate_city, validate_state, validate_email, validate_about,
                                  validate_company, validate_position, validate_start_month, validate_start_year,
-                                 validate_task_one)
+                                 validate_task_one, validate_website_link, validate_portfolio_image)
 
 
 class CustomModelForm(forms.ModelForm):
@@ -25,6 +25,7 @@ class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
     last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
@@ -146,7 +147,14 @@ class AddEducationForm(CustomModelForm):
         }
 
 
-class PortfolioForm(forms.ModelForm):
+class PortfolioForm(CustomModelForm):
+    custom_validators = {
+        'title': [validate_title_length],
+        'description': [validate_description_length],
+        'website_link': [validate_website_link],
+        'portfolio_image': [validate_portfolio_image],
+    }
+
     class Meta:
         model = Portfolio
         fields = ['title', 'description', 'website_link', 'portfolio_image']
@@ -156,6 +164,25 @@ class PortfolioForm(forms.ModelForm):
             'website_link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Website Link'}),
             'portfolio_image': forms.FileInput(attrs={'class': 'form-control'})
         }
+
+    def __init__(self, *args, **kwargs):
+        self.is_adding = kwargs.pop('is_adding', True)
+        super(PortfolioForm, self).__init__(*args, **kwargs)
+
+        if self.is_adding:
+            # If adding new entry, apply the image validation
+            self.custom_validators['portfolio_image'] = [validate_portfolio_image]
+        else:
+            # If editing existing entry, remove the image validation
+            self.fields['portfolio_image'].required = False
+
+    def clean_portfolio_image(self):
+        portfolio_image = self.cleaned_data.get('portfolio_image')
+
+        if self.is_adding and not portfolio_image:
+            raise forms.ValidationError("Portfolio image is required when adding portfolio.")
+
+        return portfolio_image
 
 
 class AddExperienceForm(CustomModelForm):
