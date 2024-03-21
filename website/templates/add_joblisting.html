@@ -3,9 +3,95 @@
 
 {% if user.is_authenticated %}
 
-    <p>
-        Add new job posting
-    </p>
-        {{ form }}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Add Job Listing</h1>
+                <form method="POST" action="{% url 'add_job' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Title:</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Company:</label>
+                        {{ form.company }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">City:</label>
+                        {{ form.city }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">State:</label>
+                        {{ form.state }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Job type:</label>
+                        {{ form.job_type }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Location:</label>
+                        {{ form.location }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Bottom Pay:</label>
+                        {{ form.pay_bottom }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Top Pay</label>
+                        {{ form.pay_top }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">About</label>
+                        {{ form.about }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Responsibilities</label>
+                        {{ form.responsibilities }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Qualifications</label>
+                        {{ form.qualifications }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Benefits</label>
+                        {{ form.benefits }}
+                    </div>
+                    <div>
+                        <p>To find the best candidates add the skills you are looking for.</p>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_one }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_two }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_three }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_four }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_five }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_six }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_seven }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.skill_eight }}
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-secondary">Save</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+
 {% endif %}
 {% endblock %}

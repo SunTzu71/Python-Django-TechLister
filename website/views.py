@@ -335,6 +335,7 @@ def add_job(request):
             if form.is_valid():
                 add_listing = form.save(commit=False)
                 add_listing.user_id = request.user
+                add_listing.save()
                 return redirect('recruiter_profile')
             else:
                 return render(request, 'add_joblisting.html', {})

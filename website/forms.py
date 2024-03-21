@@ -309,18 +309,22 @@ class NewJobListingForm(forms.ModelForm):
 
         job_type_choices = [
             ('', 'Select Job Type'),
-            ('Full Time', 'Full Time'),
-            ('Part time', 'Part time'),
-            ('Contract', 'Contract'),
+            ('full-time', 'Full Time'),
+            ('part-time', 'Part time'),
+            ('contract', 'Contract'),
+            ('intern', 'Intern'),
+            ('other', 'Other'),
         ]
+
         job_location_choices = [
             ('', 'Select Job Location'),
-            ('On Site', 'On Site'),
-            ('Remote', 'Remote'),
-            ('Hybrid', 'Hybrid'),
+            ('onsite', 'On Site'),
+            ('remote', 'Remote'),
+            ('hybrid', 'Hybrid'),
         ]
 
         pay_amount_choices = [
+            ('', 'Select Pay Amount'),
             ('40000', '40,000'),
             ('50000', '50,000'),
             ('60000', '60,000'),
@@ -357,12 +361,12 @@ class NewJobListingForm(forms.ModelForm):
             'responsibilities': forms.Textarea(attrs={'class': 'form-control'}),
             'qualifications': forms.Textarea(attrs={'class': 'form-control'}),
             'benefits': forms.Textarea(attrs={'class': 'form-control'}),
-            'skill_one': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_two': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_three': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_four': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_five': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_six': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_seven': forms.TextInput(attrs={'class': 'form-control'}),
-            'skill_eight': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_one': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_two': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_three': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_four': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_five': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_six': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_seven': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
+            'skill_eight': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
         }
