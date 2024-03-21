@@ -2,7 +2,7 @@ from django import forms
 
 
 def validate_title_length(value):
-    if not value:
+    if len(value) <= 1:
         raise forms.ValidationError("Title is required.")
 
 
@@ -78,3 +78,18 @@ def validate_website_link(value):
 def validate_portfolio_image(value):
     if not value:
         raise forms.ValidationError("Portfolio image is required.")
+
+
+def validate_job_type(value):
+    if not value:
+        raise forms.ValidationError("Job type is required.")
+
+
+def validate_location(value):
+    if not value:
+        raise forms.ValidationError("Location is required.")
+
+
+def validate_skill_one(value):
+    if not value:
+        raise forms.ValidationError("You need at least one skill.")

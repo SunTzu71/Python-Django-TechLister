@@ -338,7 +338,7 @@ def add_job(request):
                 add_listing.save()
                 return redirect('recruiter_profile')
             else:
-                return render(request, 'add_joblisting.html', {})
+                return render(request, 'add_joblisting.html', {'form': form})
         else:
             form = NewJobListingForm()
         return render(request, 'add_joblisting.html', {'form': form})

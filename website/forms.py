@@ -5,7 +5,8 @@ from .models import PersonalInformation, Education, Experience, Portfolio, JobLi
 from .utility.validators import (validate_title_length, validate_description_length, validate_first_name,
                                  validate_last_name, validate_city, validate_state, validate_email, validate_about,
                                  validate_company, validate_position, validate_start_month, validate_start_year,
-                                 validate_task_one, validate_website_link, validate_portfolio_image)
+                                 validate_task_one, validate_website_link, validate_portfolio_image, validate_job_type,
+                                 validate_location, validate_skill_one)
 
 
 class CustomModelForm(forms.ModelForm):
@@ -251,7 +252,18 @@ class AddExperienceForm(CustomModelForm):
         }
 
 
-class NewJobListingForm(forms.ModelForm):
+class NewJobListingForm(CustomModelForm):
+    custom_validators = {
+        'title': [validate_title_length],
+        'company': [validate_company],
+        'city': [validate_city],
+        'state': [validate_state],
+        'job_type': [validate_job_type],
+        'location': [validate_location],
+        'about': [validate_about],
+        'skill_one': [validate_skill_one],
+    }
+
     class Meta:
         state_list = [
             ('', 'Select State'),
