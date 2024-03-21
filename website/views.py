@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing
-from.utility.image_resize import image_resize
+from .utility.image_resize import image_resize
 
 
 def home(request):
@@ -321,10 +321,25 @@ def user_resume(request, pk):
     return render(request, 'user_resume.html', context)
 
 
-
 @login_required
 def recruiter_profile(request):
-    return render(request, 'recruiter_profile.html', {})
+    user_id = request.user.id
+    try:
+        personal_info = PersonalInformation.objects.get(user_id=user_id)
+        job_listings = JobListing.objects.filter(user_id=user_id)
+        print(job_listings)  # Check the content of job_listings
+        context = {'pii': personal_info,
+                   'jobs': job_listings}
+
+        # Check if job_listings is empty
+        if not job_listings:
+            print("No job listings found for user:", user_id)
+
+    except PersonalInformation.DoesNotExist:
+        return redirect('add_personalinfo')
+
+    return render(request, 'recruiter_profile.html', context)
+
 
 
 def add_job(request):

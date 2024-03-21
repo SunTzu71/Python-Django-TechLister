@@ -89,6 +89,7 @@ class UserSkill(models.Model):
 
 class JobListing(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    active = models.BooleanField(default=True)
     title = models.CharField(max_length=255)
     company = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
@@ -110,3 +111,5 @@ class JobListing(models.Model):
     skill_seven = models.CharField(max_length=255, null=True, blank=True)
     skill_eight = models.CharField(max_length=255, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.user_id} {self.title}'
