@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    <p>
+        Add new job posting
+    </p>
+        {{ form }}
+{% endif %}
+{% endblock %}

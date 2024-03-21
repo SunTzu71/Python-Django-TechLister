@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
-    PortfolioForm
-from .models import PersonalInformation, Education, Experience, Skill, UserSkill
+    PortfolioForm, NewJobListingForm
+from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing
 from.utility.image_resize import image_resize
 
 
@@ -324,8 +324,25 @@ def user_resume(request, pk):
 
 @login_required
 def recruiter_profile(request):
-
     return render(request, 'recruiter_profile.html', {})
+
+
+def add_job(request):
+    if request.user.is_authenticated:
+        # todo: check to make sure they are a recruiter
+        if request.method == 'POST':
+            form = NewJobListingForm(request.POST)
+            if form.is_valid():
+                add_listing = form.save(commit=False)
+                add_listing.user_id = request.user
+                return redirect('recruiter_profile')
+            else:
+                return render(request, 'add_joblisting.html', {})
+        else:
+            form = NewJobListingForm()
+        return render(request, 'add_joblisting.html', {'form': form})
+    else:
+        return redirect('home')
 
 
 @login_required

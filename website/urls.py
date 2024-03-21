@@ -29,6 +29,7 @@ urlpatterns = [
 
     # recruiter section
     path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile'),
+    path('job/listing/add', views.add_job, name='add_job'),
 
 
     # skill / user skill

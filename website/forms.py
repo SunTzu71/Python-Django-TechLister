@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import PersonalInformation, Education, Experience, Portfolio
+from .models import PersonalInformation, Education, Experience, Portfolio, JobListing
 from .utility.validators import (validate_title_length, validate_description_length, validate_first_name,
                                  validate_last_name, validate_city, validate_state, validate_email, validate_about,
                                  validate_company, validate_position, validate_start_month, validate_start_year,
@@ -248,4 +248,119 @@ class AddExperienceForm(CustomModelForm):
             'task_eight': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task eight'}),
             'task_nine': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task nine'}),
             'task_ten': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task ten'}),
+        }
+
+
+class NewJobListingForm(forms.ModelForm):
+    class Meta:
+        state_list = [
+            ('', 'Select State'),
+            ('AL', 'Alabama'),
+            ('AK', 'Alaska'),
+            ('AZ', 'Arizona'),
+            ('AR', 'Arkansas'),
+            ('CA', 'California'),
+            ('CO', 'Colorado'),
+            ('CT', 'Connecticut'),
+            ('DE', 'Delaware'),
+            ('FL', 'Florida'),
+            ('GA', 'Georgia'),
+            ('HI', 'Hawaii'),
+            ('ID', 'Idaho'),
+            ('IL', 'Illinois'),
+            ('IN', 'Indiana'),
+            ('IA', 'Iowa'),
+            ('KS', 'Kansas'),
+            ('KY', 'Kentucky'),
+            ('LA', 'Louisiana'),
+            ('ME', 'Maine'),
+            ('MD', 'Maryland'),
+            ('MA', 'Massachusetts'),
+            ('MI', 'Michigan'),
+            ('MN', 'Minnesota'),
+            ('MS', 'Mississippi'),
+            ('MO', 'Missouri'),
+            ('MT', 'Montana'),
+            ('NE', 'Nebraska'),
+            ('NV', 'Nevada'),
+            ('NH', 'New Hampshire'),
+            ('NJ', 'New Jersey'),
+            ('NM', 'New Mexico'),
+            ('NY', 'New York'),
+            ('NC', 'North Carolina'),
+            ('ND', 'North Dakota'),
+            ('OH', 'Ohio'),
+            ('OK', 'Oklahoma'),
+            ('OR', 'Oregon'),
+            ('PA', 'Pennsylvania'),
+            ('RI', 'Rhode Island'),
+            ('SC', 'South Carolina'),
+            ('SD', 'South Dakota'),
+            ('TN', 'Tennessee'),
+            ('TX', 'Texas'),
+            ('UT', 'Utah'),
+            ('VT', 'Vermont'),
+            ('VA', 'Virginia'),
+            ('WA', 'Washington'),
+            ('WV', 'West Virginia'),
+            ('WI', 'Wisconsin'),
+            ('WY', 'Wyoming')
+        ]
+
+        job_type_choices = [
+            ('Full Time', 'Full Time'),
+            ('Part time', 'Part time'),
+            ('Contract', 'Contract'),
+        ]
+        job_location_choices = [
+            ('On Site', 'On Site'),
+            ('Remote', 'Remote'),
+            ('Hybrid', 'Hybrid'),
+        ]
+
+        pay_amount_choices = [
+            ('40000', '40000'),
+            ('50000', '50000'),
+            ('60000', '60000'),
+            ('70000', '70000'),
+            ('80000', '80000'),
+            ('90000', '90000'),
+            ('100000', '100000'),
+            ('110000', '110000'),
+            ('120000', '120000'),
+            ('130000', '130000'),
+            ('140000', '140000'),
+            ('150000', '150000'),
+            ('160000', '160000'),
+            ('170000', '170000'),
+            ('180000', '180000'),
+            ('190000', '190000'),
+            ('200000', '200000'),
+        ]
+
+        model = JobListing
+        fields = ['title', 'company', 'city', 'state', 'job_type', 'location', 'pay_bottom', 'pay_top',
+                  'about', 'responsibilities', 'qualifications', 'benefits', 'skill_one', 'skill_two',
+                  'skill_three', 'skill_four', 'skill_five', 'skill_six', 'skill_seven', 'skill_eight']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'company': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'state': forms.Select(choices=state_list, attrs={'class': 'form-control'}),
+            'job_type': forms.Select(choices=job_type_choices, attrs={'class': 'form-control'}),
+            'location': forms.Select(choices=job_location_choices, attrs={'class': 'form-control'}),
+            'pay_bottom': forms.Select(choices=pay_amount_choices, attrs={'class': 'form-control'}),
+            'pay_top': forms.Select(choices=pay_amount_choices, attrs={'class': 'form-control'}),
+            'about': forms.Textarea(attrs={'class': 'form-control'}),
+            'responsibilities': forms.Textarea(attrs={'class': 'form-control'}),
+            'qualifications': forms.Textarea(attrs={'class': 'form-control'}),
+            'benefits': forms.Textarea(attrs={'class': 'form-control'}),
+            'skill_one': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_two': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_three': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_four': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_five': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_six': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_seven': forms.TextInput(attrs={'class': 'form-control'}),
+            'skill_eight': forms.TextInput(attrs={'class': 'form-control'}),
         }

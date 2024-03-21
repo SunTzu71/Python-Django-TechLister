@@ -85,3 +85,28 @@ class UserSkill(models.Model):
 
     def __str__(self):
         return f'{self.user_id} {self.skill_id} {self.skill_name}'
+
+
+class JobListing(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    title = models.CharField(max_length=255)
+    company = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=50)
+    job_type = models.CharField(max_length=20)
+    location = models.CharField(max_length=20)
+    pay_bottom = models.IntegerField(null=True, blank=True)
+    pay_top = models.IntegerField(null=True, blank=True)
+    about = models.TextField()
+    responsibilities = models.TextField(null=True, blank=True)
+    qualifications = models.TextField(null=True, blank=True)
+    benefits = models.TextField(null=True, blank=True)
+    skill_one = models.CharField(max_length=255)
+    skill_two = models.CharField(max_length=255, null=True, blank=True)
+    skill_three = models.CharField(max_length=255, null=True, blank=True)
+    skill_four = models.CharField(max_length=255, null=True, blank=True)
+    skill_five = models.CharField(max_length=255, null=True, blank=True)
+    skill_six = models.CharField(max_length=255, null=True, blank=True)
+    skill_seven = models.CharField(max_length=255, null=True, blank=True)
+    skill_eight = models.CharField(max_length=255, null=True, blank=True)
+
