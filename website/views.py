@@ -8,6 +8,7 @@ from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, 
     PortfolioForm, NewJobListingForm
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing
 from .utility.image_resize import image_resize
+from .utility.currency_format import format_currency
 
 
 def home(request):
@@ -211,8 +212,11 @@ def edit_personal_info(request, pk):
                     edit_personal_info.profile_image = image_resize(img, profile_image, 125, 125)
 
                 edit_personal_info.save()
-                # todo: need to get the recruiter flag then redirect to correct profile page
-                return redirect('user_profile')
+
+                if personal_info.recruiter:
+                    return redirect('recruiter_profile')
+                else:
+                    return redirect('user_profile')
             else:
                 # form is not valid render again
                 return render(request, 'edit_personalinfo.html', {'form': form})
@@ -321,6 +325,22 @@ def user_resume(request, pk):
     return render(request, 'user_resume.html', context)
 
 
+def view_job(request, pk):
+    try:
+        job_info = JobListing.objects.get(id=pk)
+        personal_info = PersonalInformation.objects.get(user_id=request.user.id)
+        job_info.pay_top = format_currency(job_info.pay_top)
+        job_info.pay_bottom = format_currency(job_info.pay_bottom)
+
+        context = {'pii': personal_info,
+                   'job': job_info}
+
+    except JobListing.DoesNotExist:
+        return redirect('recruiter_profile')
+
+    return render(request, 'view_job.html', context)
+
+
 @login_required
 def recruiter_profile(request):
     user_id = request.user.id
@@ -339,7 +359,6 @@ def recruiter_profile(request):
         return redirect('add_personalinfo')
 
     return render(request, 'recruiter_profile.html', context)
-
 
 
 def add_job(request):
