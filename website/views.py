@@ -147,7 +147,6 @@ def add_portfolio(request):
                     add_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
 
                 add_portfolio.save()
-                # todo: need to get the recruiter flag redirect to correct profile page
                 return redirect('/portfolio/add')
 
             else:
@@ -325,22 +324,6 @@ def user_resume(request, pk):
     return render(request, 'user_resume.html', context)
 
 
-def view_job(request, pk):
-    try:
-        job_info = JobListing.objects.get(id=pk)
-        personal_info = PersonalInformation.objects.get(user_id=request.user.id)
-        job_info.pay_top = format_currency(job_info.pay_top)
-        job_info.pay_bottom = format_currency(job_info.pay_bottom)
-
-        context = {'pii': personal_info,
-                   'job': job_info}
-
-    except JobListing.DoesNotExist:
-        return redirect('recruiter_profile')
-
-    return render(request, 'view_job.html', context)
-
-
 @login_required
 def recruiter_profile(request):
     user_id = request.user.id
@@ -380,6 +363,38 @@ def add_job(request):
         return redirect('home')
 
 
+def edit_job(request, pk):
+    if request.user.is_authenticated:
+        edit_job = JobListing.objects.get(pk=pk)
+        if request.method == 'POST':
+            # todo: rename NewJobListingForm to JobListingForm used of add and edit
+            form = NewJobListingForm(request.POST, instance=edit_job)
+            if form.is_valid():
+                form.save()
+                return redirect('recruiter_profile')
+        else:
+            form = NewJobListingForm(instance=edit_job)
+        return render(request, 'edit_joblisting.html', {'form': form})
+    else:
+        return redirect('home')
+
+
+def view_job(request, pk):
+    try:
+        job_info = JobListing.objects.get(id=pk)
+        personal_info = PersonalInformation.objects.get(user_id=request.user.id)
+        job_info.pay_top = format_currency(job_info.pay_top)
+        job_info.pay_bottom = format_currency(job_info.pay_bottom)
+
+        context = {'pii': personal_info,
+                   'job': job_info}
+
+    except JobListing.DoesNotExist:
+        return redirect('recruiter_profile')
+
+    return render(request, 'view_job.html', context)
+
+
 @login_required
 def skill_search(request):
     skill_input = request.GET.get('skill_input', None)
@@ -391,7 +406,6 @@ def skill_search(request):
             print(skill_results)
             return render(request, 'skill_search.html', {'skills': skill_results})
         else:
-            # todo: need a better way to add skill when not found
             return render(request, 'skill_search.html', {'skill_input': skill_input})
 
 

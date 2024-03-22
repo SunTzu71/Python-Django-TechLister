@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'website',
     'django_extensions',
     'template_partials',
-
 ]
 
 MIDDLEWARE = [

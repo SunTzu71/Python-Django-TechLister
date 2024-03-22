@@ -89,8 +89,8 @@
                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-primary mx-1"
-                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button>
+                                        <a href="{% url 'edit_job' job.pk %}"><button type="button" class="btn btn-primary mx-1"
+                              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button></a>
                                     </td>
                                 </tr>
                                 {% endfor %}

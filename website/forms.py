@@ -357,10 +357,11 @@ class NewJobListingForm(CustomModelForm):
         ]
 
         model = JobListing
-        fields = ['title', 'company', 'city', 'state', 'job_type', 'location', 'pay_bottom', 'pay_top',
+        fields = ['active', 'title', 'company', 'city', 'state', 'job_type', 'location', 'pay_bottom', 'pay_top',
                   'about', 'responsibilities', 'qualifications', 'benefits', 'skill_one', 'skill_two',
                   'skill_three', 'skill_four', 'skill_five', 'skill_six', 'skill_seven', 'skill_eight']
         widgets = {
+            'active': forms.CheckboxInput(),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'company': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.TextInput(attrs={'class': 'form-control'}),

@@ -30,6 +30,7 @@ urlpatterns = [
     # recruiter section
     path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile'),
     path('job/listing/add', views.add_job, name='add_job'),
+    path('job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('job/listing/<int:pk>', views.view_job, name='view_job'),
 
 
