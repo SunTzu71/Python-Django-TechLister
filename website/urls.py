@@ -22,15 +22,15 @@ urlpatterns = [
     path('user/add/experience', views.add_experience, name='add_experience'),
     path('user/edit/experience/<int:pk>', views.edit_experience, name='edit_experience'),
     path('user/delete/experience/<int:pk>', views.delete_experience, name='delete_experience'),
-    path('user/resume/<int:pk>', views.user_resume, name='user_resume'),
     path('user/portfolio/add', views.add_portfolio, name='add_user_portfolio'),
     path('user/portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
 
     # recruiter section
-    path('recruiter_profile/', views.recruiter_profile, name='recruiter_profile'),
-    path('job/listing/add', views.add_job, name='add_job'),
-    path('job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
+    path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),
+    path('recruiter/job/listing/add', views.add_job, name='add_job'),
+    path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('job/listing/<int:pk>', views.view_job, name='view_job'),
 
 

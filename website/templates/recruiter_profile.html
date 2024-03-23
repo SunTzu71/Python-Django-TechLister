@@ -3,14 +3,7 @@
 
 {% if user.is_authenticated %}
 
-    <p>
-        1. Button to create new job posting<br />
-        2. Below the button have a table format of the job listings they have<br />
-        Table will have first last name, city, state, title, view resume
-    </p>
-    <div class="mb-2">
-        <a href="/job/listing/add"><button class="btn btn-primary">Create New Listing</button></a>
-    </div>
+    {% include 'recruiter_navbar.html' %}
 
     <div class="container">
         <div class="row">
@@ -23,7 +16,7 @@
 
                   <div class="row row-cols-3">
                     <div class="col-4">
-                      <img src="../media/{{ pii.profile_image }}" width="125" height="125" />
+                      <img src="../../media/{{ pii.profile_image }}" width="125" height="125" />
                     </div>
                     <div class="col-6">
 
@@ -60,7 +53,7 @@
               </div>
                 <div class="col 8">
                   <div>
-                    <table class="mt-5 table table-hover table-bordered">
+                    <table class="table table-hover table-bordered">
                       <thead class="table-dark">
                         <tr>
                             <th scope="col">Title</th>

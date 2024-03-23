@@ -345,7 +345,6 @@ def recruiter_profile(request):
 
 def add_job(request):
     if request.user.is_authenticated:
-        # todo: check to make sure they are a recruiter
         if request.method == 'POST':
             form = NewJobListingForm(request.POST)
             if form.is_valid():
@@ -366,7 +365,6 @@ def edit_job(request, pk):
     if request.user.is_authenticated:
         edit_job = JobListing.objects.get(pk=pk)
         if request.method == 'POST':
-            # todo: rename NewJobListingForm to JobListingForm used of add and edit
             form = NewJobListingForm(request.POST, instance=edit_job)
             if form.is_valid():
                 form.save()
@@ -410,7 +408,6 @@ def skill_search(request):
 @login_required
 @require_POST
 def add_skill(request, skill_input):
-    # todo: need to sanitize the data
     skill = Skill.objects.create(skill=skill_input)
     UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user)
 
