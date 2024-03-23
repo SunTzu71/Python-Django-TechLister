@@ -27,7 +27,7 @@ def register_user(request):
             user = authenticate(request, username=username, password=password)
             login(request, user)
 
-            return redirect('add_personalinfo')
+            return redirect('user/add/personalinfo')
     else:
         form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
@@ -147,8 +147,7 @@ def add_portfolio(request):
                     add_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
 
                 add_portfolio.save()
-                return redirect('/portfolio/add')
-
+                return redirect('add_user_portfolio')
             else:
                 return render(request, 'add_portfolio.html', {'form': form})
         else:
@@ -178,7 +177,7 @@ def edit_portfolio(request, pk):
                     edit_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
 
                 edit_portfolio.save()
-                return redirect('/portfolio/add')
+                return redirect('add_user_portfolio')
         else:
             form = PortfolioForm(instance=portfolio)
         return render(request, 'edit_portfolio.html', {'form': form})

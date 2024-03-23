@@ -17,21 +17,16 @@
             </div>
             <div class="card-body">
 
-              <div class="row row-cols-3">
-                <div class="col-4">
-                  <img src="../media/{{ pii.profile_image }}" width="125" height="125" />
-                </div>
-                <div class="col-6">
-
-                  <h5 class="card-title">{{ pii.first_name }} {{ pii.last_name }}</h5>
-                  Senior Software Engineer
+              <div class="row mb-2">
+                <div class="col-9">
+                  <img src="../../media/{{ pii.profile_image }}" width="125" height="125" />
                 </div>
                 <div class="col-2 d-flex justify-content-end">
                   <a href="{% url 'edit_personalinfo' pii.pk %}"><button type="button" class="btn btn-primary mx-1"
                               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button></a>
                 </div>
               </div>
-              <h5>About Me</h5>
+              <h5>{{ pii.first_name }} {{ pii.last_name }}</h5>
               <p class="card-text">{{ pii.about }}</p>
 
               <h5>Personal Details</h5>
