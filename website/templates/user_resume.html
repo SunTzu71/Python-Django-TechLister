@@ -5,20 +5,8 @@
 
 <div class="container-fluid mt-5">
   <div class="row">
-    <div class="col-md-3">
-        <img src="../media/{{ pii.profile_image }}" width="125" height="125" />
-    </div>
-    <div class="col-md-9" style="display: flex; align-items: center;">
-        <div>
-            <h5>{{ pii.first_name }} {{ pii.last_name }}</h5>
-            Senior Software Engineer
-        </div>
-    </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-3 mt-3"> <!-- Left Column, 25% -->
-      <h5>About Me</h5>
+        <h5>{{ pii.first_name }} {{ pii.last_name }}</h5>
       <p>{{ pii.about }}</p>
 
       <h5>Personal Details</h5>
@@ -44,15 +32,19 @@
     <div class="col-md-9 mt-3"> <!-- Right Column, 75% -->
       <h5>Skill Set</h5>
       <div class="card-body">
-          <div class="container text-center">
+          <div class="container">
+              {% for skill in uskills %}
+                {{ skill.skill_name }},
+              {% endfor %}
+              <!--
             <div class="row row-cols-5">
               {% for skill in uskills %}
-                <div class="col bg-secondary mx-1 my-1 py-1 position-relative">
+                <div class="col mx-1 my-1 py-1">
                   {{ skill.skill_name }}
                 </div>
               {% endfor %}
             </div>
-          </div>
+          </div>-->
       </div>
 
       <div class="card-body mt-3">
@@ -103,7 +95,7 @@
               {% endfor %}
 
           <div class="card-body mt-3">
-              <h5>Experience</h5>
+              <h5>Education</h5>
             </div>
               <div class="card-body">
               {% for edu in edus %}

@@ -403,7 +403,6 @@ def skill_search(request):
     if skill_input:
         skill_results = Skill.objects.filter(skill__icontains=skill_input)
         if skill_results:
-            print(skill_results)
             return render(request, 'skill_search.html', {'skills': skill_results})
         else:
             return render(request, 'skill_search.html', {'skill_input': skill_input})

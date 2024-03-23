@@ -34,7 +34,7 @@ urlpatterns = [
     path('job/listing/<int:pk>', views.view_job, name='view_job'),
 
 
-    # skill / user skill
+    # skill / user skill / job skill
     path('skill_search/', views.skill_search, name='skill_search'),
     path('add_skill/<str:skill_input>', views.add_skill, name='add_skill'),
     path('add_user_skill/<int:pk>/<str:skill_name>', views.add_user_skill, name='add_user_skill'),
