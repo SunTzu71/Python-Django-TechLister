@@ -36,3 +36,11 @@
     </div>
   </div>
 </nav>
+
+{% if request.session.recruiter %}
+  {% include 'recruiter_navbar.html' %}
+{% endif %}
+
+{% if request.session.recruiter == False %}
+  {% include 'user_navbar.html' %}
+{% endif %}

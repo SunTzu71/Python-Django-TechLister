@@ -272,8 +272,10 @@ def login_user(request):
                 personal_info = PersonalInformation.objects.get(user_id=user)
                 is_recruiter = personal_info.recruiter
                 if is_recruiter:
+                    request.session['recruiter'] = True
                     return redirect('recruiter_profile')
                 else:
+                    request.session['recruiter'] = False
                     return redirect('user_profile')
             except PersonalInformation.DoesNotExist:
                 # there is no personal information for current user so redirect to personal info form
