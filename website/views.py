@@ -421,7 +421,8 @@ def delete_job(request, pk):
 def view_job(request, pk):
     try:
         job_info = JobListing.objects.get(id=pk)
-        personal_info = PersonalInformation.objects.get(user_id=request.user.id)
+        print('user id from job: ', job_info.user_id)
+        personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
         job_info.pay_top = format_currency(job_info.pay_top)
         job_info.pay_bottom = format_currency(job_info.pay_bottom)
 
