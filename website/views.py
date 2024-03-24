@@ -409,6 +409,15 @@ def edit_job(request, pk):
         return redirect('home')
 
 
+def delete_job(request, pk):
+    if request.user.is_authenticated:
+        delete_job = JobListing.objects.get(pk=pk)
+        delete_job.delete()
+        return redirect('recruiter_profile')
+    else:
+        return redirect('home')
+
+
 def view_job(request, pk):
     try:
         job_info = JobListing.objects.get(id=pk)
