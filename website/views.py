@@ -194,6 +194,7 @@ def delete_portfolio(request, pk):
         return redirect('home')
 
 
+@login_required
 def edit_personal_info(request, pk):
     if request.user.is_authenticated:
         personal_info = PersonalInformation.objects.get(id=pk)
@@ -226,6 +227,7 @@ def edit_personal_info(request, pk):
         return redirect('home')
 
 
+@login_required
 def add_personal_info(request):
     if request.user.is_authenticated:
         if request.method == "POST":

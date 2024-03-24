@@ -12,10 +12,13 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
 
+    # section where user and recruiter can visit
+    path('add/personalinfo', views.add_personal_info, name='add_personalinfo'),
+    path('edit/personalinfo/<int:pk>', views.edit_personal_info, name='edit_personalinfo'),
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
+
     # user section
     path('user/profile/', views.user_profile, name='user_profile'),
-    path('user/add/personalinfo', views.add_personal_info, name='add_personalinfo'),
-    path('user/edit/personalinfo/<int:pk>', views.edit_personal_info, name='edit_personalinfo'),
     path('user/add/education/', views.add_education, name='add_education'),
     path('user/edit/education/<int:pk>', views.edit_education, name='edit_education'),
     path('user/delete/education/<int:pk>', views.delete_education, name='delete_education'),
@@ -25,7 +28,6 @@ urlpatterns = [
     path('user/portfolio/add', views.add_portfolio, name='add_user_portfolio'),
     path('user/portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
-    path('resume/<int:pk>', views.user_resume, name='user_resume'),
 
     # recruiter section
     path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),

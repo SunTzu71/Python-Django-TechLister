@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'website.middleware.useraccess.UserAccessMiddleware',
+    'website.middleware.recruiteraccess.RecruiterAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'techlister.urls'
