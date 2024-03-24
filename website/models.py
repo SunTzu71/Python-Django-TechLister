@@ -102,14 +102,16 @@ class JobListing(models.Model):
     responsibilities = models.TextField(null=True, blank=True)
     qualifications = models.TextField(null=True, blank=True)
     benefits = models.TextField(null=True, blank=True)
-    skill_one = models.CharField(max_length=255)
-    skill_two = models.CharField(max_length=255, null=True, blank=True)
-    skill_three = models.CharField(max_length=255, null=True, blank=True)
-    skill_four = models.CharField(max_length=255, null=True, blank=True)
-    skill_five = models.CharField(max_length=255, null=True, blank=True)
-    skill_six = models.CharField(max_length=255, null=True, blank=True)
-    skill_seven = models.CharField(max_length=255, null=True, blank=True)
-    skill_eight = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f'{self.user_id} {self.title}'
+
+
+class JobSkill(models.Model):
+    job_id = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    skill_id = models.BigIntegerField()
+    skill_name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.job_id} {self.skill_id} {self.skill_name}'

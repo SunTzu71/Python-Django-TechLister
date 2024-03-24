@@ -88,8 +88,3 @@ def validate_job_type(value):
 def validate_location(value):
     if not value:
         raise forms.ValidationError("Location is required.")
-
-
-def validate_skill_one(value):
-    if not value:
-        raise forms.ValidationError("You need at least one skill.")

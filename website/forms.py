@@ -6,7 +6,7 @@ from .utility.validators import (validate_title_length, validate_description_len
                                  validate_last_name, validate_city, validate_state, validate_email, validate_about,
                                  validate_company, validate_position, validate_start_month, validate_start_year,
                                  validate_task_one, validate_website_link, validate_portfolio_image, validate_job_type,
-                                 validate_location, validate_skill_one)
+                                 validate_location)
 
 
 class CustomModelForm(forms.ModelForm):
@@ -261,7 +261,6 @@ class NewJobListingForm(CustomModelForm):
         'job_type': [validate_job_type],
         'location': [validate_location],
         'about': [validate_about],
-        'skill_one': [validate_skill_one],
     }
 
     class Meta:
@@ -358,8 +357,7 @@ class NewJobListingForm(CustomModelForm):
 
         model = JobListing
         fields = ['active', 'title', 'company', 'city', 'state', 'job_type', 'location', 'pay_bottom', 'pay_top',
-                  'about', 'responsibilities', 'qualifications', 'benefits', 'skill_one', 'skill_two',
-                  'skill_three', 'skill_four', 'skill_five', 'skill_six', 'skill_seven', 'skill_eight']
+                  'about', 'responsibilities', 'qualifications', 'benefits']
         widgets = {
             'active': forms.CheckboxInput(),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -374,12 +372,4 @@ class NewJobListingForm(CustomModelForm):
             'responsibilities': forms.Textarea(attrs={'class': 'form-control'}),
             'qualifications': forms.Textarea(attrs={'class': 'form-control'}),
             'benefits': forms.Textarea(attrs={'class': 'form-control'}),
-            'skill_one': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_two': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_three': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_four': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_five': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_six': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_seven': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
-            'skill_eight': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search skill'}),
         }

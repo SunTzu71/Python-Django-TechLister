@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PersonalInformation, Education, Experience, UserSkill, Portfolio, JobListing
+from .models import PersonalInformation, Education, Experience, UserSkill, Portfolio, JobListing, JobSkill
 
 
 admin.site.register(PersonalInformation)
@@ -8,3 +8,4 @@ admin.site.register(Experience)
 admin.site.register(UserSkill)
 admin.site.register(Portfolio)
 admin.site.register(JobListing)
+admin.site.register(JobSkill)
