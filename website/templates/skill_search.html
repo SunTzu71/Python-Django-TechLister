@@ -10,6 +10,7 @@
                           {{ skill.skill }}
                         </div>
                         <div class="col">
+
                             <form action="{% url 'add_user_skill' skill.pk skill.skill %}" method="POST">
                                 {% csrf_token %}
                                 <div class="col">

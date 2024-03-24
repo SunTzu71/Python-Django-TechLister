@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm
-from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing
+from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
 
@@ -347,7 +347,28 @@ def recruiter_profile(request):
     return render(request, 'recruiter_profile.html', context)
 
 
+def add_job_skill(request):
+    if request.user.is_authenticated:
+        if request.user.is_authenticated:
+            if request.method == 'POST':
+                form = NewJobListingForm(request.POST)
+                if form.is_valid():
+                    add_listing = form.save(commit=False)
+                    add_listing.user_id = request.user
+                    add_listing.save()
+                    return redirect('recruiter_profile')
+                else:
+                    return render(request, 'add_joblisting_skill.html', {'form': form})
+            else:
+                form = NewJobListingForm()
+            return render(request, 'add_joblisting_skill.html', {'form': form})
+        else:
+            return redirect('home')
+
 def add_job(request):
+
+    print(request.session['job_skills'])
+
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = NewJobListingForm(request.POST)
@@ -355,6 +376,14 @@ def add_job(request):
                 add_listing = form.save(commit=False)
                 add_listing.user_id = request.user
                 add_listing.save()
+
+                # loop through job skills and insert into database
+                for skill in request.session['job_skills']:
+                    JobSkill.objects.create(skill_id=skill[0], skill_name=skill[1], job_id=add_listing)
+
+                # delete session holding the job skills
+                del request.session['job_skills']
+
                 return redirect('recruiter_profile')
             else:
                 return render(request, 'add_joblisting.html', {'form': form})
@@ -421,11 +450,23 @@ def add_skill(request, skill_input):
 @login_required
 @require_POST
 def add_user_skill(request, pk, skill_name):
-    skill_id = pk
-    user_id = request.user
-    UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user_id=user_id)
+    # User is recruiter add skill to job skill session to be saved later in form is saved
+    # then we stored the session skills in the database with the new job_id
+    if request.session.get('recruiter'):
+        if 'job_skills' not in request.session:
+            request.session['job_skills'] = []
 
-    return redirect('user_profile')
+        job_skills = request.session['job_skills']
+        job_skills.append((pk, skill_name))
+        request.session['job_skills'] = job_skills
+
+        return redirect('add_job_skill')
+    else:
+        skill_id = pk
+        user_id = request.user
+        UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user_id=user_id)
+
+        return redirect('user_profile')
 
 
 @login_required

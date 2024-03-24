@@ -2,7 +2,7 @@ from django import forms
 
 
 def validate_title_length(value):
-    if len(value) <= 1:
+    if not value:
         raise forms.ValidationError("Title is required.")
 
 

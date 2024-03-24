@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Add Job Listing</h1>
+                    <div>
+                        <div class="form-text">
+                            <p>
+                            To find the best candidates, add skills you are looking for. These are the same skills
+                            that job seekers have on their resume. Matching these skills with job seekers give you
+                            the best results.
+                            </p>
+                        </div>
+                    </div>
+                    <p>
+                        <strong>Skills: </strong>
+                        {% for skill in request.session.job_skills %}
+                            {{ skill.1 }},
+                        {% endfor %}
+                    </p>
+                    <div class="d-flex" role="search">
+                        <input class="form-control me-2"
+                               type="search"
+                               name="skill_input" placeholder="Search skill"
+                               hx-get="/skill_search"
+                               hx-trigger="input changed delay:500ms, search"
+                               hx-target="#search-results"
+                               hx-indicator=".htmx-indicator">
+                      </div>
+                    <div id="search-results" class="mt-2">
+                      {% include 'skill_search.html' %}
+                    </div>
+                   <div>
+                       <a href="{% url 'add_job' %}"><button type="submit" class="btn btn-secondary">Next</button></a>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
+{% endblock %}

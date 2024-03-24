@@ -108,7 +108,7 @@ class JobListing(models.Model):
 
 
 class JobSkill(models.Model):
-    job_id = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    job_id = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True, db_column='job_id')
     skill_id = models.BigIntegerField()
     skill_name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
