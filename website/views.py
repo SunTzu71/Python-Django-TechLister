@@ -1,6 +1,7 @@
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.html import escape
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
@@ -511,5 +512,19 @@ def delete_user_skill(request, pk):
         delete_skill = UserSkill.objects.get(pk=pk)
         delete_skill.delete()
         return redirect('user_profile')
+    else:
+        return redirect('home')
+
+
+def job_search(request):
+    if request.method == 'POST':
+        search_query = request.POST.get('search_jobs', '')
+        sanitized_search_query = escape(search_query)
+
+        results = JobSkill.objects.filter(
+            skill_name__icontains=sanitized_search_query,
+            job_id__active=True).select_related('job_id')
+
+        return render(request, 'job_listings.html', {'results': results})
     else:
         return redirect('home')

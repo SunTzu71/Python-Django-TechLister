@@ -44,6 +44,9 @@ urlpatterns = [
     path('add_user_skill/<int:pk>/<str:skill_name>', views.add_user_skill, name='add_user_skill'),
     path('delete_user_skilil/<int:pk>', views.delete_user_skill, name='delete_user_skill'),
     path('delete_job_skilil/<int:pk>', views.delete_job_skill, name='delete_job_skill'),
+
+    # job search
+    path('job/search/', views.job_search, name='job_search'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

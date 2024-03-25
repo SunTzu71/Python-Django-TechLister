@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for listing in results %}
+    {{ listing.job_id.title }}<br />
+{% endfor %}
+
+{% endblock %}

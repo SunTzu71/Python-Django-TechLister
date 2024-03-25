@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
 
@@ -12,8 +11,11 @@
         <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Search and apply now</h1>
         <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula magna nec tincidunt ornare. Quisque at purus non nulla efficitur imperdiet. Mauris egestas luctus aliquet.</p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-            <input type="text" name="search_jobs" placeholder="Skill" />
-            <a href="#"><button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Search</button></a>
+            <form method="POST" action="job/search/">
+                {% csrf_token %}
+                <input type="text" name="search_jobs" placeholder="Skill" />
+                <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2">Search</button>
+            </form>
         </div>
       </div>
 
