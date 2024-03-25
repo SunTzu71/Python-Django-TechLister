@@ -366,9 +366,6 @@ def add_job_skill(request):
             return redirect('home')
 
 def add_job(request):
-
-    print(request.session['job_skills'])
-
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = NewJobListingForm(request.POST)
@@ -396,17 +393,37 @@ def add_job(request):
 
 def edit_job(request, pk):
     if request.user.is_authenticated:
-        edit_job = JobListing.objects.get(pk=pk)
+        # add job listing id to session
+        # this is used in add_user_skill method
+        request.session['job_id'] = pk
+
+        edit_listing = JobListing.objects.get(id=pk)
         if request.method == 'POST':
-            form = NewJobListingForm(request.POST, instance=edit_job)
+            form = NewJobListingForm(request.POST, instance=edit_listing)
             if form.is_valid():
                 form.save()
                 return redirect('recruiter_profile')
         else:
-            form = NewJobListingForm(instance=edit_job)
-        return render(request, 'edit_joblisting.html', {'form': form})
+            skills = JobSkill.objects.filter(job_id=edit_listing.id)
+            context = {'form': NewJobListingForm(instance=edit_listing),
+                       'jskills': skills}
+
+        return render(request, 'edit_joblisting.html', context)
     else:
         return redirect('home')
+
+
+@login_required
+def delete_job_skill(request, pk):
+    if request.user.is_authenticated:
+        delete_skill = JobSkill.objects.get(pk=pk)
+        delete_skill.delete()
+
+        referer = request.META.get('HTTP_REFERER')
+        return redirect(referer)
+    else:
+        return redirect('home')
+
 
 
 def delete_job(request, pk):
@@ -462,9 +479,16 @@ def add_skill(request, skill_input):
 @login_required
 @require_POST
 def add_user_skill(request, pk, skill_name):
-    # User is recruiter add skill to job skill session to be saved later in form is saved
-    # then we stored the session skills in the database with the new job_id
-    if request.session.get('recruiter'):
+    # check to see if we have job_id in session if so then we are editing job listing
+    job_id = request.session.get('job_id')
+    if job_id:
+        edit_listing = JobListing.objects.get(pk=job_id)
+        JobSkill.objects.create(skill_id=pk, skill_name=skill_name, job_id=edit_listing)
+        return redirect('edit_job', pk=request.session.get('job_id'))
+
+    # When recruiter adds a skill it's stored in session
+    # logic in if condition used for adding new job listing add_job method
+    elif request.session.get('recruiter'):
         if 'job_skills' not in request.session:
             request.session['job_skills'] = []
 
