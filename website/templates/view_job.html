@@ -27,8 +27,9 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                {{ job.skill_one }} {{ job.skill_two }} {{ job.skill_three }} {{ job.skill_four }}<br />
-                                {{ job.skill_five }} {{ job.skill_six }} {{ job.skill_seven }} {{ job.skill_eight }}
+                                {% for skill in skills %}
+                                    {{ skill.skill_name }},
+                                {% endfor %}
                             </p>
                         </div>
                     </div>

@@ -421,13 +421,15 @@ def delete_job(request, pk):
 def view_job(request, pk):
     try:
         job_info = JobListing.objects.get(id=pk)
-        print('user id from job: ', job_info.user_id)
         personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
+        job_skills = JobSkill.objects.filter(job_id=job_info.id)
+
         job_info.pay_top = format_currency(job_info.pay_top)
         job_info.pay_bottom = format_currency(job_info.pay_bottom)
 
         context = {'pii': personal_info,
-                   'job': job_info}
+                   'job': job_info,
+                   'skills': job_skills}
 
     except JobListing.DoesNotExist:
         return redirect('recruiter_profile')
