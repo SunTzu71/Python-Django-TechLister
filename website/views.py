@@ -1,7 +1,6 @@
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.utils.html import escape
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
@@ -10,7 +9,7 @@ from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, 
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
-
+import requests
 
 def home(request):
     return render(request, 'home.html', {})
@@ -518,13 +517,29 @@ def delete_user_skill(request, pk):
 
 def job_search(request):
     if request.method == 'POST':
-        search_query = request.POST.get('search_jobs', '')
-        sanitized_search_query = escape(search_query)
+        query = request.POST.get('query')
+        search_results = neural_job_search(query)
+        print('results', search_results)
+        return render(request, 'job_listings.html', {'search_results': search_results})
 
-        results = JobSkill.objects.filter(
-            skill_name__icontains=sanitized_search_query,
-            job_id__active=True).select_related('job_id')
 
-        return render(request, 'job_listings.html', {'results': results})
-    else:
-        return redirect('home')
+def neural_job_search(query):
+    response = requests.get('http://localhost:8000/api/search?q=' + query)
+    print('response: ', response)
+    if response.status_code == 200:
+        return response.json()['result']
+    return []
+
+
+# def job_search(request):
+#     if request.method == 'POST':
+#         search_query = request.POST.get('search_jobs', '')
+#         sanitized_search_query = escape(search_query)
+#
+#         results = JobSkill.objects.filter(
+#             skill_name__icontains=sanitized_search_query,
+#             job_id__active=True).select_related('job_id')
+#
+#         return render(request, 'job_listings.html', {'results': results})
+#     else:
+#         return redirect('home')

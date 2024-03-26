@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<h1>Search Results</h1>
+    <ul>
+        {% for result in search_results %}
+            <li>
+                <p>
+                    <strong>Name:</strong> {{ result.name }} <br />
+                    {{ result.description}}
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+
 {% for listing in results %}
     {{ listing.job_id.title }}<br />
 {% endfor %}
