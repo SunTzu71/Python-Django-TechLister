@@ -402,6 +402,9 @@ def edit_job(request, pk):
             form = NewJobListingForm(request.POST, instance=edit_listing)
             if form.is_valid():
                 form.save()
+
+                # remove job_id from request session
+                del request.session['job_id']
                 return redirect('recruiter_profile')
         else:
             skills = JobSkill.objects.filter(job_id=edit_listing.id)
@@ -529,17 +532,3 @@ def neural_job_search(query):
     if response.status_code == 200:
         return response.json()['result']
     return []
-
-
-# def job_search(request):
-#     if request.method == 'POST':
-#         search_query = request.POST.get('search_jobs', '')
-#         sanitized_search_query = escape(search_query)
-#
-#         results = JobSkill.objects.filter(
-#             skill_name__icontains=sanitized_search_query,
-#             job_id__active=True).select_related('job_id')
-#
-#         return render(request, 'job_listings.html', {'results': results})
-#     else:
-#         return redirect('home')
