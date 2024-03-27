@@ -532,17 +532,3 @@ def job_search(request):
         return render(request, 'job_listings.html', {'search_results': search_results})
     # may want to add a no results text and pass it in or check it in the template
     return render(request, 'job_listings.html', {'search_results': []})
-
-
-def job_details(request, pk):
-    job_info = JobListing.objects.get(id=pk)
-    personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
-    job_skills = JobSkill.objects.filter(job_id=job_info.id)
-
-    job_info.pay_top = format_currency(job_info.pay_top)
-    job_info.pay_bottom = format_currency(job_info.pay_bottom)
-
-    context = {'pii': personal_info,
-               'job': job_info,
-               'skills': job_skills}
-    return render(request, 'view_job.html', context)

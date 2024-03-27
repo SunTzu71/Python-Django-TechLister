@@ -37,7 +37,6 @@ urlpatterns = [
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
     path('job/listing/<int:pk>', views.view_job, name='view_job'),
 
-
     # skill / user skill / job skill
     path('skill_search/', views.skill_search, name='skill_search'),
     path('add_skill/<str:skill_input>', views.add_skill, name='add_skill'),
@@ -47,7 +46,6 @@ urlpatterns = [
 
     # job search
     path('job/search/', views.job_search, name='job_search'),
-    path('job/details/<int:pk>', views.job_details, name='job_details')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
