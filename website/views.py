@@ -9,6 +9,8 @@ from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, 
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
+from .neural_searcher import NeuralSearcher
+
 import requests
 
 def home(request):
@@ -518,17 +520,14 @@ def delete_user_skill(request, pk):
         return redirect('home')
 
 
+neural_searcher = NeuralSearcher(collection_name='joblistings')
+
+
 def job_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
-        search_results = neural_job_search(query)
+        search_results = neural_searcher.search(text=query)
 
         return render(request, 'job_listings.html', {'search_results': search_results})
-
-
-def neural_job_search(query):
-    response = requests.get('http://localhost:8000/api/search?q=' + query)
-    print('response: ', response)
-    if response.status_code == 200:
-        return response.json()['result']
-    return []
+    # may want to add a no results text and pass it in or check it in the template
+    return render(request, 'job_listings.html', {'search_results': []})
