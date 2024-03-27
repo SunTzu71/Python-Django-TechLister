@@ -1,9 +1,7 @@
-{% extends 'base.html' %}
 {% block content %}
-
     <div class="container">
         <div class="row mt-5">
-            <div class="col 8">
+            <div class="col 12">
                     <div class="card mb-3">
                         <div class="card-header bg-dark" style="color: white">
                             <h3>Job Listing Information</h3>
@@ -74,11 +72,8 @@
                             </p>
                         </div>
                     </div>
-            </div>
 
-                <div class="col-4">
-                 <div class="card col4">
-                <div class="card-header bg-dark" style="color: white">
+                 <div class="card-header bg-dark" style="color: white">
                   <h3>Recruiter Information</h3>
                 </div>
                 <div class="card-body">
@@ -115,10 +110,9 @@
                   <p class="card-text">{{ pii.facebook }}</p>
                 </div>
                 </div>
-              </div>
+
+            </div>
 
         </div>
     </div>
-
-
 {% endblock %}
