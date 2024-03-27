@@ -2,16 +2,31 @@
 {% block content %}
 
 <h1>Search Results</h1>
-    <ul>
-        {% for result in search_results %}
-            <li>
-                <p>
-                    <strong> {{ result.company }}</strong> <br />
-                    {{ result.about|safe }}
-                </p>
-            </li>
-        {% endfor %}
-    </ul>
+
+
+{% for result in search_results %}
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-3 pt-3 ml-3">
+        <img src="../../media/{{ result.profile_image }}" width="125" height="125" />
+    </div>
+    <div class="col-md-9">
+      <div class="card-body">
+        <h5 class="card-title">{{ result.title }}</h5>
+        <p class="card-text">
+            {{ result.company }}<br />
+            {{ result.city }}, {{ result.state }}<br />
+            Location: {{ result.location }} <br />
+            Skills: {{ result.skills }}
+        </p>
+        <p class="card-text d-flex justify-content-end">
+            <a href="#"><button type="button" class="btn btn-primary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View More</button></a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 {% for listing in results %}
     {{ listing.job_id.title }}<br />

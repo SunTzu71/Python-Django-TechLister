@@ -12,20 +12,21 @@ conn = psycopg2.connect(
 
 # Construct the SQL query to join job listings with their skills
 query = """
-SELECT jl.*, COALESCE(STRING_AGG(js.skill_name, ', '), '') AS skills
+SELECT jl.*, COALESCE(STRING_AGG(js.skill_name, ', '), '') AS skills, wp.profile_image  
 FROM website_joblisting AS jl
-LEFT JOIN website_jobskill AS js ON jl.id = js.job_id
-GROUP BY jl.id;
+LEFT JOIN website_jobskill AS js ON jl.id = js.job_id 
+LEFT JOIN website_personalinformation AS wp ON jl.user_id = wp.user_id 
+GROUP BY jl.id, wp.profile_image;
 """
 
 # Read the SQL query result into a DataFrame
 df = pd.read_sql_query(query, conn)
 
 # Combine the 'about' column with the 'skills' column separated by '<br />'
-df['about'] = df['city'] + ', ' + df['state'] + '<br />' + df['skills'] + '<br />' + df['about']
+df['about'] = df['skills'] + '<br />' + df['about']
 
 # Drop the 'skills' column as it's no longer needed
-df.drop(columns=['skills'], inplace=True)
+#df.drop(columns=['skills'], inplace=True)
 
 # Export DataFrame to a JSON file with each object on its own line
 df.to_json('job_listings.json', orient='records', lines=True)
@@ -34,5 +35,5 @@ df.to_json('job_listings.json', orient='records', lines=True)
 conn.close()
 
 # Now try reading the JSON file back
-df = pd.read_json("./job_listings.json", lines=True)
-print(df)
+#df = pd.read_json("./job_listings.json", lines=True)
+#print(df)
