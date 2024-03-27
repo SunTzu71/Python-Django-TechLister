@@ -6,8 +6,8 @@
         {% for result in search_results %}
             <li>
                 <p>
-                    <strong>Company:</strong> {{ result.company }} <br />
-                    {{ result.about }}
+                    <strong> {{ result.company }}</strong> <br />
+                    {{ result.about|safe }}
                 </p>
             </li>
         {% endfor %}

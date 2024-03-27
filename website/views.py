@@ -522,7 +522,7 @@ def job_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
         search_results = neural_job_search(query)
-        print('results', search_results)
+
         return render(request, 'job_listings.html', {'search_results': search_results})
 
 
