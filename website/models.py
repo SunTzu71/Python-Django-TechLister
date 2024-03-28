@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django_summernote.fields import SummernoteTextField
 
 class PersonalInformation(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
@@ -12,7 +12,7 @@ class PersonalInformation(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=50, null=True, blank=True)
     linked_in = models.URLField(null=True, blank=True)
-    about = models.TextField()
+    about = SummernoteTextField()
     profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

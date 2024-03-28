@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'website',
     'django_extensions',
     'template_partials',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
