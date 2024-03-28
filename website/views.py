@@ -538,5 +538,10 @@ neural_user_search = NeuralSearcher(collection_name='userlistings')
 
 
 def user_search(request):
-    print('user search')
-    return render(request, 'user_listings.html', {})
+    if request.method == 'POST':
+        query = request.POST.get('query')
+        search_results = neural_user_search.search(text=query)
+
+        return render(request, 'user_listings.html', {'search_results': search_results})
+        # may want to add a no results text and pass it in or check it in the template
+    return render(request, 'user_listings.html', {'search_results': []})
