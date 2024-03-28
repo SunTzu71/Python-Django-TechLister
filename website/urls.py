@@ -46,6 +46,7 @@ urlpatterns = [
 
     # job search
     path('job/search/', views.job_search, name='job_search'),
+    path('user2/search/', views.user_search, name='user_search'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

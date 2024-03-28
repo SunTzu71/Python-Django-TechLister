@@ -521,14 +521,22 @@ def delete_user_skill(request, pk):
         return redirect('home')
 
 
-neural_searcher = NeuralSearcher(collection_name='joblistings')
+neural_job_search = NeuralSearcher(collection_name='joblistings')
 
 
 def job_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
-        search_results = neural_searcher.search(text=query)
+        search_results = neural_job_search.search(text=query)
 
         return render(request, 'job_listings.html', {'search_results': search_results})
     # may want to add a no results text and pass it in or check it in the template
     return render(request, 'job_listings.html', {'search_results': []})
+
+
+neural_user_search = NeuralSearcher(collection_name='userlistings')
+
+
+def user_search(request):
+    print('user search')
+    return render(request, 'user_listings.html', {})
