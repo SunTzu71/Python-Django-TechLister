@@ -248,8 +248,11 @@ def add_personal_info(request):
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)
 
+                    file_ext = os.path.splitext(profile_image.name)[-1].lower()
+                    user_profile_image = request.user.username + '_' + file_ext
+
                     # Assign the resized image to the profile info
-                    add_personal_info.profile_image = image_resize(img, profile_image, 125, 125)
+                    add_personal_info.profile_image = image_resize(img, profile_image, 125, 125, user_profile_image)
 
                 add_personal_info.save()  # Save the profile info with the resized image
 
