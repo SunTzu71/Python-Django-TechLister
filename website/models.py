@@ -98,10 +98,10 @@ class JobListing(models.Model):
     location = models.CharField(max_length=20)
     pay_bottom = models.IntegerField(null=True, blank=True)
     pay_top = models.IntegerField(null=True, blank=True)
-    about = models.TextField()
-    responsibilities = models.TextField(null=True, blank=True)
-    qualifications = models.TextField(null=True, blank=True)
-    benefits = models.TextField(null=True, blank=True)
+    about = SummernoteTextField()
+    responsibilities = SummernoteTextField(null=True, blank=True)
+    qualifications = SummernoteTextField(null=True, blank=True)
+    benefits = SummernoteTextField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.user_id} {self.title}'

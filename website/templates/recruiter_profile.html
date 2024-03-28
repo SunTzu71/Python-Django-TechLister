@@ -26,7 +26,7 @@
                     </div>
                   </div>
                   <h5>About Me</h5>
-                  <p class="card-text">{{ pii.about }}</p>
+                  <p class="card-text">{{ pii.about | safe }}</p>
 
                   <h5>Personal Details</h5>
                   <p class="card-text">{{ pii.city }}, {{ pii.state }}</p>

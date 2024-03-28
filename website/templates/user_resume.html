@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-3 mt-3"> <!-- Left Column, 25% -->
         <h5>{{ pii.first_name }} {{ pii.last_name }}</h5>
-      <p>{{ pii.about }}</p>
+      <p>{{ pii.about | safe }}</p>
 
       <h5>Personal Details</h5>
         <p class="card-text">{{ pii.city }}, {{ pii.state }}</p>
