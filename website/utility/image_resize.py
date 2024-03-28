@@ -1,8 +1,7 @@
 from PIL import Image
 
-def image_resize(orig_image, file_name, img_height=300, img_width=300):
+def image_resize(orig_image, file_name, img_height=300, img_width=300, new_file_name=None):
     if orig_image.height > img_height or orig_image.width > img_width:
-
         orig_image.thumbnail((img_height, img_width))
 
         # Create a BytesIO object to temporarily hold the resized image
@@ -13,7 +12,11 @@ def image_resize(orig_image, file_name, img_height=300, img_width=300):
         orig_image.save(output_io, format=orig_image.format)
 
         # Get the file name and extension from the original image
-        file_name = file_name.name
+        if new_file_name:
+            file_name = new_file_name
+        else:
+            file_name = file_name.name
+
         file_ext = file_name.split('.')[-1].lower()
 
         # Create a new InMemoryUploadedFile with the resized image data

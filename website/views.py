@@ -1,3 +1,5 @@
+import os
+
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -210,8 +212,11 @@ def edit_personal_info(request, pk):
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)
 
+                    file_ext = os.path.splitext(profile_image.name)[-1].lower()
+                    user_profile_image = request.user.username + '_' + file_ext
+
                     # Assign the resized image to the profile info
-                    edit_personal_info.profile_image = image_resize(img, profile_image, 125, 125)
+                    edit_personal_info.profile_image = image_resize(img, profile_image, 125, 125, user_profile_image)
 
                 edit_personal_info.save()
 
