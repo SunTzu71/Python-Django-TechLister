@@ -8,6 +8,10 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('summernote/', include('django_summernote.urls')),
 
+    # view job listing and user resume
+    path('job/listing/<int:pk>', views.view_job, name='view_job'),
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
+
     # login register
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
@@ -16,7 +20,6 @@ urlpatterns = [
     # section where user and recruiter can visit
     path('add/personalinfo', views.add_personal_info, name='add_personalinfo'),
     path('edit/personalinfo/<int:pk>', views.edit_personal_info, name='edit_personalinfo'),
-    path('resume/<int:pk>', views.user_resume, name='user_resume'),
 
     # user section
     path('user/profile/', views.user_profile, name='user_profile'),
@@ -36,7 +39,6 @@ urlpatterns = [
     path('recruiter/job/listing/add', views.add_job, name='add_job'),
     path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
-    path('job/listing/<int:pk>', views.view_job, name='view_job'),
 
     # skill / user skill / job skill
     path('skill_search/', views.skill_search, name='skill_search'),
