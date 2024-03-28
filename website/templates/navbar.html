@@ -7,11 +7,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="navbar-nav ms-auto"> <!-- Add ms-auto here -->
         {% if user.is_authenticated %}
-          <li class="nav-item">
+            {% if request.session.recruiter %}
+              <a class="nav-link" href="{% url 'recruiter_profile' %}">
+                <button type="submit" class="btn btn-secondary">Profile</button>
+              </a>
+            {% endif %}
+            {% if request.session.recruiter == False %}
+              <a class="nav-link" href="{% url 'user_profile' %}">
+                <button type="submit" class="btn btn-secondary">Profile</button>
+              </a>
+            {% endif %}
+
             <a class="nav-link" href="{% url 'logout' %}">
               <button type="submit" class="btn btn-secondary">Logout</button>
             </a>
-          </li>
         {% else %}
             <!-- Login form -->
             <form method="POST" action="{% url 'login' %}" class="d-flex">

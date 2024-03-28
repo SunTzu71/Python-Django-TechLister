@@ -42,7 +42,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                {{ job.about }}
+                                {{ job.about | safe }}
                             </p>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                {{ job.responsibilities }}
+                                {{ job.responsibilities | safe }}
                             </p>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                {{ job.qualifications }}<br />
+                                {{ job.qualifications | safe }}<br />
                             </p>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                {{ job.benefits }}<br />
+                                {{ job.benefits | safe }}<br />
                             </p>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             </div>
                           </div>
                           <h5>About Me</h5>
-                          <p class="card-text">{{ pii.about }}</p>
+                          <p class="card-text">{{ pii.about | safe }}</p>
 
                           <h5>Personal Details</h5>
                           <p class="card-text">{{ pii.city }}, {{ pii.state }}</p>
