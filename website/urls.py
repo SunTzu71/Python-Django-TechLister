@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('please/login/', views.login_page, name='login_page'),
     path('summernote/', include('django_summernote.urls')),
 
     # view job listing and user resume

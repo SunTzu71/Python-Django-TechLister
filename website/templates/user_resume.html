@@ -90,8 +90,26 @@
               </svg>
               <a href="{{ pii.linked_in }}" target="_blank">Linked In</a></p>
         {% else %}
-        You must be logged in to view details<br />
-        <button type="button" class="btn btn-primary">Login</button>
+        You must be logged in to view all details<br />
+
+                <form method="POST" action="{% url 'login' %}" class="d-flex flex-column">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col">
+                        <input type="text" name="username" placeholder="Username" required class="form-control" aria-label="Username">
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col">
+                        <input type="password" name="password" placeholder="Password" required class="form-control" aria-label="Password">
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                      </div>
+                    </div>
+                </form>
         {% endif %}
     </div>
 

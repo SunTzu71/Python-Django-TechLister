@@ -273,6 +273,13 @@ def add_personal_info(request):
         return redirect('home')
 
 
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        return render(request, 'user_login.html')
+
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -280,6 +287,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
             # check if user is a recruiter then redirect to correct template
             try:
                 personal_info = PersonalInformation.objects.get(user_id=user)
@@ -292,7 +300,7 @@ def login_user(request):
                     return redirect('user_profile')
             except PersonalInformation.DoesNotExist:
                 # there is no personal information for current user so redirect to personal info form
-                return redirect('user_profile')
+                return redirect('add_personalinfo')
         else:
             messages.error(request, 'Invalid login')
             return redirect('home')
