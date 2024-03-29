@@ -2,8 +2,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9 mt-3"> <!-- Left Column, 25% -->
-            <h5>{{ pii.first_name }} {{ pii.last_name }}</h5>
-            <p class="card-text">{{ pii.about | safe }}</p>
 
             <div class="card-body mb-3">
                 <h5 class="card-title">{{ job.title }}</h5>
@@ -60,7 +58,7 @@
         </div>
 
         <div class="col-md-3 mt-3">
-            <h5>Recruiter Details</h5>
+            <h5>{{ pii.first_name }} {{ pii.last_name }}</h5>
             <p class="card-text">{{ pii.city }}, {{ pii.state }}</p>
             {% if user.is_authenticated %}
               <p class="card-text">

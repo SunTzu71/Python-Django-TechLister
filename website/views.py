@@ -236,6 +236,15 @@ def edit_personal_info(request, pk):
 
 
 @login_required
+def delete_profile_image(request):
+    if request.user.is_authenticated:
+        personal_info = get_object_or_404(PersonalInformation, user_id=request.user.id)
+        personal_info.profile_image = 'images/default-profile.jpeg'
+        personal_info.save()
+
+    return render(request, 'success.html')
+
+@login_required
 def add_personal_info(request):
     if request.user.is_authenticated:
         if request.method == "POST":

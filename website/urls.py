@@ -24,6 +24,7 @@ urlpatterns = [
 
     # user section
     path('user/profile/', views.user_profile, name='user_profile'),
+    path('user/delete/profile/image', views.delete_profile_image, name='delete_profile_image'),
     path('user/add/education/', views.add_education, name='add_education'),
     path('user/edit/education/<int:pk>', views.edit_education, name='edit_education'),
     path('user/delete/education/<int:pk>', views.delete_education, name='delete_education'),

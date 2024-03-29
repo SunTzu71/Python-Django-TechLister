@@ -13,7 +13,7 @@ class PersonalInformation(models.Model):
     phone = models.CharField(max_length=50, null=True, blank=True)
     linked_in = models.URLField(null=True, blank=True)
     about = SummernoteTextField()
-    profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
+    profile_image = models.ImageField(null=True, blank=True, upload_to='images/', default='images/default-profile.jpeg')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
