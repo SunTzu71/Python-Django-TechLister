@@ -87,12 +87,6 @@ class UserSkill(models.Model):
         return f'{self.user_id} {self.skill_id} {self.skill_name}'
 
 
-class SavedJobs(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
-    job_id = models.BigIntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
 class JobListing(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
     active = models.BooleanField(default=True)
@@ -112,6 +106,12 @@ class JobListing(models.Model):
 
     def __str__(self):
         return f'{self.user_id} {self.title}'
+
+
+class SavedJobs(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class JobSkill(models.Model):

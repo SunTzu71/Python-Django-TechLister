@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.db.models import Prefetch
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm
 from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill, SavedJobs
@@ -321,12 +322,14 @@ def login_user(request):
 def user_profile(request):
     user_id = request.user.id
     try:
+        saved_jobs = SavedJobs.objects.filter(user_id=user_id).select_related('job')
         personal_info = PersonalInformation.objects.get(user_id=user_id)
         education_info = Education.objects.filter(user_id=user_id)
         experience_info = Experience.objects.filter(user_id=user_id)
         user_skills = UserSkill.objects.filter(user_id=user_id)
-
-        context = {'pii': personal_info,
+        print(saved_jobs)
+        context = {'saved_jobs': saved_jobs,
+                   'pii': personal_info,
                    'edus': education_info,
                    'exps': experience_info,
                    'uskills': user_skills}
