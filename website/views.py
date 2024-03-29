@@ -9,12 +9,11 @@ from django.contrib import messages
 from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm
-from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill
+from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill, SavedJobs
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
 
-import requests
 
 def home(request):
     return render(request, 'home.html', {})
@@ -242,7 +241,8 @@ def delete_profile_image(request):
         personal_info.profile_image = 'images/default-profile.jpeg'
         personal_info.save()
 
-    return render(request, 'success.html')
+    return render(request, 'messages/profile-image-deleted.html')
+
 
 @login_required
 def add_personal_info(request):
@@ -393,6 +393,7 @@ def add_job_skill(request):
         else:
             return redirect('home')
 
+
 def add_job(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -456,7 +457,6 @@ def delete_job_skill(request, pk):
         return redirect('home')
 
 
-
 def delete_job(request, pk):
     if request.user.is_authenticated:
         delete_job = JobListing.objects.get(pk=pk)
@@ -469,14 +469,16 @@ def delete_job(request, pk):
 def view_job(request, pk):
     try:
         job_info = JobListing.objects.get(id=pk)
-        personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
         job_skills = JobSkill.objects.filter(job_id=job_info.id)
-
+        saved_job = SavedJobs.objects.filter(job_id=job_info.id).first()
+        check_job = bool(saved_job)
+        personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
         job_info.pay_top = format_currency(job_info.pay_top)
         job_info.pay_bottom = format_currency(job_info.pay_bottom)
 
         context = {'pii': personal_info,
                    'job': job_info,
+                   'saved_job': check_job,
                    'skills': job_skills}
 
     except JobListing.DoesNotExist:
@@ -560,6 +562,27 @@ def job_search(request):
 
 
 neural_user_search = NeuralSearcher(collection_name='userlistings')
+
+
+@login_required
+def save_job(request, pk):
+    job, created = SavedJobs.objects.get_or_create(user_id=request.user, job_id=pk)
+    if created:
+        return render(request, 'messages/job-saved.html')
+    else:
+        return
+
+
+@login_required
+def remove_job(request, pk):
+    job_to_remove = get_object_or_404(SavedJobs, job_id=pk)
+
+    # checking if the logged-in user is the same who wants to delete the job
+    if request.user == job_to_remove.user_id:
+        job_to_remove.delete()
+        return render(request, 'messages/job-removed.html')
+    else:
+        return redirect('home')
 
 
 def user_search(request):

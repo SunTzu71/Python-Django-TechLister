@@ -51,7 +51,9 @@ urlpatterns = [
 
     # job search
     path('job/search/', views.job_search, name='job_search'),
-    path('user2/search/', views.user_search, name='user_search'),
+    path('user2/search/', views.user_search, name='user_search'),  # rename this url
+    path('job/save/<int:pk>', views.save_job, name='save_job'),
+    path('job/remove/<int:pk>', views.remove_job, name='remove_job'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

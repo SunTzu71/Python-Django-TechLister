@@ -77,6 +77,26 @@
                   </svg>
                   <a href="{{ pii.linked_in }}" target="_blank">Linked In</a>
               </p>
+                    {% if saved_job %}
+                    <div id="removed-job">
+                     <button
+                            hx-post="{% url 'remove_job' job.id %}"
+                            hx-target="#removed-job"
+                            hx-swap="innerHTML"
+                            class="btn btn-danger"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Removed Saved Job</button>
+                    </div>
+                    {% else %}
+                    <div id="saved-job">
+                    <button
+                            hx-post="{% url 'save_job' job.id %}"
+                            hx-target="#saved-job"
+                            hx-swap="innerHTML"
+                            class="btn btn-primary"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Save Job</button>
+                    </div>
+                    {% endif %}
+
             {% else %}
             You must be logged in to view all details<br />
                 <form method="POST" action="{% url 'login' %}" class="d-flex flex-column">

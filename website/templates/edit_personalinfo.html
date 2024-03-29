@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container">
+<div class="container mb-5">
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <h1>Edit Personal Information</h1>
@@ -69,13 +69,13 @@
                     {{ form.profile_image }}
                 </div>
                 <div class="mt-5">
-               <button hx-post="{% url 'delete_profile_image' %}"
-                       hx-target="#data-container"
-                       hx-swap="outerHTML"
-                       class="btn btn-danger">Delete Image</button>
-                    <div id="data-container">
-                        <img src="{{ form.instance.profile_image.url }}" class="card-img-top" alt="Portfolio Image">
-                    </div>
+                <div id="data-container">
+                <button hx-post="{% url 'delete_profile_image' %}"
+                        hx-target="#data-container"
+                        hx-swap="innerHTML"
+                        class="btn btn-danger">Delete Image</button>
+                        <img src="{{ form.instance.profile_image.url }}" class="card-img-top mt-2 mb-2" alt="Portfolio Image">
+                </div>
 
             </div>
                 <button type="submit" class="btn btn-secondary">Save</button>
