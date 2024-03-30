@@ -10,7 +10,8 @@ from django.views.decorators.http import require_POST
 from django.db.models import Prefetch
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm
-from .models import PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill, SavedJobs
+from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
+                     SavedJobs, SavedUsers, User)
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
@@ -346,10 +347,13 @@ def get_resume_information(pk):
         education_info = Education.objects.filter(user_id=pk)
         experience_info = Experience.objects.filter(user_id=pk)
         user_skills = UserSkill.objects.filter(user_id=pk)
+        saved_user = SavedUsers.objects.filter(saved=pk).first()
+        check_user = bool(saved_user)
 
         context = {'pii': personal_info,
                    'edus': education_info,
                    'exps': experience_info,
+                   'saved_user': check_user,
                    'uskills': user_skills}
         return context
 
@@ -608,6 +612,30 @@ def remove_job(request, pk):
 
 
 neural_user_search = NeuralSearcher(collection_name='userlistings')
+
+
+@login_required
+def save_user(request, pk):
+    user_instance = get_object_or_404(User, pk=pk)
+    user, created = SavedUsers.objects.get_or_create(
+        recruiter=request.user,
+        saved=user_instance)
+
+    if created:
+        return render(request, 'messages/user-saved.html')
+    else:
+        return
+
+
+@login_required
+def remove_user(request, pk):
+    user_to_remove = get_object_or_404(SavedUsers, saved=pk)
+    # checking if the logged-in user is the same who wants to delete the job
+    if request.user == user_to_remove.recruiter:
+        user_to_remove.delete()
+        return render(request, 'messages/user-removed.html')
+    else:
+        return
 
 
 def user_search(request):
