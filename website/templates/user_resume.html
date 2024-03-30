@@ -90,7 +90,6 @@
               <a href="{{ pii.linked_in }}" target="_blank">Linked In</a></p>
         {% else %}
         You must be logged in to view all details<br />
-
                 <form method="POST" action="{% url 'login' %}" class="d-flex flex-column">
                     {% csrf_token %}
                     <div class="row">
