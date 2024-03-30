@@ -327,7 +327,7 @@ def user_profile(request):
         education_info = Education.objects.filter(user_id=user_id)
         experience_info = Experience.objects.filter(user_id=user_id)
         user_skills = UserSkill.objects.filter(user_id=user_id)
-        print(saved_jobs)
+
         context = {'saved_jobs': saved_jobs,
                    'pii': personal_info,
                    'edus': education_info,
