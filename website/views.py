@@ -469,27 +469,6 @@ def delete_job(request, pk):
         return redirect('home')
 
 
-def view_job(request, pk):
-    try:
-        job_info = JobListing.objects.get(id=pk)
-        job_skills = JobSkill.objects.filter(job_id=job_info.id)
-        saved_job = SavedJobs.objects.filter(job_id=job_info.id).first()
-        check_job = bool(saved_job)
-        personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
-        job_info.pay_top = format_currency(job_info.pay_top)
-        job_info.pay_bottom = format_currency(job_info.pay_bottom)
-
-        context = {'pii': personal_info,
-                   'job': job_info,
-                   'saved_job': check_job,
-                   'skills': job_skills}
-
-    except JobListing.DoesNotExist:
-        return redirect('recruiter_profile')
-
-    return render(request, 'view_job.html', context)
-
-
 @login_required
 def skill_search(request):
     skill_input = request.GET.get('skill_input', None)
@@ -551,6 +530,31 @@ def delete_user_skill(request, pk):
         return redirect('home')
 
 
+def get_job_information(pk):
+    try:
+        job_info = JobListing.objects.get(id=pk)
+        job_skills = JobSkill.objects.filter(job_id=job_info.id)
+        saved_job = SavedJobs.objects.filter(job_id=job_info.id).first()
+        check_job = bool(saved_job)
+        personal_info = PersonalInformation.objects.get(user_id=job_info.user_id)
+        job_info.pay_top = format_currency(job_info.pay_top)
+        job_info.pay_bottom = format_currency(job_info.pay_bottom)
+        context = {'pii': personal_info,
+                   'job': job_info,
+                   'saved_job': check_job,
+                   'skills': job_skills}
+        return context
+    except JobListing.DoesNotExist:
+        return None
+
+
+def view_job(request, pk):
+    context = get_job_information(pk)
+    if not context:
+        return redirect('recruiter_profile')
+    return render(request, 'view_job.html', context)
+
+
 neural_job_search = NeuralSearcher(collection_name='joblistings')
 
 
@@ -559,7 +563,12 @@ def job_search(request):
         query = request.POST.get('query')
         search_results = neural_job_search.search(text=query)
 
-        return render(request, 'job_listings.html', {'search_results': search_results})
+        # get the first element from the json result
+        first_job = search_results[0]['id']
+        context = {'search_results': search_results,
+                   'first': get_job_information(first_job)}
+
+        return render(request, 'job_listings.html', context)
     # may want to add a no results text and pass it in or check it in the template
     return render(request, 'job_listings.html', {'search_results': []})
 

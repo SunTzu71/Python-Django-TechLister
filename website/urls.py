@@ -9,10 +9,6 @@ urlpatterns = [
     path('please/login/', views.login_page, name='login_page'),
     path('summernote/', include('django_summernote.urls')),
 
-    # view job listing and user resume
-    path('job/listing/<int:pk>', views.view_job, name='view_job'),
-    path('resume/<int:pk>', views.user_resume, name='user_resume'),
-
     # login register
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
@@ -54,6 +50,10 @@ urlpatterns = [
     path('user2/search/', views.user_search, name='user_search'),  # rename this url
     path('job/save/<int:pk>', views.save_job, name='save_job'),
     path('job/remove/<int:pk>', views.remove_job, name='remove_job'),
+    path('job/listing/<int:pk>', views.view_job, name='view_job'),
+
+    # resume
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
