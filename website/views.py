@@ -340,7 +340,7 @@ def user_profile(request):
     return render(request, 'user_profile.html',  context)
 
 
-def user_resume(request, pk):
+def get_resume_information(pk):
     try:
         personal_info = PersonalInformation.objects.get(user_id=pk)
         education_info = Education.objects.filter(user_id=pk)
@@ -351,8 +351,16 @@ def user_resume(request, pk):
                    'edus': education_info,
                    'exps': experience_info,
                    'uskills': user_skills}
+        return context
 
     except PersonalInformation.DoesNotExist:
+        return None
+
+
+def user_resume(request, pk):
+    context = get_resume_information(pk)
+
+    if not context:
         return redirect('user_profile')
 
     return render(request, 'user_resume.html', context)
@@ -544,14 +552,17 @@ def get_job_information(pk):
                    'saved_job': check_job,
                    'skills': job_skills}
         return context
+
     except JobListing.DoesNotExist:
         return None
 
 
 def view_job(request, pk):
     context = get_job_information(pk)
+
     if not context:
         return redirect('recruiter_profile')
+
     return render(request, 'view_job.html', context)
 
 
@@ -573,7 +584,6 @@ def job_search(request):
     return render(request, 'job_listings.html', {'search_results': []})
 
 
-neural_user_search = NeuralSearcher(collection_name='userlistings')
 
 
 @login_required
@@ -597,11 +607,19 @@ def remove_job(request, pk):
         return redirect('home')
 
 
+neural_user_search = NeuralSearcher(collection_name='userlistings')
+
+
 def user_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
         search_results = neural_user_search.search(text=query)
 
-        return render(request, 'user_listings.html', {'search_results': search_results})
+        # get the first element from the json result
+        first_user = search_results[0]['user_id']
+        context = {'search_results': search_results,
+                   'first': get_resume_information(first_user)}
+
+        return render(request, 'user_listings.html', context)
         # may want to add a no results text and pass it in or check it in the template
     return render(request, 'user_listings.html', {'search_results': []})

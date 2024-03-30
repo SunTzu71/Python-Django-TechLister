@@ -114,6 +114,14 @@ class SavedJobs(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class SavedUsers(models.Model):
+    recruiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recruiter')
+    saved = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved')
+
+    class Meta:
+        unique_together = ('recruiter', 'saved')
+
+
 class JobSkill(models.Model):
     job_id = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True, db_column='job_id')
     skill_id = models.BigIntegerField()
