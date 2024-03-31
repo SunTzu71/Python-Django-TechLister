@@ -57,6 +57,7 @@ urlpatterns = [
 
     # resume
     path('resume/<int:pk>', views.user_resume, name='user_resume'),
+    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),
 
 ]
 

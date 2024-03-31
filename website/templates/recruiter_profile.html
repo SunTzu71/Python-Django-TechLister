@@ -116,7 +116,7 @@
                             <td>{{ personal_info.city }}</td>
                             <td>{{ personal_info.state }}</td>
                             <td class="text-center">
-                                <a href="#"><button type="button" class="btn btn-secondary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
+                                <a href="{% url 'all_resume' personal_info.user_id.id %}"><button type="button" class="btn btn-secondary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
                             </td>
                             <td class="text-center">
                                 <a href="#"><button type="button" class="btn btn-danger mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>

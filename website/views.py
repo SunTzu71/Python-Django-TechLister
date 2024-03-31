@@ -370,6 +370,15 @@ def user_resume(request, pk):
     return render(request, 'user_resume.html', context)
 
 
+def all_resume(request, pk):
+    context = get_resume_information(pk)
+
+    if not context:
+        return redirect('user_profile')
+
+    return render(request, 'all_resume.html', context)
+
+
 @login_required
 def recruiter_profile(request):
     user_id = request.user.id
