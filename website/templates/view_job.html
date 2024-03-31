@@ -77,6 +77,8 @@
                   </svg>
                   <a href="{{ pii.linked_in }}" target="_blank">Linked In</a>
               </p>
+
+                {% if request.session.recruiter == False %}
                     {% if saved_job %}
                     <div id="removed-job">
                      <button
@@ -96,6 +98,7 @@
                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Save Job</button>
                     </div>
                     {% endif %}
+                {% endif %}
 
             {% else %}
             You must be logged in to view all details<br />

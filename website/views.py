@@ -575,6 +575,16 @@ def view_job(request, pk):
     return render(request, 'view_job.html', context)
 
 
+@login_required
+def rec_view_job(request, pk):
+    context = get_job_information(pk)
+
+    if not context:
+        return redirect('recruiter_profile')
+
+    return render(request, 'rec_view_job.html', context)
+
+
 neural_job_search = NeuralSearcher(collection_name='joblistings')
 
 

@@ -35,6 +35,7 @@ urlpatterns = [
     path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),
     path('recruiter/job/listing/add/skill', views.add_job_skill, name='add_job_skill'),
     path('recruiter/job/listing/add', views.add_job, name='add_job'),
+    path('recruiter/view/job/<int:pk>', views.rec_view_job, name='rec_view_job'),
     path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
 
