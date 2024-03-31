@@ -374,13 +374,18 @@ def user_resume(request, pk):
 def recruiter_profile(request):
     user_id = request.user.id
     try:
+        # Prefetch related PersonalInformation data
+        prefetch = Prefetch("saved__personalinformation_set")
+        saved_users_with_info = SavedUsers.objects.filter(recruiter_id=user_id).prefetch_related(prefetch)
+
         personal_info = PersonalInformation.objects.get(user_id=user_id)
         job_listings = JobListing.objects.filter(user_id=user_id)
-        print(job_listings)  # Check the content of job_listings
         context = {'pii': personal_info,
-                   'jobs': job_listings}
+                   'jobs': job_listings,
+                   'users': saved_users_with_info}
 
         # Check if job_listings is empty
+        # todo: change this to show to the user on profile page
         if not job_listings:
             print("No job listings found for user:", user_id)
 
