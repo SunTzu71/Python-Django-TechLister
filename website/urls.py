@@ -53,10 +53,11 @@ urlpatterns = [
     path('user2/search/', views.user_search, name='user_search'),  # rename this url
     path('user2/save/<int:pk>', views.save_user, name='save_user'),
     path('user2/remove/<int:pk>', views.remove_user, name='remove_user'),
+    path('all/job/<int:pk>', views.all_view_job, name='all_view_job'),
 
     # resume
     path('resume/<int:pk>', views.user_resume, name='user_resume'),
-    path('job/<int:pk>', views.rec_view_job, name='rec_view_job'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
