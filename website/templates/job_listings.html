@@ -114,6 +114,7 @@
                               </svg>
                               <a href="{{ first.pii.linked_in }}" target="_blank">Linked In</a>
                           </p>
+                            {% if request.session.recruiter == False %}
                                 {% if first.saved_job %}
                                 <div id="removed-job">
                                  <button
@@ -138,6 +139,8 @@
                                             <button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Apply to Job</button>
                                         </a>
                                     </div>
+                            {% endif %}
+
                         {% else %}
                         You must be logged in to view all details<br />
                             <form method="POST" action="{% url 'login' %}" class="d-flex flex-column">

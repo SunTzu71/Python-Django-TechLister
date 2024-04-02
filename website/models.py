@@ -2,8 +2,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from django_summernote.fields import SummernoteTextField
 
+
 class PersonalInformation(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='personal_information')
     recruiter = models.BooleanField(default=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

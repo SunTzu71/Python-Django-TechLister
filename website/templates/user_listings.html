@@ -118,7 +118,7 @@
                                     {% if first.saved_user %}
                                     <div id="removed-user">
                                      <button
-                                            hx-post="{% url 'remove_user' first.pii.user_id.id %}"
+                                            hx-post="{% url 'remove_user' first.pii.user.id %}"
                                             hx-target="#removed-user"
                                             hx-swap="innerHTML"
                                             class="btn btn-danger"
@@ -127,7 +127,7 @@
                                     {% else %}
                                     <div id="saved-user">
                                     <button
-                                            hx-post="{% url 'save_user' first.pii.user_id.id %}"
+                                            hx-post="{% url 'save_user' first.pii.user.id %}"
                                             hx-target="#saved-user"
                                             hx-swap="innerHTML"
                                             class="btn btn-primary"

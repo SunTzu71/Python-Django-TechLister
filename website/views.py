@@ -253,7 +253,7 @@ def add_personal_info(request):
             form = PersonalInformationForm(request.POST, request.FILES)
             if form.is_valid():
                 add_personal_info = form.save(commit=False)
-                add_personal_info.user_id = request.user
+                add_personal_info.user = request.user
 
                 if 'profile_image' in request.FILES:
                     profile_image = request.FILES['profile_image']
@@ -268,7 +268,7 @@ def add_personal_info(request):
                 add_personal_info.save()  # Save the profile info with the resized image
 
                 # check if recruiter or user and redirecto to profile page
-                personal_info = PersonalInformation.objects.get(user_id=request.user)
+                personal_info = PersonalInformation.objects.get(user=request.user)
                 is_recruiter = personal_info.recruiter
                 if is_recruiter:
                     return redirect('recruiter_profile')
@@ -301,7 +301,7 @@ def login_user(request):
 
             # check if user is a recruiter then redirect to correct template
             try:
-                personal_info = PersonalInformation.objects.get(user_id=user)
+                personal_info = PersonalInformation.objects.get(user=user)
                 is_recruiter = personal_info.recruiter
                 if is_recruiter:
                     request.session['recruiter'] = True
@@ -355,6 +355,7 @@ def get_resume_information(pk):
                    'exps': experience_info,
                    'saved_user': check_user,
                    'uskills': user_skills}
+
         return context
 
     except PersonalInformation.DoesNotExist:
@@ -384,10 +385,10 @@ def recruiter_profile(request):
     user_id = request.user.id
     try:
         # Prefetch related PersonalInformation data
-        prefetch = Prefetch("saved__personalinformation_set")
-        saved_users_with_info = SavedUsers.objects.filter(recruiter_id=user_id).prefetch_related(prefetch)
+        saved_users_with_info = SavedUsers.objects.filter(recruiter=request.user).prefetch_related(
+            'saved__personal_information')
 
-        personal_info = PersonalInformation.objects.get(user_id=user_id)
+        personal_info = PersonalInformation.objects.get(user=request.user)
         job_listings = JobListing.objects.filter(user_id=user_id)
 
         jobs_filter = AppliedJobs.objects.select_related('user_id').filter(job__in=job_listings)
@@ -666,14 +667,13 @@ def remove_job(request, pk):
 def view_cover_letter(request, jobid, userid):
     user_id = request.user.id
 
-    personal_info = PersonalInformation.objects.get(user_id=user_id)
+    personal_info = PersonalInformation.objects.get(user=userid)
     applied_jobs = AppliedJobs.objects.select_related('user').get(job_id=jobid, user_id=userid)
-    print(f"user details: {applied_jobs.user.__dict__}")
     resume = get_resume_information(userid)
 
     context = {'pii': personal_info,
-               'ur': resume,
-               'aj': applied_jobs}
+               'aj': applied_jobs,
+               'ur': resume}
 
     if applied_jobs:
         return render(request, 'view_cover_letter.html', context)
