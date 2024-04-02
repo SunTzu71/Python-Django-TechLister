@@ -58,6 +58,7 @@
                     <table class="table table-hover table-bordered">
                       <thead class="table-dark">
                         <tr>
+                            <th scope="col">Name</th>
                             <th scope="col">Job Title</th>
                             <th scope="col">Company</th>
                             <th scope="col" class="text-center">View</th>
@@ -67,7 +68,8 @@
                         <tbody>
                                 {% for appl in applied %}
                                 <tr>
-                                    <td>{{ appl.job__title }}</td>
+                                    <td>{{ appl.user_id__first_name }} {{ appl.user_id__last_name }}</td>
+                                    <td>{{ appl.job__title }} {{ appl.user_id__first_name }}</td>
                                     <td>{{ appl.job__company }}</td>
                                     <td class="text-center">
                                         <a href="{% url 'view_cover_letter' appl.job_id appl.user_id %}"><button type="button" class="btn btn-secondary mx-1"

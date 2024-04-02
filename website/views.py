@@ -390,10 +390,9 @@ def recruiter_profile(request):
         personal_info = PersonalInformation.objects.get(user_id=user_id)
         job_listings = JobListing.objects.filter(user_id=user_id)
 
-        jobs_filter = AppliedJobs.objects.filter(job__in=job_listings)
-        applied_jobs = jobs_filter.values('job_id', 'user_id',
-                                          'job__title', 'job__company',
-                                          'cover_letter')
+        jobs_filter = AppliedJobs.objects.select_related('user_id').filter(job__in=job_listings)
+        applied_jobs = jobs_filter.values('job_id', 'user_id', 'user_id__first_name', 'user_id__last_name',
+                                          'job__title', 'job__company', 'cover_letter')
 
         context = {'pii': personal_info,
                    'jobs': job_listings,
@@ -668,7 +667,8 @@ def view_cover_letter(request, jobid, userid):
     user_id = request.user.id
 
     personal_info = PersonalInformation.objects.get(user_id=user_id)
-    applied_jobs = AppliedJobs.objects.get(job_id=jobid, user_id=userid)
+    applied_jobs = AppliedJobs.objects.select_related('user').get(job_id=jobid, user_id=userid)
+    print(f"user details: {applied_jobs.user.__dict__}")
     resume = get_resume_information(userid)
 
     context = {'pii': personal_info,
