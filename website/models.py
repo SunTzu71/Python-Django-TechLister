@@ -108,6 +108,13 @@ class JobListing(models.Model):
         return f'{self.user_id} {self.title}'
 
 
+class AppliedJobs(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
+    cover_letter = SummernoteTextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class SavedJobs(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)

@@ -9,9 +9,9 @@ from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.db.models import Prefetch
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
-    PortfolioForm, NewJobListingForm
+    PortfolioForm, NewJobListingForm, CoverLetterForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
-                     SavedJobs, SavedUsers, User)
+                     SavedJobs, SavedUsers, User, AppliedJobs)
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
@@ -389,8 +389,15 @@ def recruiter_profile(request):
 
         personal_info = PersonalInformation.objects.get(user_id=user_id)
         job_listings = JobListing.objects.filter(user_id=user_id)
+
+        jobs_filter = AppliedJobs.objects.filter(job__in=job_listings)
+        applied_jobs = jobs_filter.values('job_id', 'user_id',
+                                          'job__title', 'job__company',
+                                          'cover_letter')
+
         context = {'pii': personal_info,
                    'jobs': job_listings,
+                   'applied': applied_jobs,
                    'users': saved_users_with_info}
 
         # Check if job_listings is empty
@@ -612,8 +619,6 @@ def job_search(request):
     return render(request, 'job_listings.html', {'search_results': []})
 
 
-
-
 @login_required
 def save_job(request, pk):
     job, created = SavedJobs.objects.get_or_create(user_id=request.user, job_id=pk)
@@ -621,6 +626,29 @@ def save_job(request, pk):
         return render(request, 'messages/job-saved.html')
     else:
         return
+
+
+@login_required
+def apply_job(request, pk):
+    if request.method == 'POST':
+        job = JobListing.objects.get(pk=pk)
+        form = CoverLetterForm(request.POST)
+        context = {'jobinfo': get_job_information(pk),
+                   'userinfo': get_resume_information(request.user.id),
+                   'form': form}
+        if form.is_valid():
+            add_letter = form.save(commit=False)
+            add_letter.user = request.user
+            add_letter.job = job
+            add_letter.save()
+            return redirect('user_profile')
+        else:
+            return render(request, 'apply_job.html', context)
+    else:
+        context = {'jobinfo': get_job_information(pk),
+                   'userinfo': get_resume_information(request.user.id),
+                   'form': CoverLetterForm()}
+    return render(request, 'apply_job.html', context)
 
 
 @login_required
@@ -635,7 +663,22 @@ def remove_job(request, pk):
         return redirect('home')
 
 
-neural_user_search = NeuralSearcher(collection_name='userlistings')
+@login_required
+def view_cover_letter(request, jobid, userid):
+    user_id = request.user.id
+
+    personal_info = PersonalInformation.objects.get(user_id=user_id)
+    applied_jobs = AppliedJobs.objects.get(job_id=jobid, user_id=userid)
+    resume = get_resume_information(userid)
+
+    context = {'pii': personal_info,
+               'ur': resume,
+               'aj': applied_jobs}
+
+    if applied_jobs:
+        return render(request, 'view_cover_letter.html', context)
+    else:
+        return redirect('recruiter_profile')
 
 
 @login_required
@@ -660,6 +703,9 @@ def remove_user(request, pk):
         return render(request, 'messages/user-removed.html')
     else:
         return
+
+
+neural_user_search = NeuralSearcher(collection_name='userlistings')
 
 
 def user_search(request):

@@ -30,6 +30,7 @@ urlpatterns = [
     path('user/portfolio/add', views.add_portfolio, name='add_user_portfolio'),
     path('user/portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
+    path('user/apply/job/<int:pk>', views.apply_job, name='apply_job'),
 
     # recruiter section
     path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),
@@ -37,6 +38,7 @@ urlpatterns = [
     path('recruiter/job/listing/add', views.add_job, name='add_job'),
     path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
+    path('recruiter/view_cover_letter/<int:jobid>/<int:userid>', views.view_cover_letter, name='view_cover_letter'),
 
     # skill / user skill / job skill
     path('skill_search/', views.skill_search, name='skill_search'),

@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import PersonalInformation, Education, Experience, Portfolio, JobListing
+from .models import PersonalInformation, Education, Experience, Portfolio, JobListing, AppliedJobs
 from .utility.validators import (validate_title_length, validate_description_length, validate_first_name,
                                  validate_last_name, validate_city, validate_state, validate_email, validate_about,
                                  validate_company, validate_position, validate_start_month, validate_start_year,
@@ -145,6 +145,15 @@ class AddEducationForm(CustomModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'},),
             'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'})
+        }
+
+
+class CoverLetterForm(forms.ModelForm):
+    class Meta:
+        model = AppliedJobs
+        fields = ['cover_letter']
+        widgets = {
+            'cover_letter': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
 
