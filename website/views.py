@@ -664,6 +664,18 @@ def remove_job(request, pk):
 
 
 @login_required
+def user_profile_remove_job(request, pk):
+    job_to_remove = get_object_or_404(SavedJobs, job_id=pk)
+
+    # checking if the logged-in user is the same who wants to delete the job
+    if request.user == job_to_remove.user_id:
+        job_to_remove.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('home')
+
+
+@login_required
 def view_cover_letter(request, jobid, userid):
     user_id = request.user.id
 

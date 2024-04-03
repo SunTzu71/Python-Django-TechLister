@@ -31,6 +31,7 @@ urlpatterns = [
     path('user/portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
     path('user/apply/job/<int:pk>', views.apply_job, name='apply_job'),
+    path('user/remove/job/<int:pk>', views.user_profile_remove_job, name='user_profile_remove_job'),
 
     # recruiter section
     path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),
