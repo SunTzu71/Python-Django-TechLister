@@ -53,7 +53,7 @@ def add_education(request):
             form = AddEducationForm(request.POST)
             if form.is_valid():
                 add_education = form.save(commit=False)
-                add_education.user_id = request.user
+                add_education.user = request.user
                 add_education.save()
                 return redirect('user_profile')
             else:
@@ -96,7 +96,7 @@ def add_experience(request):
 
             if form.is_valid():
                 add_experience = form.save(commit=False)
-                add_experience.user_id = request.user
+                add_experience.user = request.user
                 #add_experience.start_year = int(request.POST['start_year'])
                 #add_experience.end_year = int(request.POST['end_year'])
                 add_experience.save()
@@ -144,7 +144,7 @@ def add_portfolio(request):
             print(form)
             if form.is_valid():
                 add_portfolio = form.save(commit=False)
-                add_portfolio.user_id = request.user
+                add_portfolio.user = request.user
 
                 if 'portfilio_image' in request.FILES:
                     portfolio_image = request.FILES['portfilio_image']
@@ -158,7 +158,7 @@ def add_portfolio(request):
                 return render(request, 'add_portfolio.html', {'form': form})
         else:
             # get the form and list of portfolio entries to show under form
-            list_portfolio = Portfolio.objects.filter(user_id=request.user.id)
+            list_portfolio = Portfolio.objects.filter(user_id=request.user)
             context = {'form': PortfolioForm(), 'port_list': list_portfolio}
 
             return render(request, 'add_portfolio.html', context)
@@ -436,7 +436,7 @@ def add_job(request):
             form = NewJobListingForm(request.POST)
             if form.is_valid():
                 add_listing = form.save(commit=False)
-                add_listing.user_id = request.user
+                add_listing.user = request.user
                 add_listing.save()
 
                 # loop through job skills and insert into database

@@ -23,7 +23,7 @@ class PersonalInformation(models.Model):
 
 
 class Portfolio(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, related_name='portfolios')
     title = models.CharField(max_length=255)
     description = models.TextField()
     website_link = models.URLField()
@@ -32,11 +32,11 @@ class Portfolio(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.user_id} {self.title}'
+        return f'{self.user} {self.title}'
 
 
 class Education(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, related_name='education')
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
     order = models.IntegerField(default=0)
@@ -44,11 +44,11 @@ class Education(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.user_id} {self.title}'
+        return f'{self.user} {self.title}'
 
 
 class Experience(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, related_name='experience')
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     start_month = models.CharField(max_length=10)
@@ -71,7 +71,7 @@ class Experience(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.user_id} {self.company}'
+        return f'{self.user} {self.company}'
 
 
 class Skill(models.Model):
@@ -89,7 +89,7 @@ class UserSkill(models.Model):
 
 
 class JobListing(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True)
     active = models.BooleanField(default=True)
     title = models.CharField(max_length=255)
     company = models.CharField(max_length=255)
