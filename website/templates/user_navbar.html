@@ -1,7 +1,51 @@
 <div class="container px-4 text-center">
-     <div class="p-3">
-        <a href="/user/profile"><button type="button" class="btn btn-primary">My Profile</button></a>
-        <a href="/user/portfolio/add"><button type="button" class="btn btn-primary">My Portfolio</button></a>
-        <a href="{% url 'all_resume' user.pk %}" target="_blank"><button type="button" class="btn btn-primary">View Resume</button></a>
-     </div>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/profile">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Jobs
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'all_resume' user.pk %}">Saved Jobs</a></li>
+            <li><a class="dropdown-item" href="#">Applied Jobs</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Resume
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'all_resume' user.pk %}">View Resume</a></li>
+            <li><a class="dropdown-item" href="#">Edit Resume</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Portfolio
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/user/portfolio/add">View Portfolio</a></li>
+            <li><a class="dropdown-item" href="/user/portfolio/add">Add/Edit Portfolio</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+    <hr />
 </div>
