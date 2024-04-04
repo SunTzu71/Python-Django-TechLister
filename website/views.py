@@ -589,13 +589,16 @@ def view_job(request, pk):
     except ObjectDoesNotExist:
         raise Http404("Job not found")
 
-    try:
-        applied_job = AppliedJobs.objects.get(user=request.user, job=pk)
-        applied_job = True
-    except ObjectDoesNotExist:
-        applied_job = False
+    if request.user.is_authenticated:
+        try:
+            applied_job = AppliedJobs.objects.get(user=request.user, job=pk)
+            applied_job = True
+        except ObjectDoesNotExist:
+            applied_job = False
 
-    context = {'jobinfo': job, 'applied': applied_job}
+        context = {'jobinfo': job, 'applied': applied_job}
+    else:
+        context = {'jobinfo': job}
 
     return render(request, 'view_job.html', context)
 
@@ -625,25 +628,33 @@ def job_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
         search_results = neural_job_search.search(text=query)
-        applied_job_ids = AppliedJobs.objects.filter(user=request.user).values_list('job', flat=True)
 
-        for job in search_results:
-            if job['id'] in applied_job_ids:
-                job['applied'] = True
-            else:
-                job['applied'] = False
+        # need to check if logged in was getting null error because of anonymous user has no id
+        if request.user.is_authenticated:
+            applied_job_ids = AppliedJobs.objects.filter(user=request.user).values_list('job', flat=True)
+
+            for job in search_results:
+                if job['id'] in applied_job_ids:
+                    job['applied'] = True
+                else:
+                    job['applied'] = False
 
         # get the first element from the json result
         first_job = search_results[0]['id']
-        try:
-            applied_job = AppliedJobs.objects.get(user=request.user, job=first_job)
-            applied_job = True
-        except ObjectDoesNotExist:
-            applied_job = False
 
-        context = {'search_results': search_results,
-                   'first': get_job_information(first_job),
-                   'applied': applied_job}
+        # check if logged in to handle applied jobs logic
+        if request.user.is_authenticated:
+            try:
+                applied_job = AppliedJobs.objects.get(user=request.user, job=first_job)
+                applied_job = True
+            except ObjectDoesNotExist:
+                applied_job = False
+            context = {'search_results': search_results,
+                       'first': get_job_information(first_job),
+                       'applied': applied_job}
+        else:
+            context = {'search_results': search_results,
+                       'first': get_job_information(first_job)}
 
         return render(request, 'job_listings.html', context)
     return render(request, 'job_listings.html', {'search_results': []})
