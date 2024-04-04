@@ -718,7 +718,6 @@ def user_profile_remove_job(request, pk):
 
 @login_required
 def view_cover_letter(request, jobid, userid):
-    user_id = request.user.id
 
     personal_info = PersonalInformation.objects.get(user=userid)
     applied_jobs = AppliedJobs.objects.select_related('user').get(job_id=jobid, user_id=userid)
@@ -732,6 +731,18 @@ def view_cover_letter(request, jobid, userid):
         return render(request, 'view_cover_letter.html', context)
     else:
         return redirect('recruiter_profile')
+
+
+@login_required
+def rec_delete_applied(request, jobid, userid):
+    try:
+        job_owner = JobListing.objects.get(id=jobid, user=request.user)
+        del_applied = AppliedJobs.objects.filter(job=jobid, user=userid)
+        del_applied.delete()
+        return redirect('recruiter_profile')
+
+    except JobListing.DoesNotExist:
+        return redirect('home')
 
 
 @login_required
@@ -749,6 +760,7 @@ def save_user(request, pk):
 
 @login_required
 def remove_user(request, pk):
+    # logic to remove saved resume on user list search and resume page
     user_to_remove = get_object_or_404(SavedUsers, saved=pk)
     # checking if the logged-in user is the same who wants to delete the job
     if request.user == user_to_remove.recruiter:
@@ -756,6 +768,16 @@ def remove_user(request, pk):
         return render(request, 'messages/user-removed.html')
     else:
         return
+
+
+def rec_remove_resume(request, pk):
+    # logic to remove saved resume from recruiter profile
+    user_to_remove = get_object_or_404(SavedUsers, saved=pk)
+    if request.user == user_to_remove.recruiter:
+        user_to_remove.delete()
+        return redirect('recruiter_profile')
+    else:
+        return redirect('recruiter_profile')
 
 
 neural_user_search = NeuralSearcher(collection_name='userlistings')

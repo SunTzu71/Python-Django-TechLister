@@ -76,7 +76,7 @@
                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="#"><button type="button" class="btn btn-danger mx-1"
+                                        <a href="{% url 'rec_delete_applied' appl.job_id appl.user_id %}"><button type="button" class="btn btn-danger mx-1"
                                                                                       style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
                                     </td>
                                 </tr>
@@ -149,7 +149,7 @@
                                 <a href="{% url 'all_resume' user.saved_id %}"><button type="button" class="btn btn-secondary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
                             </td>
                             <td class="text-center">
-                                <a href="#"><button type="button" class="btn btn-danger mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
+                                <a href="{% url 'rec_remove_resume' user.saved_id %}"><button type="button" class="btn btn-danger mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
                             </td>
                         </tr>
                         {% endfor %}

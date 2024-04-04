@@ -39,7 +39,9 @@ urlpatterns = [
     path('recruiter/job/listing/add', views.add_job, name='add_job'),
     path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
+    path('recruiter/profile/remove/resume/<int:pk>', views.rec_remove_resume, name='rec_remove_resume'),
     path('recruiter/view_cover_letter/<int:jobid>/<int:userid>', views.view_cover_letter, name='view_cover_letter'),
+    path('recruiter/delete/applied/<int:jobid>/<int:userid>', views.rec_delete_applied, name='rec_delete_applied'),
 
     # skill / user skill / job skill
     path('skill_search/', views.skill_search, name='skill_search'),
@@ -53,7 +55,7 @@ urlpatterns = [
     path('job/save/<int:pk>', views.save_job, name='save_job'),
     path('job/remove/<int:pk>', views.remove_job, name='remove_job'),
     path('job/listing/<int:pk>', views.view_job, name='view_job'),
-    path('user2/search/', views.user_search, name='user_search'),  # rename this url
+    path('user2/search/', views.user_search, name='user_search'),
     path('user2/save/<int:pk>', views.save_user, name='save_user'),
     path('user2/remove/<int:pk>', views.remove_user, name='remove_user'),
     path('all/job/<int:pk>', views.all_view_job, name='all_view_job'),
