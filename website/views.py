@@ -1,7 +1,8 @@
 import os
-
+from django.http import Http404
 from PIL import Image
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -583,20 +584,36 @@ def get_job_information(pk):
 
 
 def view_job(request, pk):
-    context = get_job_information(pk)
+    try:
+        job = get_job_information(pk)
+    except ObjectDoesNotExist:
+        raise Http404("Job not found")
 
-    if not context:
-        return redirect('recruiter_profile')
+    try:
+        applied_job = AppliedJobs.objects.get(user=request.user, job=pk)
+        applied_job = True
+    except ObjectDoesNotExist:
+        applied_job = False
+
+    context = {'jobinfo': job, 'applied': applied_job}
 
     return render(request, 'view_job.html', context)
 
 
 @login_required
 def all_view_job(request, pk):
-    context = get_job_information(pk)
+    try:
+        job = get_job_information(pk)
+    except ObjectDoesNotExist:
+        raise Http404("Job not found")
 
-    if not context:
-        return redirect('recruiter_profile')
+    try:
+        applied_job = AppliedJobs.objects.get(user=request.user, job=pk)
+        applied_job = True
+    except ObjectDoesNotExist:
+        applied_job = False
+
+    context = {'jobinfo': job, 'applied': applied_job}
 
     return render(request, 'all_view_job.html', context)
 
@@ -607,12 +624,30 @@ neural_job_search = NeuralSearcher(collection_name='joblistings')
 def job_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
+
+        # results from Qdrant in json format
         search_results = neural_job_search.search(text=query)
+
+        # get all applied jobs from user
+        applied_job_ids = AppliedJobs.objects.filter(user=request.user).values_list('job', flat=True)
+
+        for job in search_results:
+            if job['id'] in applied_job_ids:
+                job['applied'] = True
+            else:
+                job['applied'] = False
 
         # get the first element from the json result
         first_job = search_results[0]['id']
+        try:
+            applied_job = AppliedJobs.objects.get(user=request.user, job=first_job)
+            applied_job = True
+        except ObjectDoesNotExist:
+            applied_job = False
+
         context = {'search_results': search_results,
-                   'first': get_job_information(first_job)}
+                   'first': get_job_information(first_job),
+                   'applied': applied_job}
 
         return render(request, 'job_listings.html', context)
     # may want to add a no results text and pass it in or check it in the template

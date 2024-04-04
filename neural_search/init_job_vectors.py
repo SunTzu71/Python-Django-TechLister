@@ -12,6 +12,6 @@ vectors = model.encode(
     show_progress_bar=True,
 )
 
-print('shape: ', vectors.shape)
+print('vector shape: ', vectors.shape)
 
 np.save("job_listings.npy", vectors, allow_pickle=False)
