@@ -1,0 +1,40 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.shortcuts import render, redirect
+from website.models import SavedJobs, AppliedJobs, PersonalInformation
+
+
+@login_required
+def saved_jobs(request):
+    user_id = request.user.id
+    try:
+        saved_jobs = SavedJobs.objects.filter(user_id=user_id).select_related('job')
+    except SavedJobs.DoesNotExist:
+        saved_jobs = None
+
+    try:
+        personal_info = PersonalInformation.objects.get(user_id=user_id)
+    except PersonalInformation.DoesNotExist:
+        return redirect('add_personal_info')
+
+    if not saved_jobs or not personal_info:
+        return redirect('user_profile')
+
+    context = {'saved_jobs': saved_jobs, 'pii': personal_info}
+    return render(request, 'users/saved_jobs.html', context)
+
+
+@login_required
+def applied_jobs(request):
+    try:
+        user_id = request.user.id
+        applied_jobs = AppliedJobs.objects.filter(user_id=user_id).select_related('job')
+        try:
+            personal_info = PersonalInformation.objects.get(user_id=user_id)
+        except PersonalInformation.DoesNotExist:
+            return redirect('add_personal_info')
+
+        context = {'applied_jobs': applied_jobs, 'pii': personal_info}
+    except SavedJobs.DoesNotExist:
+        return redirect('user_profile')
+    return render(request, 'users/applied_jobs.html', context)

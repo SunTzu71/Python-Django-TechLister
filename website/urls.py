@@ -1,6 +1,7 @@
 
 from django.urls import path, include
 from . import views
+from .allviews import users
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -32,6 +33,8 @@ urlpatterns = [
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
     path('user/apply/job/<int:pk>', views.apply_job, name='apply_job'),
     path('user/remove/job/<int:pk>', views.user_profile_remove_job, name='user_profile_remove_job'),
+    path('user/saved/jobs', users.saved_jobs, name='saved_jobs'),
+    path('user/applied/jobs', users.applied_jobs, name='applied_jobs'),
 
     # recruiter section
     path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),

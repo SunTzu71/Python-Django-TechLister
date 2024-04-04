@@ -324,14 +324,12 @@ def login_user(request):
 def user_profile(request):
     user_id = request.user.id
     try:
-        saved_jobs = SavedJobs.objects.filter(user_id=user_id).select_related('job')
         personal_info = PersonalInformation.objects.get(user_id=user_id)
         education_info = Education.objects.filter(user_id=user_id)
         experience_info = Experience.objects.filter(user_id=user_id)
         user_skills = UserSkill.objects.filter(user_id=user_id)
 
-        context = {'saved_jobs': saved_jobs,
-                   'pii': personal_info,
+        context = {'pii': personal_info,
                    'edus': education_info,
                    'exps': experience_info,
                    'uskills': user_skills}
