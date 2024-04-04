@@ -1,7 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, redirect
-from website.models import SavedJobs, AppliedJobs, PersonalInformation
+from website.models import SavedJobs, AppliedJobs, PersonalInformation, Education, Experience, UserSkill
+
+
+@login_required
+def user_profile(request):
+    user_id = request.user.id
+    try:
+        personal_info = PersonalInformation.objects.get(user_id=user_id)
+        context = {'pii': personal_info}
+
+    except PersonalInformation.DoesNotExist:
+        return redirect('add_personalinfo')
+
+    return render(request, 'user_profile.html',  context)
 
 
 @login_required
@@ -38,3 +51,23 @@ def applied_jobs(request):
     except SavedJobs.DoesNotExist:
         return redirect('user_profile')
     return render(request, 'users/applied_jobs.html', context)
+
+
+@login_required
+def edit_resume(request):
+    user_id = request.user.id
+    try:
+        personal_info = PersonalInformation.objects.get(user_id=user_id)
+        education_info = Education.objects.filter(user_id=user_id)
+        experience_info = Experience.objects.filter(user_id=user_id)
+        user_skills = UserSkill.objects.filter(user_id=user_id)
+
+        context = {'pii': personal_info,
+                   'edus': education_info,
+                   'exps': experience_info,
+                   'uskills': user_skills}
+
+    except PersonalInformation.DoesNotExist:
+        return redirect('add_personalinfo')
+
+    return render(request, 'users/edit_resume.html', context)

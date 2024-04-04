@@ -25,7 +25,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'all_resume' user.pk %}">View Resume</a></li>
-            <li><a class="dropdown-item" href="#">Edit Resume</a></li>
+            <li><a class="dropdown-item" href="{% url 'edit_resume' %}">Edit Resume</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -38,9 +38,10 @@
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form class="d-flex" method="POST" action="{% url 'job_search' %}">
+                {% csrf_token %}
+                <input class="form-control w-100 me-2" type="text" name="query" placeholder="Search Jobs" />
+                <button type="submit" class="btn btn-outline-primary">Search</button>
       </form>
     </div>
   </div>

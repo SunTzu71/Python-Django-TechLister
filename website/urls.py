@@ -20,7 +20,7 @@ urlpatterns = [
     path('edit/personalinfo/<int:pk>', views.edit_personal_info, name='edit_personalinfo'),
 
     # user section
-    path('user/profile/', views.user_profile, name='user_profile'),
+    path('user/profile/', users.user_profile, name='user_profile'),
     path('user/delete/profile/image', views.delete_profile_image, name='delete_profile_image'),
     path('user/add/education/', views.add_education, name='add_education'),
     path('user/edit/education/<int:pk>', views.edit_education, name='edit_education'),
@@ -35,6 +35,7 @@ urlpatterns = [
     path('user/remove/job/<int:pk>', views.user_profile_remove_job, name='user_profile_remove_job'),
     path('user/saved/jobs', users.saved_jobs, name='saved_jobs'),
     path('user/applied/jobs', users.applied_jobs, name='applied_jobs'),
+    path('user/edit/resume', users.edit_resume, name='edit_resume'),
 
     # recruiter section
     path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),

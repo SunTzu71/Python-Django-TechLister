@@ -320,24 +320,6 @@ def login_user(request):
         return render(request, 'home.html', {})
 
 
-@login_required
-def user_profile(request):
-    user_id = request.user.id
-    try:
-        personal_info = PersonalInformation.objects.get(user_id=user_id)
-        education_info = Education.objects.filter(user_id=user_id)
-        experience_info = Experience.objects.filter(user_id=user_id)
-        user_skills = UserSkill.objects.filter(user_id=user_id)
-
-        context = {'pii': personal_info,
-                   'edus': education_info,
-                   'exps': experience_info,
-                   'uskills': user_skills}
-
-    except PersonalInformation.DoesNotExist:
-        return redirect('add_personalinfo')
-
-    return render(request, 'user_profile.html',  context)
 
 
 def get_resume_information(pk):
