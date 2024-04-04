@@ -624,11 +624,7 @@ neural_job_search = NeuralSearcher(collection_name='joblistings')
 def job_search(request):
     if request.method == 'POST':
         query = request.POST.get('query')
-
-        # results from Qdrant in json format
         search_results = neural_job_search.search(text=query)
-
-        # get all applied jobs from user
         applied_job_ids = AppliedJobs.objects.filter(user=request.user).values_list('job', flat=True)
 
         for job in search_results:
@@ -650,7 +646,6 @@ def job_search(request):
                    'applied': applied_job}
 
         return render(request, 'job_listings.html', context)
-    # may want to add a no results text and pass it in or check it in the template
     return render(request, 'job_listings.html', {'search_results': []})
 
 
