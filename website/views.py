@@ -684,7 +684,7 @@ def user_profile_remove_job(request, pk):
     # checking if the logged-in user is the same who wants to delete the job
     if request.user == job_to_remove.user_id:
         job_to_remove.delete()
-        return redirect('user_profile')
+        return redirect('saved_jobs')
     else:
         return redirect('home')
 
