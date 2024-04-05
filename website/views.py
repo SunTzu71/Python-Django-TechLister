@@ -357,7 +357,7 @@ def user_page(request, username):
 
     context = {'pii': personal_info, 'resume': resume}
 
-    return render(request, 'user_page.html', context)
+    return render(request, 'user_page/user_home.html', context)
 
 
 def all_resume(request, pk):

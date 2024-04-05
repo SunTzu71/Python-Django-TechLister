@@ -5,14 +5,14 @@
       <h5>Skill Set</h5>
       <div class="card-body">
           <div class="container">
-              {% for skill in uskills %}
+              {% for skill in resume.uskills %}
                 {{ skill.skill_name }},
               {% endfor %}
           </div>
       <div class="card-body mt-3">
         <h5>Experience</h5>
       </div>
-              {% for exp in exps %}
+              {% for exp in resume.exps %}
               <div class="container">
                 <!-- First row with 2 columns -->
                 <div class="row rows-cols-3">
@@ -55,7 +55,7 @@
               <h5>Education</h5>
             </div>
               <div class="card-body">
-              {% for edu in edus %}
+              {% for edu in resume.edus %}
               <div class="row row-cols-2">
                 <div class="col"><h5>{{ edu.title }}</h5></div>
 
