@@ -350,6 +350,16 @@ def user_resume(request, pk):
     return render(request, 'user_resume.html', context)
 
 
+def user_page(request, username):
+    user_id = User.objects.filter(username=username).values_list('id', flat=True).first()
+    personal_info = PersonalInformation.objects.get(user_id=user_id)
+    resume = get_resume_information(user_id)
+
+    context = {'pii': personal_info, 'resume': resume}
+
+    return render(request, 'user_page.html', context)
+
+
 def all_resume(request, pk):
     context = get_resume_information(pk)
 

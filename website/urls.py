@@ -67,9 +67,10 @@ urlpatterns = [
     path('user2/remove/<int:pk>', views.remove_user, name='remove_user'),
     path('all/job/<int:pk>', views.all_view_job, name='all_view_job'),
 
-    # resume
-    path('resume/<int:pk>', views.user_resume, name='user_resume'),
-    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),
+    # resume and user page
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),  # delete this logic later
+    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),  # delete this logic later
+    path('resume/<str:username>', views.user_page, name='user_page')
 
 ]
 
