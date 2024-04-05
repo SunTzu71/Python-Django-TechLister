@@ -2,6 +2,7 @@
 from django.urls import path, include
 from . import views
 from .allviews import users
+from .allviews import recruiters
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -38,7 +39,9 @@ urlpatterns = [
     path('user/edit/resume', users.edit_resume, name='edit_resume'),
 
     # recruiter section
-    path('recruiter/profile/', views.recruiter_profile, name='recruiter_profile'),
+    path('recruiter/profile/', recruiters.recruiter_profile, name='recruiter_profile'),
+    path('recruiter/job/listings', recruiters.job_listings, name='job_listings'),
+    path('recruiter/saved/resumes', recruiters.saved_resumes, name='saved_resumes'),
     path('recruiter/job/listing/add/skill', views.add_job_skill, name='add_job_skill'),
     path('recruiter/job/listing/add', views.add_job, name='add_job'),
     path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),

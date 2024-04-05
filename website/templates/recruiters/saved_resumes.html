@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row">
+          <div class="col-4">
+            {% include 'personal_info.html' %}
+          </div>
+
+          <div class="col 8">
+              <h3>Saved Resumes</h3>
+                    <table class="table table-hover table-bordered">
+                      <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">State</th>
+                            <th scope="col" class="text-center">Resume</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                        <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.saved.personal_information.first_name }} {{ user.saved.personal_information.last_name }}</td>
+                            <td>{{ user.saved.personal_information.city }}</td>
+                            <td>{{ user.saved.personal_information.state }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'all_resume' user.saved_id %}"><button type="button" class="btn btn-secondary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'rec_remove_resume' user.saved_id %}"><button type="button" class="btn btn-danger mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+          </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

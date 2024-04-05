@@ -320,8 +320,6 @@ def login_user(request):
         return render(request, 'home.html', {})
 
 
-
-
 def get_resume_information(pk):
     try:
         personal_info = PersonalInformation.objects.get(user_id=pk)
@@ -359,37 +357,6 @@ def all_resume(request, pk):
         return redirect('user_profile')
 
     return render(request, 'all_resume.html', context)
-
-
-@login_required
-def recruiter_profile(request):
-    user_id = request.user.id
-    try:
-        # Prefetch related PersonalInformation data
-        saved_users_with_info = SavedUsers.objects.filter(recruiter=request.user).prefetch_related(
-            'saved__personal_information')
-
-        personal_info = PersonalInformation.objects.get(user=request.user)
-        job_listings = JobListing.objects.filter(user_id=user_id)
-
-        jobs_filter = AppliedJobs.objects.select_related('user_id').filter(job__in=job_listings)
-        applied_jobs = jobs_filter.values('job_id', 'user_id', 'user_id__first_name', 'user_id__last_name',
-                                          'job__title', 'job__company', 'cover_letter')
-
-        context = {'pii': personal_info,
-                   'jobs': job_listings,
-                   'applied': applied_jobs,
-                   'users': saved_users_with_info}
-
-        # Check if job_listings is empty
-        # todo: change this to show to the user on profile page
-        if not job_listings:
-            print("No job listings found for user:", user_id)
-
-    except PersonalInformation.DoesNotExist:
-        return redirect('add_personalinfo')
-
-    return render(request, 'recruiter_profile.html', context)
 
 
 def add_job_skill(request):

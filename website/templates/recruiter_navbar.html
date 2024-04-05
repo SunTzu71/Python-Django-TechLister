@@ -1,6 +1,36 @@
+
 <div class="container px-4 text-center">
-     <div class="p-3">
-        <a href="/recruiter/profile"><button type="button" class="btn btn-primary">My Profile</button></a>
-        <a href="/recruiter/job/listing/add/skill"><button type="button" class="btn btn-primary">Create New Listing</button></a>
-     </div>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/recruiter/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'saved_resumes' %}">Saved Resumes</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Job Listing
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'job_listings' %}">View Listings</a></li>
+            <li><a class="dropdown-item" href="/recruiter/job/listing/add/skill">Add Listing</a></li>
+          </ul>
+        </li>
+
+      </ul>
+      <form class="d-flex" method="POST" action="{% url 'user_search' %}">
+                {% csrf_token %}
+                <input class="form-control w-100 me-2" type="text" name="query" placeholder="Search Jobs" />
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+    <hr />
 </div>
