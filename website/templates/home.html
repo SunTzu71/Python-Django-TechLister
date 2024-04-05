@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
-
 <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
       <div class="col-10 col-sm-8 col-lg-6">
-        <img src="media/bootstrap-themes.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="475" height="300" loading="lazy">
+        <img src="media/future-engineer.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="300" loading="lazy">
       </div>
       <div class="col-lg-6 border border-primary rounded p-4">
         <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Search and apply now</h1>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula magna nec tincidunt ornare. Quisque at purus non nulla efficitur imperdiet. Mauris egestas luctus aliquet.</p>
+        <p class="lead">
+           Are you tired of endlessly scrolling through job boards, feeling overwhelmed and lost in the sea of listtings.
+            Welcome to Tech Artisan, your ultimate destination for IT career advancement. Use our advanced AI system
+            to match you with the best opportuntiies available.
+        </p>
+        <p>
+            <strong>Example:</strong> I'm a python developer looking for remote positions.
+        </p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-            <form class="d-flex" method="POST" action="{% url 'job_search' %}">
+            <form class="d-flex w-100" method="POST" action="{% url 'job_search' %}">
                 {% csrf_token %}
-                <input class="form-control w-100 me-2" type="text" name="query" placeholder="Search Jobs" />
+                <input class="form-control mx-2" type="text" name="query" placeholder="Search Jobs" />
                 <button type="submit" class="btn btn-outline-primary">Search</button>
             </form>
         </div>
@@ -22,21 +27,29 @@
 </div>
 
 <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6 border border-primary rounded p-4">
-          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Find talented people</h1>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula magna nec tincidunt ornare. Quisque at purus non nulla efficitur imperdiet. Mauris egestas luctus aliquet.</p>
+
+    <div class="col-lg-6 border border-primary rounded p-4">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Search for great talent</h1>
+        <p class="lead">
+            Are you a recruiter tired of sifting through countless resumes, struggling to find the perfect match for
+            your team? Look no further than Tech Artisan, your premier resource for top IT talent.
+            Harness the power of our cutting-edge AI system to streamline your candidate search and connect with
+            the most qualified professionals in the industry.
+        </p>
+        <p>
+            <strong>Example:</strong> I'm looking for React developer in the Houston TX area.
+        </p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-            <form method="POST" action="{% url 'user_search' %}">
+            <form class="d-flex w-100" method="POST" action="{% url 'user_search' %}">
                 {% csrf_token %}
-                <input type="text" name="query" placeholder="Search Users" style="width: 400px;" />
-                <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2">Search</button>
+                <input class="form-control mx-2" type="text" name="query" placeholder="Search Jobs" />
+                <button type="submit" class="btn btn-outline-primary">Search</button>
             </form>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <img src="media/bootstrap-themes.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="475" height="300" loading="lazy">
-      </div>
+    </div>
+ <div class="col-10 col-sm-8 col-lg-6">
+        <img src="media/future-recruiter.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="300" loading="lazy">
+    </div>
 </div>
-
 
 {% endblock %}

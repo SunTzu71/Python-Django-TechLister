@@ -37,7 +37,7 @@
           </ul>
         </li>
       </ul>
-      <form class="d-flex" method="POST" action="{% url 'job_search' %}">
+      <form class="d-flex w-100" method="POST" action="{% url 'job_search' %}">
                 {% csrf_token %}
                 <input class="form-control w-100 me-2" type="text" name="query" placeholder="Search Jobs" />
                 <button type="submit" class="btn btn-outline-primary">Search</button>
