@@ -70,8 +70,8 @@ urlpatterns = [
     # resume and user page
     path('resume/<int:pk>', views.user_resume, name='user_resume'),  # delete this logic later
     path('all/resume/<int:pk>', views.all_resume, name='all_resume'),  # delete this logic later
-    path('resume/<str:username>', views.user_page, name='user_page')
-
+    path('resume/<str:username>', views.user_page, name='user_page'),
+    path('portfolio/<str:username>', views.user_portfolio, name='user_portfolio')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

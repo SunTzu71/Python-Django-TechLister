@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row">
+          <div class="col-4">
+              {% include 'user_page/user_info.html' %}
+          </div>
+
+          <div class="col 8">
+
+              <div class="container mt-5">
+                  {% for item in portfolio %}
+                    {% if forloop.counter0|divisibleby:2 %}
+                      <div class="row row-cols-1 row-cols-md-2 g-4">
+                    {% endif %}
+                    <div class="col">
+                      <div class="card mt-4">
+                        <img src="../../media/{{ item.portfolio_image }}" class="card-img-top" alt="Portfolio Image">
+                        <div class="card-body">
+                          <h5 class="card-title">{{ item.title }}</h5>
+                          <p class="card-text">{{ item.description}}</p>
+                            <a href="{{ item.website_link }}">
+                                <button class="btn btn-secondary float-end">View Website</button>
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:2 or forloop.last %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+          </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

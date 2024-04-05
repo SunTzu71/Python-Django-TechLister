@@ -322,6 +322,7 @@ def login_user(request):
 
 def get_resume_information(pk):
     try:
+        user_info = User.objects.get(id=pk)
         personal_info = PersonalInformation.objects.get(user_id=pk)
         education_info = Education.objects.filter(user_id=pk)
         experience_info = Experience.objects.filter(user_id=pk)
@@ -330,6 +331,7 @@ def get_resume_information(pk):
         check_user = bool(saved_user)
 
         context = {'pii': personal_info,
+                   'userinfo': user_info,
                    'edus': education_info,
                    'exps': experience_info,
                    'saved_user': check_user,
@@ -351,13 +353,27 @@ def user_resume(request, pk):
 
 
 def user_page(request, username):
-    user_id = User.objects.filter(username=username).values_list('id', flat=True).first()
-    personal_info = PersonalInformation.objects.get(user_id=user_id)
-    resume = get_resume_information(user_id)
+    userinfo = User.objects.filter(username=username).values_list('id', 'username').first()
+    personal_info = PersonalInformation.objects.get(user_id=userinfo[0])
+    resume = get_resume_information(userinfo[0])
 
-    context = {'pii': personal_info, 'resume': resume}
+    context = {'pii': personal_info,
+               'resume': resume,
+               'username': userinfo[1]}
 
     return render(request, 'user_page/user_home.html', context)
+
+
+def user_portfolio(request, username):
+    userinfo = User.objects.filter(username=username).values_list('id', 'username').first()
+    personal_info = PersonalInformation.objects.get(user_id=userinfo[0])
+    list_portfolio = Portfolio.objects.filter(user_id=userinfo[0])
+
+    context = {'pii': personal_info,
+               'portfolio': list_portfolio,
+               'username': userinfo[1]}
+
+    return render(request, 'user_page/portfolio.html', context)
 
 
 def all_resume(request, pk):

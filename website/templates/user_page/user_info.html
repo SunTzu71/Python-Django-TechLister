@@ -6,7 +6,9 @@
         <img src="../../media/{{ pii.profile_image }}" width="125" height="125" />
       </div>
       <div class="col-8 d-flex justify-content-end">
-        <a href="#"><button type="button" class="btn btn-primary mx-1"
+        <a href="{% url 'user_page' username %}"><button type="button" class="btn btn-primary mx-1"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View Resume</button></a>
+        <a href="{% url 'user_portfolio' username %}"><button type="button" class="btn btn-primary mx-1"
                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View Portfolio</button></a>
       </div>
     </div>

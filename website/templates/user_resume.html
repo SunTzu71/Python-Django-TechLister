@@ -89,6 +89,7 @@
                           </svg>
                           <a href="{{ pii.linked_in }}" target="_blank">Linked In</a></p>
 
+
                     {% if saved_user %}
                     <div id="removed-user">
                      <button
@@ -130,6 +131,11 @@
                     </div>
                 </form>
         {% endif %}
+        <a href="{% url 'user_page' userinfo.username %}">
+        <button
+                class="btn btn-primary mt-2"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View User Page</button>
+        </a>
     </div>
 
   </div>
