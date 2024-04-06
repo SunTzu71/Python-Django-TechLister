@@ -8,7 +8,6 @@ from .utility.validators import (validate_title_length, validate_description_len
                                  validate_task_one, validate_website_link, validate_portfolio_image, validate_job_type,
                                  validate_location)
 
-
 class CustomModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
