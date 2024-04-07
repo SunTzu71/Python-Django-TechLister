@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
-
+{% load static %}
+{% include 'inner-header.html' %}
 {% if user.is_authenticated %}
+{% include 'user_navbar.html' %}
     <div class="container">
-        <div class="row">
+        <div class="row mb-5">
           <div class="col-4">
               {% include 'users/user_info.html' %}
           </div>
@@ -31,8 +31,9 @@
                       <td>{{ sjob.job.state }}</td>
                       <td>{{ sjob.job.location }}</td>
                       <td class="text-center">
-                          <a href="{% url 'all_view_job' sjob.job.id %}"><button type="button" class="btn btn-secondary mx-1"
-                                                                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
+                          <a href="{% url 'all_view_job' sjob.job.id %}">
+                              <button type="button" class="btn md-yellow-button">View</button>
+                          </a>
                       </td>
                       <td class="text-center">
                           <a href="{% url 'user_profile_remove_job' sjob.job.id %}">
@@ -48,4 +49,4 @@
     </div>
 {% endif %}
 
-{% endblock %}
+{% include 'footer.html' %}
