@@ -1,11 +1,10 @@
-
-{% extends 'base.html' %}
-{% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center">
+{% load static %}
+{% include 'inner-header.html' %}
+<div class="container inner-top-margin">
+  <div class="row justify-content-center mb-4">
     <div class="col-md-3">
       <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header header-bg-color-dark text-white">
           Login
         </div>
         <div class="card-body">
@@ -23,7 +22,7 @@
             </div>
             <div class="row mt-2">
               <div class="col d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <button type="submit" class="btn lg-button-yellow">Login</button>
               </div>
             </div>
           </form>
@@ -32,5 +31,4 @@
     </div>
   </div>
 </div>
-
-{% endblock %}
+{% include 'footer.html' %}

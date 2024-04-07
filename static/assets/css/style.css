@@ -153,7 +153,7 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-#  Get Startet Button
+#  Get Started Button
 --------------------------------------------------------------*/
 .get-started-btn {
     color: #fff;
@@ -1571,7 +1571,163 @@ section {
     color: #fff;
 }
 
-/* Tech Artisan Custom CSS */
+/*-------------------------------
+Tech Artisan Custom CSS
+-------------------------------*/
 .inner-top-margin {
     margin-top: 100px;
 }
+
+.md-yellow-button {
+    --bs-btn-padding-y: .25rem;
+    --bs-btn-padding-x: .5rem;
+    --bs-btn-font-size: .75rem;
+    font-size: 14px;
+    background: #ffc451;
+    color: #151515;
+    transition: 0.3s;
+}
+.md-yellow-button:hover {
+    background: #ffcd6b;
+    color: #151515;
+}
+
+.header-bg-color-dark {
+    background-color: #3B3B3B;
+}
+
+.lg-button-yellow {
+    background: none;
+    font-size: 16px;
+    padding: 5px 20px;
+    background: #ffc451;
+    color: #151515;
+    transition: 0.3s;
+    border-radius: 0 4px 4px 0;
+}
+
+.lg-button-yellow:hover {
+    background: #ffcd6b;
+    padding: 5px 20px;
+}
+
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+/**
+* Desktop Navigation
+*/
+.profile-navbar {
+    padding: 0;
+}
+
+.profile-navbar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.profile-navbar li {
+    position: relative;
+}
+
+.profile-navbar a,
+.profile-navbar a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 10px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #151515;
+    white-space: nowrap;
+    transition: 0.3s;
+    margin-right: 20px;
+}
+
+.profile-navbar a i,
+.profile-navbar a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+}
+
+.profile-navbar a:hover,
+.profile-navbar .active,
+.profile-navbar .active:focus,
+.profile-navbar li:hover > a {
+    color: #ffc451;
+}
+
+.profile-navbar .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+}
+
+.profile-navbar .dropdown ul li {
+    min-width: 200px;
+}
+
+.profile-navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: none;
+    color: #151515;
+    font-weight: 400;
+}
+
+.profile-navbar .dropdown ul a i {
+    font-size: 12px;
+}
+
+.profile-navbar .dropdown ul a:hover,
+.profile-navbar .dropdown ul .active:hover,
+.profile-navbar .dropdown ul li:hover > a {
+    background-color: #ffc451;
+}
+
+.profile-navbar .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+}
+
+.profile-navbar .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+}
+
+.profile-navbar .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+}
+
+@media (max-width: 1366px) {
+    .profile-navbar .dropdown .dropdown ul {
+        left: -90%;
+    }
+
+    .profile-navbar .dropdown .dropdown:hover > ul {
+        left: -100%;
+    }
+}
+
+/**
+* Mobile Navigation
+* Need to do this before going production
+*/

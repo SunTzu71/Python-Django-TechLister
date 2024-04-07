@@ -14,7 +14,11 @@ def user_profile(request):
     except PersonalInformation.DoesNotExist:
         return redirect('add_personalinfo')
 
-    return render(request, 'user_profile.html',  context)
+    # check if user or recruiter and redirect to profile page
+    if personal_info.recruiter:
+        return render(request, 'recruiter_profile.html',  context)
+    else:
+        return render(request, 'user_profile.html',  context)
 
 
 @login_required

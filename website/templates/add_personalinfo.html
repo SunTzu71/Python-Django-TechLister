@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<div class="container">
+{% load static %}
+{% include 'inner-header.html' %}
+<div class="container inner-top-margin">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
+        <div class="col-lg-6 mb-5">
             <h1>Add Personal Information</h1>
             <form method="POST" action="{% url 'add_personalinfo' %}" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -66,10 +65,11 @@
                     <label class="form-label">Profile Image</label>
                     {{ form.profile_image }}
                 </div>
-                <button type="submit" class="btn btn-secondary">Save</button>
+                <div class="col d-flex justify-content-end">
+                    <button type="submit" class="btn lg-button-yellow">Save</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
-{% endblock %}
+{% include 'footer.html' %}

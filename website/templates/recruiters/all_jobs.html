@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
-
+{% load static %}
+{% include 'inner-header.html' %}
 {% if user.is_authenticated %}
-    <div class="container">
-        <div class="row">
+{% include 'recruiter_navbar.html' %}
+<div class="container">
+        <div class="row mb-5">
           <div class="col-4">
               {% include 'personal_info.html' %}
           </div>
@@ -36,8 +36,7 @@
                                     <td class="table-danger text-center">In-Active</td>
                                     {% endif %}
                                     <td class="text-center">
-                                        <a href="{% url 'all_view_job' job.pk %}"><button type="button" class="btn btn-secondary mx-1"
-                                                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
+                                        <a href="{% url 'all_view_job' job.pk %}"><button type="button" class="btn md-yellow-button">View</button></a>
                                     </td>
                                     <td class="text-center">
                                         <a href="{% url 'edit_job' job.pk %}"><button type="button" class="btn btn-primary mx-1"
@@ -55,5 +54,4 @@
         </div>
     </div>
 {% endif %}
-
-{% endblock %}
+{% include 'footer.html' %}

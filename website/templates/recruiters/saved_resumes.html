@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
-
+{% load static %}
+{% include 'inner-header.html' %}
 {% if user.is_authenticated %}
+{% include 'recruiter_navbar.html' %}
     <div class="container">
-        <div class="row">
+        <div class="row mb-5">
           <div class="col-4">
             {% include 'recruiters/recruiter_info.html' %}
           </div>
@@ -27,7 +27,7 @@
                             <td>{{ user.saved.personal_information.city }}</td>
                             <td>{{ user.saved.personal_information.state }}</td>
                             <td class="text-center">
-                                <a href="{% url 'user_page' user.saved.username %}"><button type="button" class="btn btn-secondary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">View</button></a>
+                                <a href="{% url 'user_page' user.saved.username %}"><button type="button" class="btn md-yellow-button">View</button></a>
                             </td>
                             <td class="text-center">
                                 <a href="{% url 'rec_remove_resume' user.saved_id %}"><button type="button" class="btn btn-danger mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
@@ -40,5 +40,4 @@
         </div>
     </div>
 {% endif %}
-
-{% endblock %}
+{% include 'footer.html' %}

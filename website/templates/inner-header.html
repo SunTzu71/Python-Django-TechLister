@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Inner Page - Gp Bootstrap Template</title>
+  <title>TA</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,6 +28,9 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+   <script src="https://unpkg.com/htmx.org@1.9.10"
+                integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous">
+    </script>
 </head>
 
 <body>
@@ -48,8 +51,14 @@
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-
-    <a href="{% url 'home' %}#about" class="get-started-btn scrollto">Get Started</a>
-
+      <div class="d-flex">
+        {% if user.is_authenticated %}
+          <a href="{% url 'user_profile' %}" class="get-started-btn scrollto" style="margin-right: 10px">Profile</a>
+          <a href="{% url 'logout' %}" class="get-started-btn scrollto" style="margin-right: 10px;">Logout</a>
+        {% else %}
+          <a href="{% url 'login_page' %}" class="get-started-btn scrollto" style="margin-right: 10px;">Login</a>
+          <a href="{% url 'home' %}" class="get-started-btn scrollto">Sign Up</a>
+        {% endif %}
+      </div>
   </div>
 </header><!-- End Header -->

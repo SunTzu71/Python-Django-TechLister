@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
-
+{% load static %}
+{% include 'inner-header.html' %}
 {% if user.is_authenticated %}
-    <div class="container">
-        <div class="row">
+{% include 'user_navbar.html' %}
+    <div class="container inner-top-margin">
+        <div class="row mb-5">
           <div class="col-4">
               {% include 'users/user_info.html' %}
           </div>
@@ -38,5 +38,4 @@
         </div>
     </div>
 {% endif %}
-
-{% endblock %}
+{% include 'footer.html' %}
