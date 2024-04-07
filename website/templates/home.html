@@ -1,54 +1,118 @@
-{% extends 'base.html' %}
-{% block content %}
+{% load static %}
+{% include 'header.html' %}
 
-<div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <img src="media/future-engineer.jpeg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="300" loading="lazy">
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+        <div class="col-xl-6 col-lg-8">
+          <h1>Search apply now<span>.</span></h1>
+          <h2> Are you tired of endlessly scrolling through job boards, feeling overwhelmed and lost in the sea of listtings.
+                     Welcome to Tech Artisan, your ultimate destination for IT career advancement. Use our advanced AI system
+                     to match you with the best opportuntiies available.</h2>
+        </div>
       </div>
-      <div class="col-lg-6 border border-primary rounded p-4">
-        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Search and apply now</h1>
-        <p class="lead">
-           Are you tired of endlessly scrolling through job boards, feeling overwhelmed and lost in the sea of listtings.
-            Welcome to Tech Artisan, your ultimate destination for IT career advancement. Use our advanced AI system
-            to match you with the best opportuntiies available.
-        </p>
-        <p>
-            <strong>Example:</strong> I'm a python developer looking for remote positions.
-        </p>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+
+      <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+
+        <div class="col-xl-6 col-md-6">
+          <div class="icon-box">
+
             <form class="d-flex w-100" method="POST" action="{% url 'job_search' %}">
-                {% csrf_token %}
-                <input class="form-control mx-2" type="text" name="query" placeholder="Search Jobs" />
-                <button type="submit" class="btn btn-outline-primary">Search</button>
+              {% csrf_token %}
+                           <input class="form-control mx-2" type="text" name="query" placeholder="I am looking for python remote positions" />
+                           <div class="tech-search-form"><button type="submit">Search</button></div>
             </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Services</h2>
+          <p>Check our Services</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4><a href="">AI Search</a></h4>
+              <p>Our neural search algorithm scans through every job listing to identify the optimal match for your needs.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4><a href="">Portfolio Page</a></h4>
+              <p>Incorporate website links to showcase your past projects, complemented by images and detailed descriptions.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4><a href="">Resume Cover Letters</a></h4>
+              <p>Allow our AI system to produce customized cover letters specifically tailored to the job listing you're applying for.</p>
+            </div>
+          </div>
+
         </div>
       </div>
-</div>
+    </section>
+    <!-- End Services Section -->
 
-<div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <!-- ======= Recruiter Section ======= -->
+    <section id="recruiter" class="features">
+      <div class="container" data-aos="fade-up">
 
-    <div class="col-lg-6 border border-primary rounded p-4">
-        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Search for great talent</h1>
-        <p class="lead">
-            Are you a recruiter tired of sifting through countless resumes, struggling to find the perfect match for
-            your team? Look no further than Tech Artisan, your premier resource for top IT talent.
-            Harness the power of our cutting-edge AI system to streamline your candidate search and connect with
-            the most qualified professionals in the industry.
-        </p>
-        <p>
-            <strong>Example:</strong> I'm looking for React developer in the Houston TX area.
-        </p>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-            <form class="d-flex w-100" method="POST" action="{% url 'user_search' %}">
-                {% csrf_token %}
-                <input class="form-control mx-2" type="text" name="query" placeholder="Search Jobs" />
-                <button type="submit" class="btn btn-outline-primary">Search</button>
-            </form>
+        <div class="row">
+          <div class="section-title">
+          <h2>Recruiter</h2>
+          <p>Hire Talented People</p>
         </div>
-    </div>
- <div class="col-10 col-sm-8 col-lg-6">
-        <img src="media/future-recruiter.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="300" loading="lazy">
-    </div>
-</div>
+        <div class="image col-lg-6" style='background-image: url("{% static 'assets/img/features.jpg' %}");' data-aos="fade-right"></div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+            <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-receipt"></i>
+              <h4>AI Search Resumes</h4>
+              <p>Leverage our advanced AI system to identify top-tier candidates perfectly suited to fill your vacancies.</p>
+            </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-cube-alt"></i>
+              <h4>Manage Job Listings</h4>
+              <p>You have the ability to create, modify, remove, as well as enable or disable job listings.</p>
+            </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-images"></i>
+              <h4>Save Resumes</h4>
+              <p>You have the capability to search for, and save the resumes of promising candidates that you discover.</p>
+            </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bx bx-shield"></i>
+              <h4>Message Job Seekers</h4>
+              <p>Upon identifying the appropriate candidate, you can engage in direct communication with them, facilitating an ongoing dialogue.</p>
+            </div>
+          </div>
+        </div>
 
-{% endblock %}
+      </div>
+    </section>
+    <!-- End Recruiter Section -->
+
+
+  </main>
+  <!-- End #main -->
+
+{% include 'footer.html' %}
