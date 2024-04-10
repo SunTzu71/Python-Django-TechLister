@@ -216,7 +216,7 @@ def edit_personal_info(request, pk):
                     img = Image.open(profile_image)
 
                     file_ext = os.path.splitext(profile_image.name)[-1].lower()
-                    user_profile_image = request.user.username + '_' + file_ext
+                    user_profile_image = request.user.username + '-profile' + file_ext
 
                     # Assign the resized image to the profile info
                     edit_personal_info.profile_image = image_resize(img, profile_image, 125, 125, user_profile_image)
@@ -242,7 +242,11 @@ def edit_personal_info(request, pk):
 def delete_profile_image(request):
     if request.user.is_authenticated:
         personal_info = get_object_or_404(PersonalInformation, user_id=request.user.id)
+
+        # delete the old image and update with default image
+        personal_info.profile_image.delete()
         personal_info.profile_image = 'images/default-profile.jpeg'
+
         personal_info.save()
 
     return render(request, 'messages/profile-image-deleted.html')
