@@ -1,12 +1,6 @@
 {% load static %}
 {% include 'inner-header.html' %}
 
-{% if request.session.recruiter == False %}
-    {% include 'user_navbar.html' %}
-{% else %}
-    {% include 'recruiter_navbar.html' %}
-{% endif %}
-
     <div class="container">
         <div class="row">
             <div class="col-2"></div>

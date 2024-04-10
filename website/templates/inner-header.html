@@ -61,4 +61,11 @@
         {% endif %}
       </div>
   </div>
+
 </header><!-- End Header -->
+
+{% if request.session.recruiter == False %}
+    {% include 'user_navbar.html' %}
+{% else %}
+    {% include 'recruiter_navbar.html' %}
+{% endif %}
