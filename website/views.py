@@ -200,13 +200,18 @@ def delete_portfolio(request, pk):
 @login_required
 def edit_personal_info(request, pk):
     if request.user.is_authenticated:
-        personal_info = PersonalInformation.objects.get(id=pk)
+        # todo: we need to check to make sure the user is the owner to edit
+        personal_info = PersonalInformation.objects.get(user_id=pk)
         if request.method == 'POST':
             form = PersonalInformationForm(request.POST, instance=personal_info)
             if form.is_valid():
                 edit_personal_info = form.save(commit=False)
 
                 if 'profile_image' in request.FILES:
+                    # user updating image so delete the old one from file system
+                    personal_info.profile_image.delete()
+
+                    # upload new image
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)
 
