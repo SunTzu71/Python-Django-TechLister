@@ -1,7 +1,6 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
+{% load static %}
+{% include 'inner-header.html' %}
+<div class="col-4 inner-top-margin mb-5">
 <div class="col-md6 offset-md-3">
 <h1>Register</h1>
     <form method="POST" action="">
@@ -11,4 +10,5 @@
     </form>
 
 </div>
-{% endblock %}
+</div>
+{% include 'footer.html' %}

@@ -1,6 +1,7 @@
 
 from django.urls import path, include
 from . import views
+from .allviews import verify_user_email
 from .allviews import users
 from .allviews import recruiters
 from django.conf.urls.static import static
@@ -15,6 +16,9 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
+    path('verify/<slug:uidb64>/<slug:token>/', verify_user_email.verify_email, name='verify_email'),
+    path('verify/success/', verify_user_email.verification_success, name='verification_success'),
+    path('verify/failure/', verify_user_email.verification_failure, name='verification_failure'),
 
     # section where user and recruiter can visit
     path('add/personalinfo', views.add_personal_info, name='add_personalinfo'),

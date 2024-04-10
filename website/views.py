@@ -16,6 +16,7 @@ from .models import (PersonalInformation, Education, Experience, Skill, UserSkil
 from .utility.image_resize import image_resize
 from .utility.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
+from .allviews.verify_user_email import send_verification_email, verify_email
 
 
 def home(request):
@@ -26,20 +27,15 @@ def register_user(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-
-            # login user
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(request, username=username, password=password)
-            login(request, user)
-
-            return redirect('/add/personalinfo')
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])
+            user.is_active = False;
+            user.save()
+            send_verification_email(user)
+            return redirect('home')
     else:
         form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
-
-    # The view website.views.register_user didn't return an HttpResponse object. It returned None instead.
     return render(request, 'register.html', {'form': form})
 
 
