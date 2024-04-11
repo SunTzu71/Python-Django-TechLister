@@ -664,7 +664,7 @@ def job_search(request):
 
 @login_required
 def save_job(request, pk):
-    job, created = SavedJobs.objects.get_or_create(user_id=request.user, job_id=pk)
+    job, created = SavedJobs.objects.get_or_create(user_id=request.user.id, job_id=pk)
     if created:
         return render(request, 'messages/job-saved.html')
     else:
@@ -696,14 +696,12 @@ def apply_job(request, pk):
 
 @login_required
 def remove_job(request, pk):
-    job_to_remove = get_object_or_404(SavedJobs, job_id=pk)
-
-    # checking if the logged-in user is the same who wants to delete the job
-    if request.user == job_to_remove.user_id:
-        job_to_remove.delete()
-        return render(request, 'messages/job-removed.html')
-    else:
-        return redirect('home')
+    try:
+        job_to_remove = SavedJobs.objects.get(job_id=pk, user_id=request.user.id)
+    except SavedJobs.DoesNotExist:
+        return redirect('job_search')  # or some error page
+    job_to_remove.delete()
+    return render(request, 'messages/job-removed.html')
 
 
 @login_required

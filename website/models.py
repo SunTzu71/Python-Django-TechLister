@@ -117,7 +117,7 @@ class AppliedJobs(models.Model):
 
 
 class SavedJobs(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
