@@ -1,4 +1,6 @@
 import os
+import secrets
+
 from django.http import Http404
 from PIL import Image
 from django.contrib.auth.decorators import login_required
@@ -143,11 +145,20 @@ def add_portfolio(request):
                 add_portfolio = form.save(commit=False)
                 add_portfolio.user = request.user
 
-                if 'portfilio_image' in request.FILES:
-                    portfolio_image = request.FILES['portfilio_image']
+                if 'portfolio_image' in request.FILES:
+                    portfolio_image = request.FILES['portfolio_image']
                     img = Image.open(portfolio_image)
 
-                    add_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
+                    # generate image file name
+                    file_ext = os.path.splitext(portfolio_image.name)[-1].lower()
+                    rand_img = secrets.token_hex(4)
+                    user_portfolio_image = str(request.user.id) + '-' + rand_img + file_ext
+
+                    add_portfolio.portfolio_image = image_resize(img,
+                                                                 portfolio_image.size,
+                                                                 400,
+                                                                 400,
+                                                                 user_portfolio_image)
 
                 add_portfolio.save()
                 return redirect('add_user_portfolio')
@@ -167,17 +178,29 @@ def edit_portfolio(request, pk):
     if request.user.is_authenticated:
 
         portfolio = Portfolio.objects.get(pk=pk)
-        print(portfolio)
         if request.method == 'POST':
             form = PortfolioForm(request.POST, instance=portfolio, is_adding=False)
+
             if form.is_valid():
                 edit_portfolio = form.save(commit=False)
 
                 if 'portfolio_image' in request.FILES:
+                    # delete image on system before uploading new one
+                    portfolio.portfolio_image.delete()
+
                     portfolio_image = request.FILES['portfolio_image']
                     img = Image.open(portfolio_image)
 
-                    edit_portfolio.portfolio_image = image_resize(img, portfolio_image.size, 400, 400)
+                    # generate image file name
+                    file_ext = os.path.splitext(portfolio_image.name)[-1].lower()
+                    rand_img = secrets.token_hex(4)
+                    user_portfolio_image = str(request.user.id) + '-' + rand_img + file_ext
+
+                    edit_portfolio.portfolio_image = image_resize(img,
+                                                                  portfolio_image.size,
+                                                                  400,
+                                                                  400,
+                                                                  user_portfolio_image)
 
                 edit_portfolio.save()
                 return redirect('add_user_portfolio')
@@ -215,6 +238,7 @@ def edit_personal_info(request, pk):
                     profile_image = request.FILES['profile_image']
                     img = Image.open(profile_image)
 
+                    # get file extension and generate file name
                     file_ext = os.path.splitext(profile_image.name)[-1].lower()
                     user_profile_image = request.user.username + '-profile' + file_ext
 
