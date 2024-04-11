@@ -40,14 +40,14 @@
     </div>
 </div>
 
-<div class="container mt-3 mb-5">
+<div class="container col-6 mt-3 mb-5">
   {% for item in port_list %}
     {% if forloop.counter0|divisibleby:2 %}
       <div class="row row-cols-1 row-cols-md-2 g-4">
     {% endif %}
     <div class="col">
       <div class="card mt-4">
-        <img src="../../media/{{ item.portfolio_image }}" class="card-img-top" alt="Portfolio Image">
+        <img src="../../media/{{ item.portfolio_image }}" class="card-img-top" alt="Portfolio Image" width="400" height="300">
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text">{{ item.description}}</p>
