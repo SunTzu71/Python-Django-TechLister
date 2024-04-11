@@ -624,6 +624,15 @@ def all_view_job(request, pk):
 
 
 neural_job_search = NeuralSearcher(collection_name='joblistings')
+neural_user_search = NeuralSearcher(collection_name='userlistings')
+
+
+def main_search(request):
+    if request.method == 'POST':
+        if request.POST.get('searchType') == 'userSearch':
+            return user_search(request)
+        if request.POST.get('searchType') == 'jobSearch':
+            return job_search(request)
 
 
 def job_search(request):
@@ -660,6 +669,21 @@ def job_search(request):
 
         return render(request, 'job_listings.html', context)
     return render(request, 'job_listings.html', {'search_results': []})
+
+
+def user_search(request):
+    if request.method == 'POST':
+        query = request.POST.get('query')
+        search_results = neural_user_search.search(text=query)
+
+        # get the first element from the json result
+        first_user = search_results[0]['user_id']
+        context = {'search_results': search_results,
+                   'first': get_resume_information(first_user)}
+
+        return render(request, 'user_listings.html', context)
+        # may want to add a no results text and pass it in or check it in the template
+    return render(request, 'user_listings.html', {'search_results': []})
 
 
 @login_required
@@ -778,21 +802,3 @@ def rec_remove_resume(request, pk):
         return redirect('recruiter_profile')
     else:
         return redirect('recruiter_profile')
-
-
-neural_user_search = NeuralSearcher(collection_name='userlistings')
-
-
-def user_search(request):
-    if request.method == 'POST':
-        query = request.POST.get('query')
-        search_results = neural_user_search.search(text=query)
-
-        # get the first element from the json result
-        first_user = search_results[0]['user_id']
-        context = {'search_results': search_results,
-                   'first': get_resume_information(first_user)}
-
-        return render(request, 'user_listings.html', context)
-        # may want to add a no results text and pass it in or check it in the template
-    return render(request, 'user_listings.html', {'search_results': []})

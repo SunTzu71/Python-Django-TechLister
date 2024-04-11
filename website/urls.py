@@ -61,12 +61,15 @@ urlpatterns = [
     path('delete_user_skilil/<int:pk>', views.delete_user_skill, name='delete_user_skill'),
     path('delete_job_skilil/<int:pk>', views.delete_job_skill, name='delete_job_skill'),
 
-    # job user search
+    # job user search - look into removing job and user search and keep search
+    path('search/', views.main_search, name='main_search'),
     path('job/search/', views.job_search, name='job_search'),
+    path('user2/search/', views.user_search, name='user_search'),
+
+    # job user save and remove
     path('job/save/<int:pk>', views.save_job, name='save_job'),
     path('job/remove/<int:pk>', views.remove_job, name='remove_job'),
     path('job/listing/<int:pk>', views.view_job, name='view_job'),
-    path('user2/search/', views.user_search, name='user_search'),
     path('user2/save/<int:pk>', views.save_user, name='save_user'),
     path('user2/remove/<int:pk>', views.remove_user, name='remove_user'),
     path('all/job/<int:pk>', views.all_view_job, name='all_view_job'),
