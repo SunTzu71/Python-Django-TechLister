@@ -416,21 +416,27 @@ def all_resume(request, pk):
 
 def add_job_skill(request):
     if request.user.is_authenticated:
-        if request.user.is_authenticated:
-            if request.method == 'POST':
-                form = NewJobListingForm(request.POST)
-                if form.is_valid():
-                    add_listing = form.save(commit=False)
-                    add_listing.user_id = request.user
-                    add_listing.save()
-                    return redirect('recruiter_profile')
-                else:
-                    return render(request, 'add_joblisting_skill.html', {'form': form})
+        # check to see if there is a job id in the session and clear if there is
+        # if you don't clear it then it will redirect to edit job for job id in session
+        # this happens when user edits jobs and does not click save and then adds new job
+        job_id = request.session.get('job_id')
+        if job_id:
+            del request.session['job_id']
+
+        if request.method == 'POST':
+            form = NewJobListingForm(request.POST)
+            if form.is_valid():
+                add_listing = form.save(commit=False)
+                add_listing.user_id = request.user
+                add_listing.save()
+                return redirect('recruiter_profile')
             else:
-                form = NewJobListingForm()
-            return render(request, 'add_joblisting_skill.html', {'form': form})
+                return render(request, 'add_joblisting_skill.html', {'form': form})
         else:
-            return redirect('home')
+            form = NewJobListingForm()
+        return render(request, 'add_joblisting_skill.html', {'form': form})
+    else:
+        return redirect('home')
 
 
 def add_job(request):
@@ -522,9 +528,26 @@ def skill_search(request):
 @require_POST
 def add_skill(request, skill_input):
     skill = Skill.objects.create(skill=skill_input)
-    UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user)
 
-    return redirect('user_profile')
+    # check to see if we have job_id in session if so then we are editing job listing
+    job_id = request.session.get('job_id')
+    if job_id:
+        edit_listing = JobListing.objects.get(pk=job_id)
+        JobSkill.objects.create(skill_id=skill.id, skill_name=skill_input, job_id=edit_listing)
+        return redirect('edit_job', pk=request.session.get('job_id'))
+
+    # Check if they are a recruiter
+    if request.session.get('recruiter'):
+        if 'job_skills' not in request.session:
+            request.session['job_skills'] = []
+
+        job_skills = request.session['job_skills']
+        job_skills.append((skill.id, skill_input))
+        request.session['job_skills'] = job_skills
+        return redirect('add_job_skill')
+    else:
+        UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user)
+        return redirect('edit_resume')
 
 
 @login_required
