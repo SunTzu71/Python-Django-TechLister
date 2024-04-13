@@ -134,8 +134,8 @@ class SavedUsers(models.Model):
 
 
 class JobSkill(models.Model):
-    job_id = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True, db_column='job_id')
-    skill_id = models.BigIntegerField()
+    job = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, db_constraint=True)
     skill_name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
