@@ -10,6 +10,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.home, name='home'),
     path('please/login/', views.login_page, name='login_page'),
+    path('restricted/access/', views.restricted_access, name='restricted_access'),
     path('summernote/', include('django_summernote.urls')),
 
     # login register

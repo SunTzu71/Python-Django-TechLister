@@ -25,6 +25,10 @@ def home(request):
     return render(request, 'home.html', {})
 
 
+def restricted_access(request):
+    return render(request, 'restricted_access.html', {})
+
+
 def register_user(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -46,27 +50,26 @@ def logout_user(request):
     return redirect('home')
 
 
+@login_required
 def add_education(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = AddEducationForm(request.POST)
-            if form.is_valid():
-                add_education = form.save(commit=False)
-                add_education.user = request.user
-                add_education.save()
-                return redirect('user_profile')
-            else:
-                return render(request, 'add_education.html', {'form': form})
+    if request.method == 'POST':
+        form = AddEducationForm(request.POST)
+        if form.is_valid():
+            add_education = form.save(commit=False)
+            add_education.user = request.user
+            add_education.save()
+            return redirect('edit_resume')
         else:
-            form = AddEducationForm()
-        return render(request, 'add_education.html', {'form': form})
+            return render(request, 'add_education.html', {'form': form})
     else:
-        return redirect('home')
+        form = AddEducationForm()
+    return render(request, 'add_education.html', {'form': form})
 
 
+@login_required
 def edit_education(request, pk):
-    if request.user.is_authenticated:
-        education = Education.objects.get(pk=pk)
+    try:
+        education = Education.objects.get(user=request.user, pk=pk)
         if request.method == 'POST':
             form = AddEducationForm(request.POST, instance=education)
             if form.is_valid():
@@ -75,109 +78,107 @@ def edit_education(request, pk):
         else:
             form = AddEducationForm(instance=education)
         return render(request, 'edit_education.html', {'form': form})
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
+@login_required
 def delete_education(request, pk):
-    if request.user.is_authenticated:
-        delete_education = Education.objects.get(pk=pk)
+    try:
+        delete_education = Education.objects.get(user=request.user, pk=pk)
         delete_education.delete()
-        return redirect('user_profile')
-    else:
-        return redirect('home')
+        return redirect('edit_resume')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
+@login_required
 def add_experience(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = AddExperienceForm(request.POST)
+    if request.method == 'POST':
+        form = AddExperienceForm(request.POST)
 
-            if form.is_valid():
-                add_experience = form.save(commit=False)
-                add_experience.user = request.user
-                #add_experience.start_year = int(request.POST['start_year'])
-                #add_experience.end_year = int(request.POST['end_year'])
-                add_experience.save()
-                return redirect('user_profile')
-            else:
-                print(request.POST)
-                return render(request, 'add_experience.html', {'form': form})
+        if form.is_valid():
+            add_experience = form.save(commit=False)
+            add_experience.user = request.user
+            #add_experience.start_year = int(request.POST['start_year'])
+            #add_experience.end_year = int(request.POST['end_year'])
+            add_experience.save()
+            return redirect('edit_resume')
         else:
-            form = AddExperienceForm()
-        return render(request, 'add_experience.html', {'form': form})
-
+            print(request.POST)
+            return render(request, 'add_experience.html', {'form': form})
     else:
-        return redirect('home')
+        form = AddExperienceForm()
+    return render(request, 'add_experience.html', {'form': form})
 
 
+@login_required
 def edit_experience(request, pk):
-    if request.user.is_authenticated:
-        edit_experience = Experience.objects.get(pk=pk)
+    try:
+        edit_experience = Experience.objects.get(user=request.user, pk=pk)
         if request.method == 'POST':
             form = AddExperienceForm(request.POST, instance=edit_experience)
             if form.is_valid():
                 form.save()
-                return redirect('user_profile')
+                return redirect('edit_resume')
         else:
             form = AddExperienceForm(instance=edit_experience)
         return render(request, 'edit_experience.html', {'form': form})
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
+@login_required
 def delete_experience(request, pk):
-    if request.user.is_authenticated:
-        delete_experience = Experience.objects.get(pk=pk)
+    try:
+        delete_experience = Experience.objects.get(user=request.user, pk=pk)
         delete_experience.delete()
-        return redirect('user_profile')
-    else:
-        return redirect('home')
+        return redirect('edit_resume')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
+@login_required
 def add_portfolio(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = PortfolioForm(request.POST, request.FILES, is_adding=True)
-            print('form')
-            print(form)
-            if form.is_valid():
-                add_portfolio = form.save(commit=False)
-                add_portfolio.user = request.user
+    if request.method == 'POST':
+        form = PortfolioForm(request.POST, request.FILES, is_adding=True)
+        print('form')
+        print(form)
+        if form.is_valid():
+            add_portfolio = form.save(commit=False)
+            add_portfolio.user = request.user
 
-                if 'portfolio_image' in request.FILES:
-                    portfolio_image = request.FILES['portfolio_image']
-                    img = Image.open(portfolio_image)
+            if 'portfolio_image' in request.FILES:
+                portfolio_image = request.FILES['portfolio_image']
+                img = Image.open(portfolio_image)
 
-                    # generate image file name
-                    file_ext = os.path.splitext(portfolio_image.name)[-1].lower()
-                    rand_img = secrets.token_hex(4)
-                    user_portfolio_image = str(request.user.id) + '-' + rand_img + file_ext
+                # generate image file name
+                file_ext = os.path.splitext(portfolio_image.name)[-1].lower()
+                rand_img = secrets.token_hex(4)
+                user_portfolio_image = str(request.user.id) + '-' + rand_img + file_ext
 
-                    add_portfolio.portfolio_image = image_resize(img,
-                                                                 portfolio_image.size,
-                                                                 400,
-                                                                 400,
-                                                                 user_portfolio_image)
+                add_portfolio.portfolio_image = image_resize(img,
+                                                             portfolio_image.size,
+                                                             400,
+                                                             400,
+                                                             user_portfolio_image)
 
-                add_portfolio.save()
-                return redirect('add_user_portfolio')
-            else:
-                return render(request, 'add_portfolio.html', {'form': form})
+            add_portfolio.save()
+            return redirect('add_user_portfolio')
         else:
-            # get the form and list of portfolio entries to show under form
-            list_portfolio = Portfolio.objects.filter(user_id=request.user)
-            context = {'form': PortfolioForm(), 'port_list': list_portfolio}
-
-            return render(request, 'add_portfolio.html', context)
+            return render(request, 'add_portfolio.html', {'form': form})
     else:
-        return redirect('home')
+        # get the form and list of portfolio entries to show under form
+        list_portfolio = Portfolio.objects.filter(user_id=request.user)
+        context = {'form': PortfolioForm(), 'port_list': list_portfolio}
+
+        return render(request, 'add_portfolio.html', context)
 
 
+@login_required
 def edit_portfolio(request, pk):
-    if request.user.is_authenticated:
-
-        portfolio = Portfolio.objects.get(pk=pk)
+    try:
+        portfolio = Portfolio.objects.get(user=request.user, pk=pk)
         if request.method == 'POST':
             form = PortfolioForm(request.POST, instance=portfolio, is_adding=False)
 
@@ -207,24 +208,24 @@ def edit_portfolio(request, pk):
         else:
             form = PortfolioForm(instance=portfolio)
         return render(request, 'edit_portfolio.html', {'form': form})
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
+@login_required
 def delete_portfolio(request, pk):
-    if request.user.is_authenticated:
-        delete_portfolio = Portfolio.objects.get(pk=pk)
+    try:
+        delete_portfolio = Portfolio.objects.get(user=request.user, pk=pk)
         delete_portfolio.delete()
         return redirect('add_user_portfolio')
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 @login_required
 def edit_personal_info(request, pk):
-    if request.user.is_authenticated:
-        # todo: we need to check to make sure the user is the owner to edit
-        personal_info = PersonalInformation.objects.get(user_id=pk)
+    try:
+        personal_info = PersonalInformation.objects.get(user=request.user)
         if request.method == 'POST':
             form = PersonalInformationForm(request.POST, instance=personal_info)
             if form.is_valid():
@@ -258,27 +259,28 @@ def edit_personal_info(request, pk):
         else:
             form = PersonalInformationForm(instance=personal_info)
             return render(request, 'edit_personalinfo.html', {'form': form})
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 @login_required
 def delete_profile_image(request):
-    if request.user.is_authenticated:
-        personal_info = get_object_or_404(PersonalInformation, user_id=request.user.id)
+    try:
+        personal_info = get_object_or_404(PersonalInformation, user=request.user)
 
         # delete the old image and update with default image
         personal_info.profile_image.delete()
         personal_info.profile_image = 'images/default-profile.jpeg'
-
         personal_info.save()
+        return render(request, 'messages/profile-image-deleted.html')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
-    return render(request, 'messages/profile-image-deleted.html')
 
 
 @login_required
 def add_personal_info(request):
-    if request.user.is_authenticated:
+    try:
         if request.method == "POST":
             form = PersonalInformationForm(request.POST, request.FILES)
             if form.is_valid():
@@ -310,8 +312,8 @@ def add_personal_info(request):
         else:
             form = PersonalInformationForm()
             return render(request, 'add_personalinfo.html', {'form': form})
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 def login_page(request):
@@ -439,8 +441,9 @@ def add_job_skill(request):
         return redirect('home')
 
 
+@login_required
 def add_job(request):
-    if request.user.is_authenticated:
+    try:
         if request.method == 'POST':
             form = NewJobListingForm(request.POST)
             if form.is_valid():
@@ -461,17 +464,17 @@ def add_job(request):
         else:
             form = NewJobListingForm()
         return render(request, 'add_joblisting.html', {'form': form})
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 def edit_job(request, pk):
-    if request.user.is_authenticated:
+    try:
         # add job listing id to session
         # this is used in add_user_skill method
         request.session['job_id'] = pk
 
-        edit_listing = JobListing.objects.get(id=pk)
+        edit_listing = JobListing.objects.get(user=request.user, id=pk)
         if request.method == 'POST':
             form = NewJobListingForm(request.POST, instance=edit_listing)
             if form.is_valid():
@@ -479,15 +482,15 @@ def edit_job(request, pk):
 
                 # remove job_id from request session
                 del request.session['job_id']
-                return redirect('recruiter_profile')
+                return redirect('job_listings')
         else:
             skills = JobSkill.objects.filter(job_id=edit_listing.id)
             context = {'form': NewJobListingForm(instance=edit_listing),
                        'jskills': skills}
 
         return render(request, 'edit_joblisting.html', context)
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 @login_required
@@ -502,13 +505,14 @@ def delete_job_skill(request, pk):
         return redirect('home')
 
 
+@login_required
 def delete_job(request, pk):
-    if request.user.is_authenticated:
-        delete_job = JobListing.objects.get(pk=pk)
+    try:
+        delete_job = JobListing.objects.get(user=request.user, pk=pk)
         delete_job.delete()
         return redirect('recruiter_profile')
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 @login_required
@@ -744,7 +748,7 @@ def apply_job(request, pk):
 @login_required
 def remove_job(request, pk):
     try:
-        job_to_remove = SavedJobs.objects.get(job_id=pk, user_id=request.user.id)
+        job_to_remove = SavedJobs.objects.get(job_id=pk, user=request.user)
     except SavedJobs.DoesNotExist:
         return redirect('job_search')  # or some error page
     job_to_remove.delete()
@@ -753,14 +757,12 @@ def remove_job(request, pk):
 
 @login_required
 def user_profile_remove_job(request, pk):
-    job_to_remove = get_object_or_404(SavedJobs, job_id=pk)
-
-    # checking if the logged-in user is the same who wants to delete the job
-    if request.user == job_to_remove.user_id:
+    try:
+        job_to_remove = SavedJobs.objects.get(user=request.user, job_id=pk)
         job_to_remove.delete()
         return redirect('saved_jobs')
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('job_search')
 
 
 @login_required
@@ -783,13 +785,13 @@ def view_cover_letter(request, jobid, userid):
 @login_required
 def rec_delete_applied(request, jobid, userid):
     try:
+        # If this raises DoesNotExist exception then request.user is not the owner
         job_owner = JobListing.objects.get(id=jobid, user=request.user)
         del_applied = AppliedJobs.objects.filter(job=jobid, user=userid)
         del_applied.delete()
         return redirect('recruiter_profile')
-
     except JobListing.DoesNotExist:
-        return redirect('home')
+        return redirect('restricted_access')
 
 
 @login_required
@@ -798,7 +800,6 @@ def save_user(request, pk):
     user, created = SavedUsers.objects.get_or_create(
         recruiter=request.user,
         saved=user_instance)
-
     if created:
         return render(request, 'messages/user-saved.html')
     else:
@@ -807,21 +808,23 @@ def save_user(request, pk):
 
 @login_required
 def remove_user(request, pk):
-    # logic to remove saved resume on user list search and resume page
-    user_to_remove = get_object_or_404(SavedUsers, saved=pk)
-    # checking if the logged-in user is the same who wants to delete the job
-    if request.user == user_to_remove.recruiter:
-        user_to_remove.delete()
-        return render(request, 'messages/user-removed.html')
-    else:
-        return
+    try:
+        user_to_remove = SavedUsers.objects.get(saved=pk)
+        if request.user == user_to_remove.recruiter:
+            user_to_remove.delete()
+            return render(request, 'messages/user-removed.html')
+        else:
+            return redirect('restricted_access')
+    except SavedUsers.DoesNotExist:
+        raise Http404('User not found.')
 
 
+@login_required
 def rec_remove_resume(request, pk):
     # logic to remove saved resume from recruiter profile
     user_to_remove = get_object_or_404(SavedUsers, saved=pk)
     if request.user == user_to_remove.recruiter:
         user_to_remove.delete()
-        return redirect('recruiter_profile')
+        return redirect('saved_resumes')
     else:
         return redirect('recruiter_profile')

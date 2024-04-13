@@ -11,11 +11,13 @@ conn = psycopg2.connect(
 )
 
 # Construct the SQL query to join job listings with their skills
+# Instead of doing select all make sure to only get columns needed for VectorDatabase
 query = """
 SELECT jl.*, COALESCE(STRING_AGG(js.skill_name, ', '), '') AS skills, wp.profile_image  
 FROM website_joblisting AS jl
 LEFT JOIN website_jobskill AS js ON jl.id = js.job_id 
 LEFT JOIN website_personalinformation AS wp ON jl.user_id = wp.user_id 
+WHERE jl.active = TRUE 
 GROUP BY jl.id, wp.profile_image;
 """
 

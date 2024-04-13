@@ -26,7 +26,7 @@
                                 {% for appl in applied %}
                                 <tr>
                                     <td>{{ appl.user_id__first_name }} {{ appl.user_id__last_name }}</td>
-                                    <td>{{ appl.job__title }} {{ appl.user_id__first_name }}</td>
+                                    <td>{{ appl.job__title }}</td>
                                     <td>{{ appl.job__company }}</td>
                                     <td class="text-center">
                                         <a href="{% url 'view_cover_letter' appl.job_id appl.user_id %}">
