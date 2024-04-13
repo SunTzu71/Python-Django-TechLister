@@ -1,14 +1,15 @@
 {% load static %}
 {% include 'inner-header.html' %}
-<div class="col-4 inner-top-margin mb-5">
-<div class="col-md6 offset-md-3">
-<h1>Register</h1>
-    <form method="POST" action="">
+<div class="d-flex justify-content-center align-items-center vh-80 inner-top-margin mb-5">
+    <div class="col-3">
+        <h1>Register</h1>
+        <form method="POST" action="">
             {% csrf_token %}
             {{ form.as_p}}
-        <button type="submit" class="btn btn-secondary">Register</button>
-    </form>
-
-</div>
+            <div class="col d-flex justify-content-end">
+             <button type="submit" class="btn lg-button-yellow">Register</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% include 'footer.html' %}

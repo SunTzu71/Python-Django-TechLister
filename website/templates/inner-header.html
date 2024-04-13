@@ -53,7 +53,12 @@
       </nav><!-- .navbar -->
       <div class="d-flex">
         {% if user.is_authenticated %}
+        {% if request.session.recruiter == False %}
           <a href="{% url 'user_profile' %}" class="get-started-btn scrollto" style="margin-right: 10px">Profile</a>
+        {% endif %}
+        {% if request.session.recruiter == True %}
+        <a href="{% url 'recruiter_profile' %}" class="get-started-btn scrollto" style="margin-right: 10px">Profile</a>
+        {% endif %}
           <a href="{% url 'logout' %}" class="get-started-btn scrollto" style="margin-right: 10px;">Logout</a>
         {% else %}
           <a href="{% url 'login_page' %}" class="get-started-btn scrollto" style="margin-right: 10px;">Login</a>
@@ -64,8 +69,12 @@
 
 </header><!-- End Header -->
 
-{% if request.session.recruiter == False %}
-    {% include 'user_navbar.html' %}
-{% else %}
-    {% include 'recruiter_navbar.html' %}
+{% if user.is_authenticated %}
+  {% if request.session.recruiter == False %}
+      {% include 'user_navbar.html' %}
+  {% endif %}
+
+  {% if request.session.recruiter == True %}
+      {% include 'recruiter_navbar.html' %}
+  {% endif %}
 {% endif %}
