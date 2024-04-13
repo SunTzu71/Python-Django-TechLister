@@ -79,13 +79,16 @@ class Skill(models.Model):
 
 
 class UserSkill(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, db_column='user_id')
-    skill_id = models.BigIntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, db_constraint=True)
     skill_name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = (('user', 'skill'),)
+
     def __str__(self):
-        return f'{self.user_id} {self.skill_id} {self.skill_name}'
+        return f'{self.user.name} {self.skill_name}'
 
 
 class JobListing(models.Model):

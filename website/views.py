@@ -495,14 +495,13 @@ def edit_job(request, pk):
 
 @login_required
 def delete_job_skill(request, pk):
-    if request.user.is_authenticated:
+    try:
         delete_skill = JobSkill.objects.get(pk=pk)
         delete_skill.delete()
-
         referer = request.META.get('HTTP_REFERER')
         return redirect(referer)
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 @login_required
@@ -577,20 +576,19 @@ def add_user_skill(request, pk, skill_name):
         return redirect('add_job_skill')
     else:
         skill_id = pk
-        user_id = request.user
-        UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user_id=user_id)
+        UserSkill.objects.create(skill_id=skill_id, skill_name=skill_name, user=request.user)
 
         return redirect('edit_resume')
 
 
 @login_required
 def delete_user_skill(request, pk):
-    if request.user.is_authenticated:
-        delete_skill = UserSkill.objects.get(pk=pk)
+    try:
+        delete_skill = UserSkill.objects.get(user=request.user, pk=pk)
         delete_skill.delete()
         return redirect('edit_resume')
-    else:
-        return redirect('home')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
 
 
 def get_job_information(pk):
