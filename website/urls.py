@@ -38,6 +38,7 @@ urlpatterns = [
     path('user/portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
     path('user/apply/job/<int:pk>', views.apply_job, name='apply_job'),
+    path('user/applied/remove/job/<int:pk>', views.remove_applied_job, name='remove_applied_job'),
     path('user/remove/job/<int:pk>', views.user_profile_remove_job, name='user_profile_remove_job'),
     path('user/saved/jobs', users.saved_jobs, name='saved_jobs'),
     path('user/applied/jobs', users.applied_jobs, name='applied_jobs'),

@@ -748,6 +748,15 @@ def apply_job(request, pk):
     return render(request, 'apply_job.html', context)
 
 
+def remove_applied_job(request, pk):
+    try:
+        remove_applied = AppliedJobs.objects.get(user=request.user, job=pk)
+        remove_applied.delete()
+        return redirect('applied_jobs')
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
+
+
 @login_required
 def remove_job(request, pk):
     try:
