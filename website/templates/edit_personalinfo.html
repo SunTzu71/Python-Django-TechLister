@@ -68,16 +68,28 @@
                     {{ form.profile_image }}
                 </div>
                 <div class="mt-5">
+
+
                 <div id="data-container">
-                <button hx-post="{% url 'delete_profile_image' %}"
-                        hx-target="#data-container"
-                        hx-swap="innerHTML"
-                        class="btn btn-danger">Delete Image</button>
+                    <div class="row">
+                        <div class="col-lg-6">
+                        <button hx-post="{% url 'delete_profile_image' %}"
+                                hx-target="#data-container"
+                                hx-swap="innerHTML"
+                                class="btn btn-danger">Delete Image</button>
+                        </div>
+                        <div class="col-lg-6 d-flex justify-content-end">
+                            <button type="submit" class="btn md-yellow-button">Save</button>
+                        </div>
+                    </div>
+
+
+
+
                         <img src="{{ form.instance.profile_image.url }}" class="card-img-top mt-2 mb-2" alt="Portfolio Image">
                 </div>
 
             </div>
-                <button type="submit" class="btn btn-secondary">Save</button>
             </form>
         </div>
     </div>
