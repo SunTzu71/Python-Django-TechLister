@@ -25,7 +25,7 @@ GROUP BY jl.id, wp.profile_image;
 df = pd.read_sql_query(query, conn)
 
 # Combine the 'about' column with the 'skills' column separated by '<br />'
-df['about'] = df['skills'] + '<br />' + df['about']
+df['description'] = df['skills'] + '<br />' + df['description']
 
 # Drop the 'skills' column as it's no longer needed
 #df.drop(columns=['skills'], inplace=True)

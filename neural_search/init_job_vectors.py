@@ -8,7 +8,7 @@ model = SentenceTransformer(
 
 df = pd.read_json("./job_listings.json", lines=True)
 vectors = model.encode(
-    [str(row.id) + ". " + row.about for row in df.itertuples()],
+    [str(row.id) + ". " + row.description for row in df.itertuples()],
     show_progress_bar=True,
 )
 

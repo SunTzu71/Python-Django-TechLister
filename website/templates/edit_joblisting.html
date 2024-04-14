@@ -91,23 +91,11 @@
                         {{ form.pay_top }}
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">About</label>
-                        {{ form.about }}
-                        {% for error in form.about.errors %}
+                        <label class="form-label">Description</label>
+                        {{ form.description }}
+                        {% for error in form.description.errors %}
                         <span class="text-danger">{{ error }}</span>
                         {% endfor %}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Responsibilities</label>
-                        {{ form.responsibilities }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Qualifications</label>
-                        {{ form.qualifications }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Benefits</label>
-                        {{ form.benefits }}
                     </div>
                     <div>
                         <div class="form-text">

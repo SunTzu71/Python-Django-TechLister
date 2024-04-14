@@ -14,7 +14,7 @@
             </div>
 
              <div class="card-body mb-3">
-                <h5 class="card-title">Skill Information</h5>
+                 <h5 class="card-title">Skill Information</h5>
                 <p class="card-text">
                     {% for skill in jobinfo.skills %}
                     {{ skill.skill_name }},
@@ -23,38 +23,10 @@
             </div>
 
             <div class="card-body mb-3">
-                <h5 class="card-title">About Position</h5>
                 <p class="card-text">
-                    {{ jobinfo.job.about | safe }}
+                    {{ jobinfo.job.description | safe }}
                </p>
             </div>
-
-            {% if jobinfo.job.responsibilities %}
-            <div class="card-body mb-3">
-                <h5 class="card-title">Responsibilities</h5>
-                <p class="card-text">
-                    {{ jobinfo.job.responsibilities | safe }}
-               </p>
-            </div>
-            {% endif %}
-
-            {% if jobinfo.job.qualifications %}
-            <div class="card-body mb-3">
-                <h5 class="card-title">Qualifications</h5>
-                <p class="card-text">
-                    {{ jobinfo.job.qualifications | safe }}<br />
-               </p>
-            </div>
-            {% endif %}
-
-            {% if jobinfo.job.benefits %}
-            <div class="card-body mb-3">
-                <h5 class="card-title">Benefits</h5>
-                <p class="card-text">
-                    {{ jobinfo.job.benefits | safe }}<br />
-               </p>
-            </div>
-            {% endif %}
         </div>
 
         <div class="col-md-3 mt-3">

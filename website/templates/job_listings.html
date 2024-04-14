@@ -62,38 +62,11 @@
                         </div>
 
                         <div class="card-body mb-3">
-                            <h5 class="card-title">About Position</h5>
+                            <h5 class="card-title">Description</h5>
                             <p class="card-text">
-                                {{ first.job.about | safe }}
+                                {{ first.job.description | safe }}
                            </p>
                         </div>
-
-                        {% if first.job.responsibilities %}
-                        <div class="card-body mb-3">
-                            <h5 class="card-title">Responsibilities</h5>
-                            <p class="card-text">
-                                {{ first.job.responsibilities | safe }}
-                           </p>
-                        </div>
-                        {% endif %}
-
-                        {% if first.job.qualifications %}
-                        <div class="card-body mb-3">
-                            <h5 class="card-title">Qualifications</h5>
-                            <p class="card-text">
-                                {{ first.job.qualifications | safe }}<br />
-                           </p>
-                        </div>
-                        {% endif %}
-
-                        {% if first.job.benefits %}
-                        <div class="card-body mb-3">
-                            <h5 class="card-title">Benefits</h5>
-                            <p class="card-text">
-                                {{ first.job.benefits | safe }}<br />
-                           </p>
-                        </div>
-                        {% endif %}
                     </div>
 
                     <div class="col-md-3 mt-3">

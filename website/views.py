@@ -514,7 +514,7 @@ def delete_job(request, pk):
     try:
         delete_job = JobListing.objects.get(user=request.user, pk=pk)
         delete_job.delete()
-        return redirect('recruiter_profile')
+        return redirect('job_listings')
     except ObjectDoesNotExist:
         return redirect('restricted_access')
 

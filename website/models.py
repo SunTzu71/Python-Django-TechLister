@@ -102,10 +102,7 @@ class JobListing(models.Model):
     location = models.CharField(max_length=20)
     pay_bottom = models.IntegerField(null=True, blank=True)
     pay_top = models.IntegerField(null=True, blank=True)
-    about = SummernoteTextField()
-    responsibilities = SummernoteTextField(null=True, blank=True)
-    qualifications = SummernoteTextField(null=True, blank=True)
-    benefits = SummernoteTextField(null=True, blank=True)
+    description = SummernoteTextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
