@@ -1,8 +1,35 @@
 {% load static %}
 {% include 'inner-header.html' %}
-
-<div class="inner-top-margin">
-    You don't have access to do this.
+<div class="container">
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-3">
+        <p>You do not have access to do that.</p>
+      <div class="card">
+        <div class="card-header header-bg-color-dark text-white">
+          Login
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{% url 'login' %}" class="d-flex flex-column">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col">
+                <input type="text" name="username" placeholder="Username" required class="form-control" aria-label="Username">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col">
+                <input type="password" name="password" placeholder="Password" required class="form-control" aria-label="Password">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col d-flex justify-content-end">
+                <button type="submit" class="btn lg-button-yellow">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
 {% include 'footer.html' %}

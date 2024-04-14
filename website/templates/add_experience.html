@@ -2,7 +2,7 @@
 {% include 'inner-header.html' %}
 {% if user.is_authenticated %}
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-5">
         <div class="col-lg-6">
             <h1>Add Experience</h1>
             <form method="POST" action="{% url 'add_experience' %}">
@@ -84,7 +84,9 @@
                 <div class="mb-3">
                     {{ form.task_ten }}
                 </div>
-                <button type="submit" class="btn btn-secondary">Save</button>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn md-yellow-button">Save</button>
+                </div>
             </form>
         </div>
     </div>

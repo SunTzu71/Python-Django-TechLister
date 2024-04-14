@@ -1,10 +1,9 @@
 import os
 import secrets
-
 from django.http import Http404
 from PIL import Image
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -453,12 +452,12 @@ def add_job(request):
 
                 # loop through job skills and insert into database
                 for skill in request.session['job_skills']:
-                    JobSkill.objects.create(skill_id=skill[0], skill_name=skill[1], job_id=add_listing)
+                    JobSkill.objects.create(skill_id=skill[0], skill_name=skill[1], job_id=add_listing.id)
 
                 # delete session holding the job skills
                 del request.session['job_skills']
 
-                return redirect('recruiter_profile')
+                return redirect('job_listings')
             else:
                 return render(request, 'add_joblisting.html', {'form': form})
         else:
@@ -497,6 +496,12 @@ def edit_job(request, pk):
 def delete_job_skill(request, pk):
     try:
         delete_skill = JobSkill.objects.get(pk=pk)
+
+        # Check if logged-in user is the owner of the job listing
+        if not request.user == delete_skill.job.user:
+            # If current user is not the user who created the job listing then raise permission error.
+            raise PermissionDenied
+
         delete_skill.delete()
         referer = request.META.get('HTTP_REFERER')
         return redirect(referer)
@@ -536,7 +541,7 @@ def add_skill(request, skill_input):
     job_id = request.session.get('job_id')
     if job_id:
         edit_listing = JobListing.objects.get(pk=job_id)
-        JobSkill.objects.create(skill_id=skill.id, skill_name=skill_input, job_id=edit_listing)
+        JobSkill.objects.create(skill_id=skill.id, skill_name=skill_input, job_id=edit_listing.id)
         return redirect('edit_job', pk=request.session.get('job_id'))
 
     # Check if they are a recruiter
@@ -560,7 +565,7 @@ def add_user_skill(request, pk, skill_name):
     job_id = request.session.get('job_id')
     if job_id:
         edit_listing = JobListing.objects.get(pk=job_id)
-        JobSkill.objects.create(skill_id=pk, skill_name=skill_name, job_id=edit_listing)
+        JobSkill.objects.create(skill_id=pk, skill_name=skill_name, job_id=edit_listing.id)
         return redirect('edit_job', pk=request.session.get('job_id'))
 
     # When recruiter adds a skill it's stored in session
@@ -733,7 +738,7 @@ def apply_job(request, pk):
             add_letter.user = request.user
             add_letter.job = job
             add_letter.save()
-            return redirect('user_profile')
+            return redirect('applied_jobs')
         else:
             return render(request, 'apply_job.html', context)
     else:
