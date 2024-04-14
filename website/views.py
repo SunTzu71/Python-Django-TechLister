@@ -525,7 +525,7 @@ def skill_search(request):
     skill_results = None
 
     if skill_input:
-        skill_results = Skill.objects.filter(skill__icontains=skill_input)
+        skill_results = Skill.objects.filter(name__icontains=skill_input)
         if skill_results:
             return render(request, 'skill_search.html', {'skills': skill_results})
         else:

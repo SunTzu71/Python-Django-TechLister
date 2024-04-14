@@ -75,7 +75,7 @@ class Experience(models.Model):
 
 
 class Skill(models.Model):
-    skill = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
 
 
 class UserSkill(models.Model):
@@ -106,7 +106,7 @@ class JobListing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user_id} {self.title}'
+        return f'{self.user.name} {self.title}'
 
 
 class AppliedJobs(models.Model):
@@ -137,4 +137,4 @@ class JobSkill(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.job_id} {self.skill_id} {self.skill_name}'
+        return f'{self.job} {self.skill} {self.skill_name}'
