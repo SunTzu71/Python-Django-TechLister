@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website',
     'django_extensions',
     'template_partials',
     'django_summernote',
+    'website',
+    'messaging',
 ]
 
 SUMMERNOTE_CONFIG = {

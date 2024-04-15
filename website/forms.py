@@ -2,11 +2,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import PersonalInformation, Education, Experience, Portfolio, JobListing, AppliedJobs
-from .utility.validators import (validate_title_length, validate_description_length, validate_first_name,
-                                 validate_last_name, validate_city, validate_state, validate_email, validate_about,
-                                 validate_company, validate_position, validate_start_month, validate_start_year,
-                                 validate_task_one, validate_website_link, validate_portfolio_image, validate_job_type,
-                                 validate_location)
+from common.validators import (validate_title_length, validate_description_length, validate_first_name,
+                                          validate_last_name, validate_city, validate_state, validate_email,
+                                          validate_about, validate_company, validate_position, validate_start_month,
+                                          validate_start_year, validate_task_one, validate_website_link,
+                                          validate_portfolio_image, validate_job_type, validate_location)
+
 
 class CustomModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

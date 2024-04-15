@@ -4,20 +4,18 @@ from django.http import Http404
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from django.db.models import Prefetch
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm, CoverLetterForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
                      SavedJobs, SavedUsers, User, AppliedJobs)
-from .utility.image_resize import image_resize
-from .utility.currency_format import format_currency
+from common.image_resize import image_resize
+from common.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
-from .allviews.verify_user_email import send_verification_email, verify_email
+from .allviews.verify_user_email import send_verification_email
 
 
 def home(request):
