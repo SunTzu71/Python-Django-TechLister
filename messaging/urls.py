@@ -5,7 +5,7 @@ from . import views
 
 
 urlpatterns = [
-    path('new/message', views.new_message, name='new_message'),
+    path('new/message/<int:to_user_id>', views.new_message, name='new_message'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
