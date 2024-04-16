@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import MessageForm
 from .models import Message
@@ -36,6 +37,19 @@ def user_list_messages(request):
 
 @login_required
 def view_message(request, msg_id):
-    message = Message.objects.get(to_user=request.user, pk=msg_id)
-    context = {'message': message, 'msg_id': msg_id}
-    return render(request, 'messages/view-message.html', context)
+    try:
+        message = Message.objects.get(to_user=request.user, pk=msg_id)
+        context = {'message': message, 'msg_id': msg_id}
+        return render(request, 'messages/view-message.html', context)
+    except Message.DoesNotExist:
+        return redirect('user_profile')
+
+
+@login_required
+def delete_message(request, msg_id):
+    try:
+        delete_message = Message.objects.get(to_user=request.user, pk=msg_id)
+        delete_message.delete()
+        return HttpResponse('<script>document.querySelector("#message-row-' + str(id) + '").remove()</script>')
+    except Message.DoesNotExist:
+        return redirect('user_profile')

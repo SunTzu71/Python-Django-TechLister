@@ -27,15 +27,20 @@
                                   hx-get="{% url 'view_message' message.id %}"
                                   hx-target="#message-row-{{ message.id }}"
                                   hx-swap="innerHTML"
-                                  class="btn md-yellow-button">View</button>
+                                  class="btn md-yellow-button">View
+                          </button>
                       </td>
                       <td class="text-center">
-                          <a href="#">
-                              <button class="btn btn-danger" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button>
-                          </a>
+                          <button
+                                  hx-get="{% url 'delete_message' message.id %}"
+                                  hx-target="#message-row-{{ message.id }}"
+                                  hx-confirm="Are you sure you want to delete this message?"
+                                  hx-swap="outerHTML"
+                                  class="btn md-red-button">Delete
+                          </button>
                       </td>
-                  <tr id="message-row-{{ message.id }}"></tr>
                   </tr>
+                  <tr id="message-row-{{ message.id }}"></tr>
                   {% endfor %}
                   </tbody>
               </table>

@@ -1587,9 +1587,25 @@ Tech Artisan Custom CSS
     color: #151515;
     transition: 0.3s;
 }
+
 .md-yellow-button:hover {
     background: #ffcd6b;
     color: #151515;
+}
+
+.md-red-button {
+    --bs-btn-padding-y: .25rem;
+    --bs-btn-padding-x: .5rem;
+    --bs-btn-font-size: .75rem;
+    font-size: 14px;
+    background: #ff0000;
+    color: #151515;
+    transition: 0.3s;
+}
+
+.md-red-button:hover {
+    background: #FF7F7F; /* lighter red */
+    color: #FFFFFF; /* white */
 }
 
 .header-bg-color-dark {
