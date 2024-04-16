@@ -36,4 +36,6 @@ def user_list_messages(request):
 
 @login_required
 def view_message(request, msg_id):
-    return render(request, 'messages/view-message.html', {'msg_id': msg_id})
+    message = Message.objects.get(to_user=request.user, pk=msg_id)
+    context = {'message': message, 'msg_id': msg_id}
+    return render(request, 'messages/view-message.html', context)

@@ -1,9 +1,9 @@
-<td colspan="4">
-This is the message view.
-This is the message view.
-This is the message view.
-This is the message view.
-This is the message view.
-This is the message view.
-<button onClick="document.getElementById('message-row-28').innerHTML = '';">Close</button>
+<td colspan="2">
+{{ message.body }}
+</td>
+<td>
+    <button class="btn md-yellow-button" onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Close</button>
+</td>
+<td>
+    <button class="btn md-yellow-button" onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Reply</button>
 </td>
