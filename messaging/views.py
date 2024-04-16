@@ -50,6 +50,6 @@ def delete_message(request, msg_id):
     try:
         delete_message = Message.objects.get(to_user=request.user, pk=msg_id)
         delete_message.delete()
-        return HttpResponse('<script>document.querySelector("#message-row-' + str(id) + '").remove()</script>')
+        return HttpResponse('')
     except Message.DoesNotExist:
         return redirect('user_profile')

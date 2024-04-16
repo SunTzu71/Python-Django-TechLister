@@ -32,12 +32,11 @@
                       </td>
                       <td class="text-center">
                           <button
-                                  hx-get="{% url 'delete_message' message.id %}"
-                                  hx-target="#message-row-{{ message.id }}"
-                                  hx-confirm="Are you sure you want to delete this message?"
-                                  hx-swap="outerHTML"
-                                  class="btn md-red-button">Delete
-                          </button>
+                             hx-get="{% url 'delete_message' message.id %}"
+                             hx-confirm="Are you sure you want to delete this message?"
+                             hx-target="#message-row-{{ message.id }}"
+                             hx-swap="outerHTML"
+                             class="btn md-red-button">Delete</button>
                       </td>
                   </tr>
                   <tr id="message-row-{{ message.id }}"></tr>
