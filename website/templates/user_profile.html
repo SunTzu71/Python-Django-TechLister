@@ -6,7 +6,6 @@
           <div class="col-4">
               {% include 'users/user_info.html' %}
           </div>
-
           <div class="col 8">
               <h3>Messages</h3>
              <table class="table table-hover table-bordered">
@@ -19,18 +18,26 @@
                   </tr>
                   </thead>
                   <tbody>
+                  {% for message in messages %}
                   <tr>
-                      <td>Some Recruiter Name</td>
-                      <td>Subject line goes here</td>
+                      <td>{{ message.from_user.first_name }} {{ message.from_user.last_name }}</td>
+                      <td>{{ message.subject }}</td>
                       <td class="text-center">
-                          <a href="#"><button type="button" class="btn md-yellow-button">View</button></a>
+                          <button
+                                  hx-get="{% url 'view_message' message.id %}"
+                                  hx-target="#message-row-{{ message.id }}"
+                                  hx-swap="innerHTML"
+                                  class="btn md-yellow-button">View</button>
+                          <button onClick="document.getElementById('message-row-{{ message.id }}').outerHTML='';">Close</button>
                       </td>
                       <td class="text-center">
                           <a href="#">
                               <button class="btn btn-danger" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button>
                           </a>
                       </td>
+                  <tr id="message-row-{{ message.id }}"></tr>
                   </tr>
+                  {% endfor %}
                   </tbody>
               </table>
           </div>

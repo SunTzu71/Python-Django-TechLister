@@ -109,6 +109,7 @@
                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                         Save Resume</button>
                     </div>
+                    {% endif %}
                     <div class="mt-2">
                     <button
                             hx-get="{% url 'new_message' pii.user.id %}"
@@ -118,7 +119,6 @@
                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                         Message User</button>
                     </div>
-                    {% endif %}
                 {% endif %}
         {% else %}
         You must be logged in to view all details<br />

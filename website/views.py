@@ -274,7 +274,6 @@ def delete_profile_image(request):
         return redirect('restricted_access')
 
 
-
 @login_required
 def add_personal_info(request):
     try:
@@ -296,12 +295,14 @@ def add_personal_info(request):
 
                 add_personal_info.save()  # Save the profile info with the resized image
 
-                # check if recruiter or user and redirecto to profile page
+                # check if recruiter or user and redirect to profile page
                 personal_info = PersonalInformation.objects.get(user=request.user)
                 is_recruiter = personal_info.recruiter
                 if is_recruiter:
+                    request.session['recruiter'] = True
                     return redirect('recruiter_profile')
                 else:
+                    request.session['recruiter'] = False
                     return redirect('user_profile')
 
             else:
@@ -533,7 +534,7 @@ def skill_search(request):
 @login_required
 @require_POST
 def add_skill(request, skill_input):
-    skill = Skill.objects.create(skill=skill_input)
+    skill = Skill.objects.create(name=skill_input)
 
     # check to see if we have job_id in session if so then we are editing job listing
     job_id = request.session.get('job_id')
@@ -552,7 +553,7 @@ def add_skill(request, skill_input):
         request.session['job_skills'] = job_skills
         return redirect('add_job_skill')
     else:
-        UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user)
+        UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user.id)
         return redirect('edit_resume')
 
 
