@@ -1,11 +1,16 @@
-<td colspan="2">
-{{ message.body }}
-</td>
-<td class="text-center">
-    <button class="btn md-yellow-button"
-            onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Close</button>
-</td>
-<td class="text-center">
-    <button class="btn md-yellow-button"
-            onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Reply</button>
+<td>
+    <hr />
+    <p>
+        {{ message.body }}
+    </p>
+    <div class="d-flex justify-content-end">
+        <div class="">
+            <button class="btn md-yellow-button"
+                    onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Close</button>
+        </div>
+        <div class="mx-3">
+            <button class="btn md-yellow-button"
+                    onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Reply</button>
+        </div>
+    </div>
 </td>
