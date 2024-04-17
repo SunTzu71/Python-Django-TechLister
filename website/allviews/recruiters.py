@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from website.models import SavedUsers, PersonalInformation, JobListing, AppliedJobs
-
+from messaging.views import user_list_messages
 
 @login_required
 def recruiter_profile(request):
@@ -13,6 +13,7 @@ def recruiter_profile(request):
             'saved__personal_information')
 
         personal_info = PersonalInformation.objects.get(user=request.user)
+        messages = user_list_messages(request)
         job_listings = JobListing.objects.filter(user_id=user_id)
 
         jobs_filter = AppliedJobs.objects.select_related('user_id').filter(job__in=job_listings)
@@ -22,7 +23,8 @@ def recruiter_profile(request):
         context = {'pii': personal_info,
                    'jobs': job_listings,
                    'applied': applied_jobs,
-                   'users': saved_users_with_info}
+                   'users': saved_users_with_info,
+                   'messages': messages}
 
         # Check if job_listings is empty
         # todo: change this to show to the user on profile page
