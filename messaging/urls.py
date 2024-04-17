@@ -4,6 +4,7 @@ from django.urls import path
 from . import views
 
 
+# message system is for users and recruiters
 urlpatterns = [
     path('message/new/<int:user_id>', views.new_message, name='new_message'),
     path('message/reply/<int:msg_id>/<int:user_id>', views.reply_message, name='reply_message'),
