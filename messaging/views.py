@@ -26,6 +26,13 @@ def new_message(request, user_id):
 
 
 @login_required
+def reply_message(request, user_id):
+    form = MessageForm()
+    context = {'form': form, 'user_id': user_id}
+    return render(request, 'reply_message.html', context)
+
+
+@login_required
 def user_list_messages(request):
     try:
         user_instance = request.user

@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row mb-5 justify-content-center">
+        <div id="message-sent"></div>
+        <form hx-post="{% url 'new_message' user_id %}" hx-trigger="submit">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.body }}
+                        {% for error in form.body.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button
+                                hx-target="#message-sent"
+                                hx-swap="innerHTML"
+                                class="btn md-yellow-button">Send
+                        </button>
+                    </div>
+                </form>
+    </div>
+</div>
