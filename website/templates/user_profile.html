@@ -19,9 +19,12 @@
                   </thead>
                   <tbody>
                   {% for message in messages %}
-                  <tr>
+                  <tr id="delete-message-{{ message.id }}">
                       <td>{{ message.from_user.first_name }} {{ message.from_user.last_name }}</td>
-                      <td>{{ message.subject }}</td>
+                      <td>
+                          {{ message.subject }}
+                            <div id="message-row-{{ message.id }}"></div>
+                      </td>
                       <td class="text-center">
                           <button
                                   hx-get="{% url 'view_message' message.id %}"
@@ -34,12 +37,11 @@
                           <button
                              hx-get="{% url 'delete_message' message.id %}"
                              hx-confirm="Are you sure you want to delete this message?"
-                             hx-target="#message-row-{{ message.id }}"
-                             hx-swap="outerHTML"
+                             hx-target="#delete-message-{{ message.id }}"
+                             hx-swap="innerHTML"
                              class="btn md-red-button">Delete</button>
                       </td>
                   </tr>
-                  <tr id="message-row-{{ message.id }}"></tr>
                   {% endfor %}
                   </tbody>
               </table>
