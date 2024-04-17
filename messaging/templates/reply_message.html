@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row mb-5 justify-content-center">
         <div id="message-sent"></div>
-        <form hx-post="{% url 'new_message' user_id %}" hx-trigger="submit">
+        <form hx-post="{% url 'reply_message' msg_id user_id %}" hx-trigger="submit">
                     {% csrf_token %}
                     <div class="mb-3">
                         {{ form.body }}

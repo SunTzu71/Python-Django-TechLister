@@ -1,5 +1,5 @@
 from django import forms
-from .models import Message
+from .models import Message, MessageReply
 from common.validators import validate_title_length, validate_description_length
 
 
@@ -27,5 +27,18 @@ class MessageForm(CustomModelForm):
         fields = ['subject', 'body']
         widgets = {
             'subject': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject'}),
+            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 8, 'placeholder': 'Add your message'}),
+        }
+
+
+class ReplyMessageForm(CustomModelForm):
+    custom_validators = {
+        'body': [validate_description_length],
+    }
+
+    class Meta:
+        model = MessageReply
+        fields = ['body']
+        widgets = {
             'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 8, 'placeholder': 'Add your message'}),
         }
