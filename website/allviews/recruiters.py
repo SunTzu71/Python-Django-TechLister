@@ -49,6 +49,30 @@ def job_listings(request):
     return render(request, 'recruiters/all_jobs.html', context)
 
 
+def user_applications(request):
+    user_id = request.user.id
+    try:
+        personal_info = PersonalInformation.objects.get(user=request.user)
+        job_listings = JobListing.objects.filter(user_id=user_id)
+
+        jobs_filter = AppliedJobs.objects.select_related('user_id').filter(job__in=job_listings)
+        applied_jobs = jobs_filter.values('job_id', 'user_id', 'user_id__first_name', 'user_id__last_name',
+                                          'job__title', 'job__company', 'cover_letter')
+
+        context = {'pii': personal_info,
+                   'applied': applied_jobs}
+
+        # Check if job_listings is empty
+        # todo: change this to show to the user on profile page
+        if not job_listings:
+            print("No job listings found for user:", user_id)
+
+    except PersonalInformation.DoesNotExist:
+        return redirect('add_personalinfo')
+
+    return render(request, 'recruiters/applications.html', context)
+
+
 @login_required
 def saved_resumes(request):
     # Prefetch related PersonalInformation data
