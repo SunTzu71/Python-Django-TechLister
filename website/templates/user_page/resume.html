@@ -2,6 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-9 mt-3"> <!-- Left Column, 25% -->
+        <div id="new-message"></div>
       <h5>Skill Set</h5>
       <div class="card-body">
           <div class="container">
@@ -105,9 +106,19 @@
                             hx-target="#saved-user"
                             hx-swap="innerHTML"
                             class="btn btn-primary"
-                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Save Resume</button>
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Save Resume</button>
                     </div>
                     {% endif %}
+                    <div class="mt-2">
+                    <button
+                            hx-get="{% url 'new_message' pii.user.id %}"
+                            hx-target="#new-message"
+                            hx-swap="innerHTML"
+                            class="btn btn-primary"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Message User</button>
+                    </div>
                 {% endif %}
         {% else %}
         You must be logged in to view all details<br />

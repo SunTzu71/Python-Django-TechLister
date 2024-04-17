@@ -2,7 +2,7 @@
 <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
     <div class="row">
         <div class="col-md-9 mt-3"> <!-- Left Column, 25% -->
-
+            <div id="new-message"></div>
             <div class="card-body mb-3">
                 <h5 class="card-title">{{ jobinfo.job.title }}</h5>
                 <p class="card-text">
@@ -78,6 +78,18 @@
                         </a>
                         {% endif %}
                     </div>
+
+                    <div class="mt-2">
+                        <button
+                                hx-get="{% url 'new_message' jobinfo.pii.user_id %}"
+                                hx-target="#new-message"
+                                hx-swap="innerHTML"
+                                class="btn btn-primary"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Send Message
+                        </button>
+                    </div>
+
                 {% endif %}
 
             {% else %}

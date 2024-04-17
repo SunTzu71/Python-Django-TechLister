@@ -1,15 +1,16 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from website.models import SavedJobs, AppliedJobs, PersonalInformation, Education, Experience, UserSkill
-
+from messaging.views import user_list_messages
 
 @login_required
 def user_profile(request):
-    user_id = request.user.id
     try:
-        personal_info = PersonalInformation.objects.get(user_id=user_id)
-        context = {'pii': personal_info}
+        personal_info = PersonalInformation.objects.get(user_id=request.user.id)
+        messages = user_list_messages(request)
+        context = {'pii': personal_info, 'messages': messages}
 
     except PersonalInformation.DoesNotExist:
         return redirect('add_personalinfo')

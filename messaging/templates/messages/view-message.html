@@ -1,0 +1,22 @@
+<td>
+    <hr />
+    <p>
+        {{ message.body }}
+    </p>
+    <div id="reply-message"></div>
+    <div class="d-flex justify-content-end">
+        <div class="">
+            <button class="btn md-yellow-button"
+                    onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Close
+            </button>
+        </div>
+        <div class="mx-3">
+            <button
+                    hx-get="{% url 'reply_message' msg_id message.from_user.id %}"
+                    hx-target="#reply-message"
+                    hx-swap="innerHTML"
+                    class="btn md-yellow-button">Reply
+            </button>
+        </div>
+    </div>
+</td>

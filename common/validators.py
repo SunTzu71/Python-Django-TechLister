@@ -6,6 +6,11 @@ def validate_title_length(value):
         raise forms.ValidationError("Title is required.")
 
 
+def validate_about_length(value):
+    if len(value) <= 5:
+        raise forms.ValidationError("Description must be longer than 5 characters.")
+
+
 def validate_description_length(value):
     if len(value) <= 5:
         raise forms.ValidationError("Description must be longer than 5 characters.")

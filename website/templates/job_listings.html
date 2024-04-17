@@ -41,7 +41,7 @@
                <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-9 mt-3"> <!-- Left Column, 25% -->
-
+                        <div id="new-message"></div>
                         <div class="card-body mb-3">
                             <h5 class="card-title">{{ first.job.title }}</h5>
                             <p class="card-text">
@@ -62,7 +62,6 @@
                         </div>
 
                         <div class="card-body mb-3">
-                            <h5 class="card-title">Description</h5>
                             <p class="card-text">
                                 {{ first.job.description | safe }}
                            </p>
@@ -116,8 +115,20 @@
                                         <a href="{% url 'apply_job' first.job.id %}">
                                             <button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Apply to Job</button>
                                         </a>
-                                        {% endif %}
                                     </div>
+                                {% endif %}
+
+                                    <div class="mt-2">
+                                        <button
+                                                hx-get="{% url 'new_message' first.pii.user.id %}"
+                                                hx-target="#new-message"
+                                                hx-swap="innerHTML"
+                                                class="btn btn-primary"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                            Send Message
+                                        </button>
+                                    </div>
+
                             {% endif %}
 
                         {% else %}

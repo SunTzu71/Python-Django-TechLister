@@ -6,7 +6,6 @@
           <div class="col-4">
               {% include 'users/user_info.html' %}
           </div>
-
           <div class="col 8">
               <h3>Messages</h3>
              <table class="table table-hover table-bordered">
@@ -15,22 +14,35 @@
                       <th scope="col">From</th>
                       <th scope="col">Subject</th>
                       <th scope="col" class="text-center">View</th>
-                      <th scope="col" class="text-center">Remove</th>
+                      <th scope="col" class="text-center">Delete</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                      <td>Some Recruiter Name</td>
-                      <td>Subject line goes here</td>
-                      <td class="text-center">
-                          <a href="#"><button type="button" class="btn md-yellow-button">View</button></a>
+                  {% for message in messages %}
+                  <tr id="delete-message-{{ message.id }}">
+                      <td>{{ message.from_user.first_name }} {{ message.from_user.last_name }}</td>
+                      <td>
+                          {{ message.subject }}
+                            <div id="message-row-{{ message.id }}"></div>
                       </td>
                       <td class="text-center">
-                          <a href="#">
-                              <button class="btn btn-danger" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button>
-                          </a>
+                          <button
+                                  hx-get="{% url 'view_message' message.id %}"
+                                  hx-target="#message-row-{{ message.id }}"
+                                  hx-swap="innerHTML"
+                                  class="btn md-yellow-button">View
+                          </button>
+                      </td>
+                      <td class="text-center">
+                          <button
+                             hx-get="{% url 'delete_message' message.id %}"
+                             hx-confirm="Are you sure you want to delete this message?"
+                             hx-target="#delete-message-{{ message.id }}"
+                             hx-swap="innerHTML"
+                             class="btn btn-danger btn-sm">Delete</button>
                       </td>
                   </tr>
+                  {% endfor %}
                   </tbody>
               </table>
           </div>

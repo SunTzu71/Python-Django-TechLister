@@ -4,20 +4,18 @@ from django.http import Http404
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from django.db.models import Prefetch
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm, CoverLetterForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
                      SavedJobs, SavedUsers, User, AppliedJobs)
-from .utility.image_resize import image_resize
-from .utility.currency_format import format_currency
+from common.image_resize import image_resize
+from common.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
-from .allviews.verify_user_email import send_verification_email, verify_email
+from .allviews.verify_user_email import send_verification_email
 
 
 def home(request):
@@ -276,7 +274,6 @@ def delete_profile_image(request):
         return redirect('restricted_access')
 
 
-
 @login_required
 def add_personal_info(request):
     try:
@@ -298,12 +295,14 @@ def add_personal_info(request):
 
                 add_personal_info.save()  # Save the profile info with the resized image
 
-                # check if recruiter or user and redirecto to profile page
+                # check if recruiter or user and redirect to profile page
                 personal_info = PersonalInformation.objects.get(user=request.user)
                 is_recruiter = personal_info.recruiter
                 if is_recruiter:
+                    request.session['recruiter'] = True
                     return redirect('recruiter_profile')
                 else:
+                    request.session['recruiter'] = False
                     return redirect('user_profile')
 
             else:
@@ -535,7 +534,7 @@ def skill_search(request):
 @login_required
 @require_POST
 def add_skill(request, skill_input):
-    skill = Skill.objects.create(skill=skill_input)
+    skill = Skill.objects.create(name=skill_input)
 
     # check to see if we have job_id in session if so then we are editing job listing
     job_id = request.session.get('job_id')
@@ -554,7 +553,7 @@ def add_skill(request, skill_input):
         request.session['job_skills'] = job_skills
         return redirect('add_job_skill')
     else:
-        UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user)
+        UserSkill.objects.create(skill_id=skill.id, skill_name=skill_input, user_id=request.user.id)
         return redirect('edit_resume')
 
 
