@@ -26,12 +26,25 @@
                             <div id="message-row-{{ message.id }}"></div>
                       </td>
                       <td class="text-center">
-                          <button
-                                  hx-get="{% url 'view_message' message.id %}"
-                                  hx-target="#message-row-{{ message.id }}"
-                                  hx-swap="innerHTML"
-                                  class="btn md-yellow-button">View
-                          </button>
+                          {% if message.read %}
+                              <button
+                                      hx-get="{% url 'view_message' message.id %}"
+                                      hx-target="#message-row-{{ message.id }}"
+                                      hx-swap="innerHTML"
+                                      class="btn md-yellow-button">View
+                              </button>
+                          {% else %}
+                              <button
+                                      hx-get="{% url 'view_message' message.id %}"
+                                      hx-target="#message-row-{{ message.id }}"
+                                      hx-swap="innerHTML"
+                                      class="btn btn-sm btn-success">Read
+                              </button>
+                          {% endif %}
+
+
+
+
                       </td>
                       <td class="text-center">
                           <button

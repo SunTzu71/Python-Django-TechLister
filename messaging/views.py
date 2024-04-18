@@ -34,12 +34,19 @@ def reply_message(request, msg_id, user_id):
 
             form = ReplyMessageForm(request.POST)
             context = {'form': form, 'msg_id': msg_id, 'user_id': user_id}
+
             if form.is_valid():
+                # set main message to read False to show new message alert
+                main_read = Message.objects.get(id=msg_id)
+                main_read.read = False
+                main_read.save()
+
                 add_message = form.save(commit=False)
                 add_message.from_user = request.user
                 add_message.to_user = User.objects.get(pk=user_id)
                 add_message.message_id = msg_id
                 add_message.save()
+
                 return render(request, 'messages/message-sent.html')
             else:
                 return render(request, 'reply_message.html', context)
@@ -65,15 +72,20 @@ def user_list_messages(request):
 @login_required
 def view_message(request, msg_id):
     try:
-        # get the main message
         message = Message.objects.get(to_user=request.user, pk=msg_id)
+        message.read = True
+        message.save()
 
-        # get all replies for the main message
+        # we do not need this logic
         replies = MessageReply.objects.filter(message_id=message.id)
+        for reply in replies:
+            reply.read = True
+            reply.save()
 
         context = {'message': message,
                    'replies': replies,
                    'msg_id': msg_id}
+
         return render(request, 'messages/view-message.html', context)
     except Message.DoesNotExist:
         return redirect('user_profile')
