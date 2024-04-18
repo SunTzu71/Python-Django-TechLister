@@ -65,8 +65,15 @@ def user_list_messages(request):
 @login_required
 def view_message(request, msg_id):
     try:
+        # get the main message
         message = Message.objects.get(to_user=request.user, pk=msg_id)
-        context = {'message': message, 'msg_id': msg_id}
+
+        # get all replies for the main message
+        replies = MessageReply.objects.filter(message_id=message.id)
+
+        context = {'message': message,
+                   'replies': replies,
+                   'msg_id': msg_id}
         return render(request, 'messages/view-message.html', context)
     except Message.DoesNotExist:
         return redirect('user_profile')
