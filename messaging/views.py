@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import MessageForm, ReplyMessageForm
 from .models import Message, MessageReply
+from website.models import PersonalInformation
 
 
 @login_required
@@ -63,7 +64,7 @@ def reply_message(request, msg_id, user_id):
 def user_list_messages(request):
     try:
         user_instance = request.user
-        all_messages = user_instance.to_messages.all()
+        all_messages = user_instance.to_messages.all().order_by('read')
         return all_messages
     except Message.DoesNotExist:
         return redirect('user_profile')
@@ -72,17 +73,18 @@ def user_list_messages(request):
 @login_required
 def view_message(request, msg_id):
     try:
+        personal_info = PersonalInformation.objects.get(user=request.user)
         message = Message.objects.get(to_user=request.user, pk=msg_id)
         message.read = True
         message.save()
 
-        # we do not need this logic
         replies = MessageReply.objects.filter(message_id=message.id)
         for reply in replies:
             reply.read = True
             reply.save()
 
         context = {'message': message,
+                   'pii': personal_info,
                    'replies': replies,
                    'msg_id': msg_id}
 

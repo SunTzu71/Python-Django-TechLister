@@ -1,32 +1,48 @@
-<td>
-    <hr />
-    <p>
-        <strong>{{ message.from_user.first_name }} {{ message.from_user.last_name }}</strong>
-        {{ message.created_at|date:"m/d/Y" }}<br />
-        {{ message.body }}
-    </p>
-        {% for reply in replies %}
-            <p>
-                <hr />
-                <strong>{{ reply.from_user.first_name }} {{ reply.from_user.last_name }}</strong>
-                {{ reply.created_at|date:"m/d/Y" }}<br />
-                {{ reply.body }}
-            </p>
-        {% endfor %}
-    <div id="reply-message"></div>
-    <div class="d-flex justify-content-end">
-        <div class="">
-            <button class="btn md-yellow-button"
-                    onClick="document.getElementById('message-row-{{ msg_id }}').innerHTML = '';">Close
-            </button>
-        </div>
-        <div class="mx-3">
-            <button
-                    hx-get="{% url 'reply_message' msg_id message.from_user.id %}"
-                    hx-target="#reply-message"
-                    hx-swap="innerHTML"
-                    class="btn md-yellow-button">Reply
-            </button>
+
+
+
+{% load static %}
+{% include 'inner-header.html' %}
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row mb-5">
+          <div class="col-4">
+              {% include 'users/user_info.html' %}
+          </div>
+          <div class="col 8">
+              <div class="d-flex align-items-center justify-content-between">
+        <h3>Messages</h3>
+        <button class="btn md-yellow-button" onclick="history .back()">
+            Back
+        </button>
+    </div>
+                  <hr />
+                  <p>
+                      <strong>{{ message.from_user.first_name }} {{ message.from_user.last_name }}</strong>
+                      {{ message.created_at|date:"m/d/Y" }}<br />
+                      {{ message.body }}
+                  </p>
+                  {% for reply in replies %}
+                  <p>
+                  <hr />
+                  <strong>{{ reply.from_user.first_name }} {{ reply.from_user.last_name }}</strong>
+                  {{ reply.created_at|date:"m/d/Y" }}<br />
+                  {{ reply.body }}
+                  </p>
+                  {% endfor %}
+                  <div id="reply-message"></div>
+                  <div class="d-flex justify-content-end">
+                      <div class="mx-3">
+                          <button
+                                  hx-get="{% url 'reply_message' msg_id message.from_user.id %}"
+                                  hx-target="#reply-message"
+                                  hx-swap="innerHTML"
+                                  class="btn md-yellow-button">Reply
+                          </button>
+                      </div>
+                  </div>
+          </div>
         </div>
     </div>
-</td>
+{% endif %}
+{% include 'footer.html' %}
