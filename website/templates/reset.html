@@ -1,0 +1,32 @@
+{% load static %}
+{% include 'inner-header.html' %}
+
+<div class="container">
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header header-bg-color-dark text-white">
+          Enter new password
+        </div>
+        <div class="card-body">
+            Please enter your new password twice so we can verify you typed it in correctly.
+          <form method="POST" class="d-flex flex-column">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col">
+                  {{ form }}
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col d-flex justify-content-end">
+                <button type="submit" class="btn lg-button-yellow">Reset</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}
