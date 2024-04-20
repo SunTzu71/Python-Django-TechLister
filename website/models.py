@@ -22,6 +22,19 @@ class PersonalInformation(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 
+class Article(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, related_name='article')
+    title = models.CharField(max_length=255)
+    description = SummernoteTextField()
+    draft = models.BooleanField(default=True)
+    approved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user} {self.title}'
+
+
 class Portfolio(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True, related_name='portfolios')
     title = models.CharField(max_length=255)

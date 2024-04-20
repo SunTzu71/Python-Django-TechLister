@@ -9,9 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
-    PortfolioForm, NewJobListingForm, CoverLetterForm
+    PortfolioForm, NewJobListingForm, CoverLetterForm, ArticleForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
-                     SavedJobs, SavedUsers, User, AppliedJobs)
+                     SavedJobs, SavedUsers, User, AppliedJobs, Article)
 from common.image_resize import image_resize
 from common.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
@@ -839,3 +839,59 @@ def rec_remove_resume(request, pk):
         return redirect('saved_resumes')
     else:
         return redirect('recruiter_profile')
+
+
+@login_required
+def add_article(request):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        context = {'pii': personal_info, 'form': form}
+        if form.is_valid():
+            add_article = form.save(commit=False)
+            add_article.user = request.user
+            add_article.save()
+            return redirect('list_articles')
+        else:
+            return render(request, 'add_article.html', context)
+    else:
+        form = ArticleForm()
+        context = {'pii': personal_info, 'form': form}
+    return render(request, 'add_article.html', context)
+
+
+def edit_article(request, pk):
+    try:
+        personal_info = PersonalInformation.objects.get(user=request.user)
+        article = Article.objects.get(user=request.user, pk=pk)
+        if request.method == 'POST':
+            form = ArticleForm(request.POST, instance=article)
+            context = {'pii': personal_info, 'form': form}
+            if form.is_valid():
+                form.save()
+                return redirect('list_articles')
+        else:
+            form = ArticleForm(instance=article)
+            context = {'pii': personal_info, 'form': form}
+        return render(request, 'edit_article.html', context)
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
+
+
+def list_articles(request):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    user_instance = request.user
+    all_articles = user_instance.article.all().order_by('created_at')
+
+    context = {'pii': personal_info, 'all_articles': all_articles}
+
+    return render(request, 'list_articles.html', context)
+
+
+def view_article(request, pk):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    view_article = Article.objects.get(user=request.user, pk=pk)
+
+    context = {'pii': personal_info, 'view_article': view_article}
+
+    return render(request, 'view_article.html', context)

@@ -53,12 +53,12 @@ SUMMERNOTE_CONFIG = {
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline', 'clear']],
             ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['insert', ['table', 'hr']],
-            ['view', ['fullscreen']],
-            ['help', ['help']]
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview']],
         ],
     },
 }

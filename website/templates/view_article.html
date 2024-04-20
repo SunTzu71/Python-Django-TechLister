@@ -1,0 +1,18 @@
+{% load static %}
+{% include 'inner-header.html' %}
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row mb-5">
+          <div class="col-4">
+              {% include 'users/user_info.html' %}
+          </div>
+          <div class="col 8">
+              <h3>{{ view_article.title }}</h3>
+               <p>
+                   {{ view_article.description | safe }}
+               </p>
+          </div>
+        </div>
+    </div>
+{% endif %}
+{% include 'footer.html' %}

@@ -90,10 +90,16 @@ urlpatterns = [
     path('all/job/<int:pk>', views.all_view_job, name='all_view_job'),
 
     # resume and user page
-    path('resume/<int:pk>', views.user_resume, name='user_resume'),  # delete this logic later
-    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),  # delete this logic later
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
+    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),
     path('resume/<str:username>', views.user_page, name='user_page'),
-    path('portfolio/<str:username>', views.user_portfolio, name='user_portfolio')
+    path('portfolio/<str:username>', views.user_portfolio, name='user_portfolio'),
+
+    # Article add edit view
+    path('article/add', views.add_article, name='add_article'),
+    path('article/edit/<int:pk>', views.edit_article, name='edit_article'),
+    path('article/list/', views.list_articles, name='list_articles'),
+    path('article/view/<int:pk>', views.view_article, name='view_article'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
