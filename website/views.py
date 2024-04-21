@@ -860,24 +860,26 @@ def add_article(request):
     return render(request, 'add_article.html', context)
 
 
+@login_required
 def edit_article(request, pk):
     try:
         personal_info = PersonalInformation.objects.get(user=request.user)
         article = Article.objects.get(user=request.user, pk=pk)
         if request.method == 'POST':
             form = ArticleForm(request.POST, instance=article)
-            context = {'pii': personal_info, 'form': form}
+            context = {'pii': personal_info, 'form': form, 'article': article}
             if form.is_valid():
                 form.save()
                 return redirect('list_articles')
         else:
             form = ArticleForm(instance=article)
-            context = {'pii': personal_info, 'form': form}
+            context = {'pii': personal_info, 'form': form, 'article': article}
         return render(request, 'edit_article.html', context)
     except ObjectDoesNotExist:
         return redirect('restricted_access')
 
 
+@login_required
 def list_articles(request):
     personal_info = PersonalInformation.objects.get(user=request.user)
     user_instance = request.user
