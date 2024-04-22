@@ -52,12 +52,21 @@
                       {{ userinfo.pii.phone }}<br />
                       </p>
 
-                      <p>
-                          {{ jobinfo.job.company }}<br />
-                          {{ jobinfo.job.city }}, {{ jobinfo.job.state }}<br />
-                      </p>
+                      <strong>Cover letter</strong>
+                      <div id="ai-cover-letter"></div>
+                      <div class="col d-flex justify-content-end">
+                              <div class="d-flex justify-content-end">
+                                  <div class="mx-3">
+                                      <button
+                                              hx-get="{% url 'ai_cover_letter' %}"
+                                              hx-target="#ai-cover-letter"
+                                              hx-swap="innerHTML"
+                                              class="btn md-yellow-button mb-2">Jeffrey
+                                      </button>
+                                  </div>
+                              </div>
+                      </div>
 
-                          <strong>Cover letter</strong>
                       <form method="POST" action="{% url 'apply_job' jobinfo.job.id %}">
                           {% csrf_token %}
                           {{ form.cover_letter }}
@@ -66,6 +75,19 @@
                           </div>
                       </form>
                   </div>
+
+                    <!-- Job Description -->
+                    <p>
+                        {{ jobinfo.job.company }}<br />
+                        {{ jobinfo.job.city }}, {{ jobinfo.job.state }}<br />
+                    </p>
+                    <p>
+                        <strong>{{ jobinfo.job.title }}</strong>
+                    </p>
+                    <p>
+                        {{ jobinfo.job.description | safe }}
+                    </p>
+
                     <!-- Resume Start -->
                     <h3>Resume</h3>
                         <div class="col-md-9 mt-3"> <!-- Left Column, 25% -->

@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from openai import OpenAI
+
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm, CoverLetterForm, ArticleForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
@@ -745,6 +747,62 @@ def apply_job(request, pk):
                    'userinfo': get_resume_information(request.user.id),
                    'form': CoverLetterForm()}
     return render(request, 'apply_job.html', context)
+
+
+def generate_cover_letter(job_description):
+    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+    prompt = (f"Write me a cover letter that is no longer than 10 sentences. Use Chris Hall for Sincerely signature. "
+              f"Then paste the job description "
+              f"into the input text.\n\nJob Description:\n{job_description}\n\nCover Letter:")
+
+    # Use the new ChatCompletion of OpenAI to generate the cover letter
+    response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+    ])
+
+    # Get the generated cover letter from the response
+    cover_letter = response.choices[0].message.content.strip()
+    return cover_letter
+
+
+job_description = """
+Zeta Associates is seeking experienced full-stack object-oriented software developers
+
+with emphasis on the backend server side. Development environment is Linux OS with 
+
+cloud native applications. 
+
+Technical Requirements and Desired Skills:
+
+Language: Java11+ especially multi-threading, concurrence and socket 
+programming. Should include J2EE, JMS, JDBC, JPA, Hibernate, JAX-RS, 
+JAXB, Spring MVC, stAX
+Java development and build environments to include Eclipse, Intellij, Gradle and 
+Maven
+Java frameworks to include Spring Boot, Spring MVC, Angular JS, Angular, Junit
+ Extensive knowledge of RESTful service development to include service 
+provider, clients and security SSL application
+Experience with persistence technologies and applications for SQL, noSQL, 
+ETCD
+Experience with message service implementations using JMS, AMQP, 
+RabbitMQ, Kafka
+Experience using multiple application servers such as Tomcat, Apache, Wildfly
+and embedded Jetty experience
+Experience with Cloud Native and Kubernetes Orchestration environments and 
+containerization
+Experience using CI/CD approaches with GitLab and Jenkins
+Experience exploring and applying available open source initiatives to 
+development challenges
+"""
+
+
+def ai_cover_letter(request):
+    generated_cover_letter = generate_cover_letter(job_description)
+    context = {'cover_letter': generated_cover_letter}
+
+    return render(request, 'ai_cover_letter.html', context)
 
 
 def remove_applied_job(request, pk):
