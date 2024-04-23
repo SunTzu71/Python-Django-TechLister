@@ -58,28 +58,22 @@
 
 
                             <div id="manual-cover-letter"></div>
-                            <div class="col d-flex justify-content-end">
-                                <div class="d-flex justify-content-end">
                                     <div class="mx-3">
                                         <button
-                                            hx-get="{% url 'manual_cover_letter' %}"
+                                            hx-get="{% url 'manual_cover_letter' jobinfo.job.id %}"
                                             hx-target="#manual-cover-letter"
                                             hx-swap="innerHTML"
                                             class="btn md-yellow-button mb-2">
                                             Cover Letter
                                         </button>
                                     </div>
-                                </div>
-                            </div>
-
 
                             <div id="ai-cover-letter"></div>
-                            <div class="col d-flex justify-content-end">
                                 <div class="d-flex justify-content-end">
                                     <div class="mx-3">
                                         <button
                                             id="jeffrey-button"
-                                            hx-get="{% url 'ai_cover_letter' %}"
+                                            hx-get="{% url 'ai_cover_letter' jobinfo.job.id %}"
                                             hx-target="#ai-cover-letter"
                                             hx-swap="innerHTML"
                                             class="btn md-yellow-button mb-2"
@@ -88,7 +82,6 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                                 <script>
                                     function disableButton() {
                                         var button = document.getElementById('jeffrey-button');

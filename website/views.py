@@ -798,18 +798,18 @@ development challenges
 """
 
 
-def ai_cover_letter(request):
+def ai_cover_letter(request, pk):
     generated_cover_letter = generate_cover_letter(job_description)
     formated_letter = generated_cover_letter.replace('\n\n', '<br /><br />')
-    context = {'cover_letter': formated_letter}
+    context = {'cover_letter': formated_letter, 'job_id': pk}
 
     return render(request, 'ai_cover_letter.html', context)
 
 
 @login_required
-def manual_cover_letter(request):
+def manual_cover_letter(request, pk):
     form = CoverLetterForm()
-    context = {'form': form}
+    context = {'form': form, 'job_id': pk}
 
     return render(request, 'manual_cover_letter.html', context)
 

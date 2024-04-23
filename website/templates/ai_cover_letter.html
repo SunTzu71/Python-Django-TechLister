@@ -1,6 +1,6 @@
 
-<form method="POST" action="/user/apply/job/3">
-                          <input type="hidden" name="csrfmiddlewaretoken" value="6nLW12pegrR24lQLDlPN0mXUTNmXHGOYyjp6bYlfa7ba9fbWCAi59bMdUvpHmaU7">
+<form method="POST" action="{% url 'apply_job' job_id %}">
+    {% csrf_token %}
                           <textarea name="cover_letter" cols="40" rows="10" id="id_cover_letter" hidden="true" style="display: none;">
     {{ cover_letter | safe }}
                           </textarea><script>
