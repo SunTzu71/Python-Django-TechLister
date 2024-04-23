@@ -51,6 +51,7 @@ urlpatterns = [
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
     path('user/apply/job/<int:pk>', views.apply_job, name='apply_job'),
     path('user/ai/coverletter', views.ai_cover_letter, name='ai_cover_letter'),
+    path('user/manual/coverletter', views.manual_cover_letter, name='manual_cover_letter'),
     path('user/applied/remove/job/<int:pk>', views.remove_applied_job, name='remove_applied_job'),
     path('user/remove/job/<int:pk>', views.user_profile_remove_job, name='user_profile_remove_job'),
     path('user/saved/jobs', users.saved_jobs, name='saved_jobs'),

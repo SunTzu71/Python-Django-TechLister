@@ -800,11 +800,21 @@ development challenges
 
 def ai_cover_letter(request):
     generated_cover_letter = generate_cover_letter(job_description)
-    context = {'cover_letter': generated_cover_letter}
+    formated_letter = generated_cover_letter.replace('\n\n', '<br /><br />')
+    context = {'cover_letter': formated_letter}
 
     return render(request, 'ai_cover_letter.html', context)
 
 
+@login_required
+def manual_cover_letter(request):
+    form = CoverLetterForm()
+    context = {'form': form}
+
+    return render(request, 'manual_cover_letter.html', context)
+
+
+@login_required
 def remove_applied_job(request, pk):
     try:
         remove_applied = AppliedJobs.objects.get(user=request.user, job=pk)
