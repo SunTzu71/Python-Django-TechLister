@@ -851,7 +851,7 @@ def rec_delete_applied(request, jobid, userid):
         job_owner = JobListing.objects.get(id=jobid, user=request.user)
         del_applied = AppliedJobs.objects.filter(job=jobid, user=userid)
         del_applied.delete()
-        return redirect('recruiter_profile')
+        return redirect('user_applications')
     except JobListing.DoesNotExist:
         return redirect('restricted_access')
 
