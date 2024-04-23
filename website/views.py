@@ -749,9 +749,23 @@ def apply_job(request, pk):
     return render(request, 'apply_job.html', context)
 
 
-def generate_cover_letter(job_description):
+def generate_cover_letter(user_id, job_id):
+    # this needs to be placed in the settings file
     client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
-    prompt = (f"Write me a cover letter that is no longer than 10 sentences. Use Chris Hall for Sincerely signature. "
+
+    user_instance = get_object_or_404(User, id=user_id)
+
+    job_info = get_job_information(job_id)
+
+    user_applying = user_instance.first_name + ' ' + user_instance.last_name
+    recruiter = job_info['pii'].first_name + ' ' + job_info['pii'].last_name
+    job_company = job_info['job'].company
+    job_description = job_info['job'].description
+
+    prompt = (f"Write me a cover letter that is no longer than 10 sentences. "
+              f"User Dear {recruiter} "
+              f"The company name is {job_company}. "
+              f"Use {user_applying} for Sincerely signature. "
               f"Then paste the job description "
               f"into the input text.\n\nJob Description:\n{job_description}\n\nCover Letter:")
 
@@ -767,39 +781,8 @@ def generate_cover_letter(job_description):
     return cover_letter
 
 
-job_description = """
-Zeta Associates is seeking experienced full-stack object-oriented software developers
-
-with emphasis on the backend server side. Development environment is Linux OS with 
-
-cloud native applications. 
-
-Technical Requirements and Desired Skills:
-
-Language: Java11+ especially multi-threading, concurrence and socket 
-programming. Should include J2EE, JMS, JDBC, JPA, Hibernate, JAX-RS, 
-JAXB, Spring MVC, stAX
-Java development and build environments to include Eclipse, Intellij, Gradle and 
-Maven
-Java frameworks to include Spring Boot, Spring MVC, Angular JS, Angular, Junit
- Extensive knowledge of RESTful service development to include service 
-provider, clients and security SSL application
-Experience with persistence technologies and applications for SQL, noSQL, 
-ETCD
-Experience with message service implementations using JMS, AMQP, 
-RabbitMQ, Kafka
-Experience using multiple application servers such as Tomcat, Apache, Wildfly
-and embedded Jetty experience
-Experience with Cloud Native and Kubernetes Orchestration environments and 
-containerization
-Experience using CI/CD approaches with GitLab and Jenkins
-Experience exploring and applying available open source initiatives to 
-development challenges
-"""
-
-
 def ai_cover_letter(request, pk):
-    generated_cover_letter = generate_cover_letter(job_description)
+    generated_cover_letter = generate_cover_letter(request.user.id, pk)
     formated_letter = generated_cover_letter.replace('\n\n', '<br /><br />')
     context = {'cover_letter': formated_letter, 'job_id': pk}
 
