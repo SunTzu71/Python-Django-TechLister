@@ -100,8 +100,8 @@ def view_message(request, msg_id):
 @login_required
 def delete_message(request, msg_id):
     try:
-        delete_message = Message.objects.get(to_user=request.user, pk=msg_id)
+        delete_message = Message.objects.get(Q(to_user=request.user) | Q(from_user=request.user), pk=msg_id)
         delete_message.delete()
         return HttpResponse('')
     except Message.DoesNotExist:
-        return redirect('user_profile')
+        return redirect('home')
