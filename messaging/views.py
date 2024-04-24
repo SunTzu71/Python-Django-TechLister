@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .forms import MessageForm, ReplyMessageForm
 from .models import Message, MessageReply
 from website.models import PersonalInformation
@@ -31,7 +32,7 @@ def reply_message(request, msg_id, user_id):
     if request.method == 'POST':
         try:
             # check if user has access to reply
-            check_user = Message.objects.get(id=msg_id, to_user=request.user)
+            check_user = Message.objects.get(Q(to_user=request.user) | Q(from_user=request.user), id=msg_id)
 
             form = ReplyMessageForm(request.POST)
             context = {'form': form, 'msg_id': msg_id, 'user_id': user_id}
@@ -64,7 +65,9 @@ def reply_message(request, msg_id, user_id):
 def user_list_messages(request):
     try:
         user_instance = request.user
-        all_messages = user_instance.to_messages.all().order_by('read')
+        from_user_messages = Message.objects.filter(from_user=user_instance)
+        to_user_messages = Message.objects.filter(to_user=user_instance)
+        all_messages = from_user_messages.union(to_user_messages).order_by('read')
         return all_messages
     except Message.DoesNotExist:
         return redirect('user_profile')
@@ -74,7 +77,8 @@ def user_list_messages(request):
 def view_message(request, msg_id):
     try:
         personal_info = PersonalInformation.objects.get(user=request.user)
-        message = Message.objects.get(to_user=request.user, pk=msg_id)
+
+        message = Message.objects.get(Q(to_user=request.user) | Q(from_user=request.user), pk=msg_id)
         message.read = True
         message.save()
 
