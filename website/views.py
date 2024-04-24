@@ -388,8 +388,13 @@ def user_page(request, username):
     personal_info = PersonalInformation.objects.get(user_id=userinfo[0])
     resume = get_resume_information(userinfo[0])
 
+    user_instance = get_object_or_404(User, pk=userinfo[0])
+    saved_user = SavedUsers.objects.filter(saved=user_instance).first()
+    check_user = bool(saved_user)
+
     context = {'pii': personal_info,
                'resume': resume,
+               'saved_user': check_user,
                'username': userinfo[1]}
 
     return render(request, 'user_page/user_home.html', context)
