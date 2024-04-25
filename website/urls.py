@@ -57,6 +57,7 @@ urlpatterns = [
     path('user/saved/jobs', users.saved_jobs, name='saved_jobs'),
     path('user/applied/jobs', users.applied_jobs, name='applied_jobs'),
     path('user/edit/resume', users.edit_resume, name='edit_resume'),
+    path('user/ai/info', users.ai_info, name='ai_info'),
 
     # recruiter section
     path('recruiter/profile/', recruiters.recruiter_profile, name='recruiter_profile'),

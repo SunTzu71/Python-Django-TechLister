@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import render, redirect
-from website.models import SavedJobs, AppliedJobs, PersonalInformation, Education, Experience, UserSkill
+from website.models import SavedJobs, AppliedJobs, PersonalInformation, Education, Experience, UserSkill, AIToken
 from messaging.views import user_list_messages
+
 
 @login_required
 def user_profile(request):
@@ -76,3 +77,13 @@ def edit_resume(request):
         return redirect('add_personalinfo')
 
     return render(request, 'users/edit_resume.html', context)
+
+
+def ai_info(request):
+    user_id = request.user.id
+    personal_info = PersonalInformation.objects.get(user_id=user_id)
+    ai_token = AIToken.objects.get(user=request.user)
+
+    context = {'pii': personal_info,
+               'ai_token': ai_token}
+    return render(request, 'users/ai_info.html', context)
