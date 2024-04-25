@@ -8,10 +8,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from openai import OpenAI
+
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
-    PortfolioForm, NewJobListingForm, CoverLetterForm
+    PortfolioForm, NewJobListingForm, CoverLetterForm, ArticleForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
-                     SavedJobs, SavedUsers, User, AppliedJobs)
+                     SavedJobs, SavedUsers, User, AppliedJobs, Article, AIToken)
 from common.image_resize import image_resize
 from common.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
@@ -32,8 +34,9 @@ def register_user(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password1'])
-            user.is_active = False;
+            user.is_active = False
             user.save()
+
             send_verification_email(user)
             return redirect('home')
     else:
@@ -386,8 +389,13 @@ def user_page(request, username):
     personal_info = PersonalInformation.objects.get(user_id=userinfo[0])
     resume = get_resume_information(userinfo[0])
 
+    user_instance = get_object_or_404(User, pk=userinfo[0])
+    saved_user = SavedUsers.objects.filter(saved=user_instance).first()
+    check_user = bool(saved_user)
+
     context = {'pii': personal_info,
                'resume': resume,
+               'saved_user': check_user,
                'username': userinfo[1]}
 
     return render(request, 'user_page/user_home.html', context)
@@ -726,12 +734,21 @@ def save_job(request, pk):
 
 @login_required
 def apply_job(request, pk):
+    # get token amount to display AI button
+    user_tokens = AIToken.objects.get(user=request.user)
+    if user_tokens.amount > 0:
+        ai_token = True
+    else:
+        ai_token = False
+
     if request.method == 'POST':
         job = JobListing.objects.get(pk=pk)
         form = CoverLetterForm(request.POST)
         context = {'jobinfo': get_job_information(pk),
                    'userinfo': get_resume_information(request.user.id),
+                   'ai_token': ai_token,
                    'form': form}
+
         if form.is_valid():
             add_letter = form.save(commit=False)
             add_letter.user = request.user
@@ -743,10 +760,66 @@ def apply_job(request, pk):
     else:
         context = {'jobinfo': get_job_information(pk),
                    'userinfo': get_resume_information(request.user.id),
+                   'ai_token': ai_token,
                    'form': CoverLetterForm()}
     return render(request, 'apply_job.html', context)
 
 
+def generate_cover_letter(user_id, job_id):
+    # this needs to be placed in the settings file
+    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+
+    user_instance = get_object_or_404(User, id=user_id)
+
+    job_info = get_job_information(job_id)
+
+    user_applying = user_instance.first_name + ' ' + user_instance.last_name
+    recruiter = job_info['pii'].first_name + ' ' + job_info['pii'].last_name
+    job_company = job_info['job'].company
+    job_description = job_info['job'].description
+
+    prompt = (f"Write me a cover letter that is no longer than 10 sentences. "
+              f"User Dear {recruiter} "
+              f"The company name is {job_company}. "
+              f"Use {user_applying} for Sincerely signature. "
+              f"Then paste the job description "
+              f"into the input text.\n\nJob Description:\n{job_description}\n\nCover Letter:")
+
+    # Use the new ChatCompletion of OpenAI to generate the cover letter
+    response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+    ])
+
+    # Get the generated cover letter from the response
+    cover_letter = response.choices[0].message.content.strip()
+
+    user_tokens = AIToken.objects.get(user=user_instance)
+    if user_tokens.amount > 0:
+        user_tokens.amount = user_tokens.amount - 1
+        user_tokens.save()
+
+    return cover_letter
+
+
+def ai_cover_letter(request, pk):
+    generated_cover_letter = generate_cover_letter(request.user.id, pk)
+    formated_letter = generated_cover_letter.replace('\n\n', '<br /><br />')
+    context = {'cover_letter': formated_letter, 'job_id': pk}
+
+    return render(request, 'ai_cover_letter.html', context)
+
+
+@login_required
+def manual_cover_letter(request, pk):
+    form = CoverLetterForm()
+    context = {'form': form, 'job_id': pk}
+
+    return render(request, 'manual_cover_letter.html', context)
+
+
+@login_required
 def remove_applied_job(request, pk):
     try:
         remove_applied = AppliedJobs.objects.get(user=request.user, job=pk)
@@ -800,7 +873,7 @@ def rec_delete_applied(request, jobid, userid):
         job_owner = JobListing.objects.get(id=jobid, user=request.user)
         del_applied = AppliedJobs.objects.filter(job=jobid, user=userid)
         del_applied.delete()
-        return redirect('recruiter_profile')
+        return redirect('user_applications')
     except JobListing.DoesNotExist:
         return redirect('restricted_access')
 
@@ -839,3 +912,61 @@ def rec_remove_resume(request, pk):
         return redirect('saved_resumes')
     else:
         return redirect('recruiter_profile')
+
+
+@login_required
+def add_article(request):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        context = {'pii': personal_info, 'form': form}
+        if form.is_valid():
+            add_article = form.save(commit=False)
+            add_article.user = request.user
+            add_article.save()
+            return redirect('list_articles')
+        else:
+            return render(request, 'add_article.html', context)
+    else:
+        form = ArticleForm()
+        context = {'pii': personal_info, 'form': form}
+    return render(request, 'add_article.html', context)
+
+
+@login_required
+def edit_article(request, pk):
+    try:
+        personal_info = PersonalInformation.objects.get(user=request.user)
+        article = Article.objects.get(user=request.user, pk=pk)
+        if request.method == 'POST':
+            form = ArticleForm(request.POST, instance=article)
+            context = {'pii': personal_info, 'form': form, 'article': article}
+            if form.is_valid():
+                form.save()
+                return redirect('list_articles')
+        else:
+            form = ArticleForm(instance=article)
+            context = {'pii': personal_info, 'form': form, 'article': article}
+        return render(request, 'edit_article.html', context)
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
+
+
+@login_required
+def list_articles(request):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    user_instance = request.user
+    all_articles = user_instance.article.all().order_by('created_at')
+
+    context = {'pii': personal_info, 'all_articles': all_articles}
+
+    return render(request, 'list_articles.html', context)
+
+
+def view_article(request, pk):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    view_article = Article.objects.get(user=request.user, pk=pk)
+
+    context = {'pii': personal_info, 'view_article': view_article}
+
+    return render(request, 'view_article.html', context)

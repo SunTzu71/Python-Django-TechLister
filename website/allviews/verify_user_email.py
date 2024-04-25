@@ -7,10 +7,14 @@ from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
+from website.models import AIToken
 
 # Send grid
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+
+
+from django.core.mail import send_mail
 
 
 def send_verification_email(user):
@@ -18,31 +22,38 @@ def send_verification_email(user):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verification_url = f"http://127.0.0.1:8000/verify/{uid}/{token}/"
 
-    # sendgrid email
-    message = Mail(
-        from_email='techartisanhub@gmail.com',
-        to_emails='chall0311@gmail.com',
-        subject='Tech Artisan Hub Verification Email',
-        html_content=f'Click <a href="{verification_url}">here</a> to verify your email address.')
+    subject = 'Tech Artisan Hub Verification Email'
+    message = f'Click here to verify your email address: {verification_url}'
+    from_email = 'chall0311@gmail.com'
+    to_email = 'chris@techartisanpro.com'
+
     try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        response = sg.send(message)
+        send_mail(
+            subject,
+            message,
+            from_email,
+            [to_email],
+            fail_silently=False,
+        )
     except Exception as e:
-        print(e.message)  # update this to redirect to failed page
+        print(e)  # update this to redirect to failed page
 
 
 def verify_email(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
-        print('uid: ', uidb64)
-        print('token: ', token)
+        #print('uid: ', uidb64)
+        #print('token: ', token)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
+
+        AIToken.objects.create(user=user, amount=25)
+
         return redirect("verification_success")
     else:
         return redirect("verification_failure")

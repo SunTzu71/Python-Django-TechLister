@@ -21,16 +21,16 @@
             {% csrf_token %}
            <!-- removing this fixes the large space on top <div class="container">-->
               <div class="row mb-3">
-                <div class="col-md-3">
-                  <input class="form-check-input" type="radio" name="searchType" value="userSearch" id="searchUsers" checked>
-                  <label class="form-check-label text-white" for="searchUsers">
-                    Search users
+                <div class="col-md-4">
+                  <input class="form-check-input" type="radio" name="searchType" value="jobSearch" id="searchJobs" checked>
+                  <label class="form-check-label text-white" for="searchJobs">
+                    Search Job Listings
                   </label>
                 </div>
                 <div class="col-md-4">
-                  <input class="form-check-input" type="radio" name="searchType" value="jobSearch" id="searchJobs">
-                  <label class="form-check-label text-white" for="searchJobs">
-                    Search Job Listings
+                 <input class="form-check-input" type="radio" name="searchType" value="userSearch" id="searchUsers">
+                  <label class="form-check-label text-white" for="searchUsers">
+                    Search users
                   </label>
                 </div>
               </div>
@@ -40,7 +40,7 @@
                          type="text"
                          name="query"
                          id="query"
-                         placeholder="I am looking for python developers" />
+                         placeholder="I am looking for full stack developer position" />
                   <label for="query"></label>
                   <div class="tech-search-form"><button type="submit">Search</button></div>
                 </div>

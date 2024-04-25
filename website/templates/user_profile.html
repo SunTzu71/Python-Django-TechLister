@@ -12,7 +12,7 @@
                   <thead class="table-dark">
                   <tr>
                       <th scope="col">From</th>
-                      <th scope="col">Subject</th>
+                      <th scope="col">Subject / Message</th>
                       <th scope="col" class="text-center">View</th>
                       <th scope="col" class="text-center">Delete</th>
                   </tr>
@@ -23,20 +23,27 @@
                       <td>{{ message.from_user.first_name }} {{ message.from_user.last_name }}</td>
                       <td>
                           {{ message.subject }}
-                            <div id="message-row-{{ message.id }}"></div>
                       </td>
                       <td class="text-center">
-                          <button
-                                  hx-get="{% url 'view_message' message.id %}"
-                                  hx-target="#message-row-{{ message.id }}"
-                                  hx-swap="innerHTML"
-                                  class="btn md-yellow-button">View
-                          </button>
+                          {% if message.read %}
+                          <a href="{% url 'view_message' message.id %}">
+                              <button
+                                      class="btn md-yellow-button">View
+                              </button>
+                          </a>
+                          {% else %}
+                          <a href="{% url 'view_message' message.id %}">
+                              <button
+
+                                      class="btn btn-sm btn-success">Read
+                              </button>
+                          </a>
+                          {% endif %}
                       </td>
                       <td class="text-center">
                           <button
                              hx-get="{% url 'delete_message' message.id %}"
-                             hx-confirm="Are you sure you want to delete this message?"
+                             hx-confirm="This will delete message for both parties."
                              hx-target="#delete-message-{{ message.id }}"
                              hx-swap="innerHTML"
                              class="btn btn-danger btn-sm">Delete</button>

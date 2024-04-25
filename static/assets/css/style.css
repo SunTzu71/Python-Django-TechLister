@@ -1578,6 +1578,14 @@ Tech Artisan Custom CSS
     margin-top: 100px;
 }
 
+.linkedin-url {
+   color: #0a53be;
+}
+
+.linkedin-url:hover {
+    color: #00b3ff;
+}
+
 .md-yellow-button {
     --bs-btn-padding-y: .25rem;
     --bs-btn-padding-x: .5rem;

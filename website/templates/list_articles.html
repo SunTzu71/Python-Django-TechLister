@@ -1,0 +1,57 @@
+{% load static %}
+{% include 'inner-header.html' %}
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row mb-5">
+          <div class="col-4">
+              {% include 'users/user_info.html' %}
+          </div>
+          <div class="col 8">
+              <h3>Articles</h3>
+             <table class="table table-hover table-bordered">
+                  <thead class="table-dark">
+                  <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col">View</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" class="text-center">Edit</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for article in all_articles %}
+                  <tr id="delete-message-{{ message.id }}">
+                      <td>
+                          {{ article.title }}
+                      </td>
+                      <td>
+                          {% if article.draft %}
+                            Draft
+                          {% elif article.approved %}
+                            Approved
+                          {% else %}
+                            Pending
+                          {% endif %}
+                      </td>
+                      <td class="text-center">
+                          <a href="{% url 'view_article' article.id %}">
+                              <button
+                                      class="btn md-yellow-button">View
+                              </button>
+                          </a>
+                      </td>
+                      <td class="text-center">
+                          <a href="{% url 'edit_article' article.id %}">
+                              <button
+                                      class="btn md-yellow-button">Edit
+                              </button>
+                          </a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+        </div>
+    </div>
+{% endif %}
+{% include 'footer.html' %}

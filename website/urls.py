@@ -6,6 +6,7 @@ from .allviews import users
 from .allviews import recruiters
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -20,6 +21,17 @@ urlpatterns = [
     path('verify/<slug:uidb64>/<slug:token>/', verify_user_email.verify_email, name='verify_email'),
     path('verify/success/', verify_user_email.verification_success, name='verification_success'),
     path('verify/failure/', verify_user_email.verification_failure, name='verification_failure'),
+
+    # password reset
+    # Class based view passes in the form directly for us so we can use it in the template
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name="reset_password.html"),
+         name='reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="reset_password_sent.html"),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="reset.html"),
+         name='password_reset_confirm'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="reset_password_complete.html"),
+         name='password_reset_complete'),
 
     # section where user and recruiter can visit
     path('add/personalinfo', views.add_personal_info, name='add_personalinfo'),
@@ -38,6 +50,8 @@ urlpatterns = [
     path('user/portfolio/edit/<int:pk>', views.edit_portfolio, name='edit_portfolio'),
     path('user/portfolio/delete/<int:pk>', views.delete_portfolio, name='delete_portfolio'),
     path('user/apply/job/<int:pk>', views.apply_job, name='apply_job'),
+    path('user/ai/coverletter/<int:pk>', views.ai_cover_letter, name='ai_cover_letter'),
+    path('user/manual/coverletter/<int:pk>', views.manual_cover_letter, name='manual_cover_letter'),
     path('user/applied/remove/job/<int:pk>', views.remove_applied_job, name='remove_applied_job'),
     path('user/remove/job/<int:pk>', views.user_profile_remove_job, name='user_profile_remove_job'),
     path('user/saved/jobs', users.saved_jobs, name='saved_jobs'),
@@ -46,6 +60,7 @@ urlpatterns = [
 
     # recruiter section
     path('recruiter/profile/', recruiters.recruiter_profile, name='recruiter_profile'),
+    path('recruiter/applications/', recruiters.user_applications, name='user_applications'),
     path('recruiter/job/listings', recruiters.job_listings, name='job_listings'),
     path('recruiter/saved/resumes', recruiters.saved_resumes, name='saved_resumes'),
     path('recruiter/job/listing/add/skill', views.add_job_skill, name='add_job_skill'),
@@ -77,10 +92,16 @@ urlpatterns = [
     path('all/job/<int:pk>', views.all_view_job, name='all_view_job'),
 
     # resume and user page
-    path('resume/<int:pk>', views.user_resume, name='user_resume'),  # delete this logic later
-    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),  # delete this logic later
+    path('resume/<int:pk>', views.user_resume, name='user_resume'),
+    path('all/resume/<int:pk>', views.all_resume, name='all_resume'),
     path('resume/<str:username>', views.user_page, name='user_page'),
-    path('portfolio/<str:username>', views.user_portfolio, name='user_portfolio')
+    path('portfolio/<str:username>', views.user_portfolio, name='user_portfolio'),
+
+    # Article add edit view
+    path('article/add', views.add_article, name='add_article'),
+    path('article/edit/<int:pk>', views.edit_article, name='edit_article'),
+    path('article/list/', views.list_articles, name='list_articles'),
+    path('article/view/<int:pk>', views.view_article, name='view_article'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

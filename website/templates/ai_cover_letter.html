@@ -1,0 +1,26 @@
+
+<form method="POST" action="{% url 'apply_job' job_id %}">
+    {% csrf_token %}
+                          <textarea name="cover_letter" cols="40" rows="10" id="id_cover_letter" hidden="true" style="display: none;">
+    {{ cover_letter | safe }}
+                          </textarea><script>
+var settings_id_cover_letter = {"width": "100%", "height": "480", "toolbar": [["style", ["style"]], ["font", ["bold", "italic", "underline", "clear"]], ["fontname", ["fontname"]], ["fontsize", ["fontsize"]], ["color", ["color"]], ["para", ["ul", "ol", "paragraph"]], ["table", ["table"]], ["insert", ["link", "picture", "video"]], ["view", ["fullscreen", "codeview"]]], "lang": "en-US", "url": {"language": "/static/summernote/lang/summernote-en-US.min.js", "upload_attachment": "/summernote/upload_attachment/"}};
+</script>
+<style>
+iframe.note-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw!important;
+  height: 100vh!important;
+  z-index: 4000;
+}
+</style>
+<div class="summernote-div" cols="40" rows="10" width="100%" height="480">
+  <iframe id="id_cover_letter_iframe" src="/summernote/editor/id_cover_letter/" frameborder="0" width="100%" height="480" style="height: 480px;"></iframe>
+</div>
+
+  <div class="col d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary mb-2">Apply Now</button>
+  </div>
+</form>

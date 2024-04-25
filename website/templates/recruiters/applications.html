@@ -1,0 +1,50 @@
+{% load static %}
+{% include 'inner-header.html' %}
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row mb-5">
+                <div class="col-4">
+                     <div class="card col4">
+                        {% include 'recruiters/recruiter_info.html' %}
+                    </div>
+                </div>
+
+                <div class="col 8">
+
+                    <h3>Applications</h3>
+                    <table class="table table-hover table-bordered">
+                      <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Job Title</th>
+                            <th scope="col">Company</th>
+                            <th scope="col" class="text-center">View</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                        <tbody>
+                                {% for appl in applied %}
+                                <tr>
+                                    <td>{{ appl.user_id__first_name }} {{ appl.user_id__last_name }}</td>
+                                    <td>{{ appl.job__title }}</td>
+                                    <td>{{ appl.job__company }}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'view_cover_letter' appl.job_id appl.user_id %}">
+                                            <button type="button" class="btn md-yellow-button">View</button>
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{% url 'rec_delete_applied' appl.job_id appl.user_id %}"><button type="button" class="btn btn-danger mx-1"
+                                                                                      style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+        </div>
+    </div>
+{% endif %}
+{% include 'footer.html' %}

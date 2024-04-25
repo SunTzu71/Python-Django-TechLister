@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import PersonalInformation, Education, Experience, Portfolio, JobListing, AppliedJobs
+from .models import PersonalInformation, Education, Experience, Portfolio, JobListing, AppliedJobs, Article
 from common.validators import (validate_title_length, validate_description_length, validate_first_name,
                                           validate_last_name, validate_city, validate_state, validate_email,
                                           validate_about, validate_company, validate_position, validate_start_month,
@@ -154,6 +154,22 @@ class CoverLetterForm(forms.ModelForm):
         fields = ['cover_letter']
         widgets = {
             'cover_letter': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
+
+class ArticleForm(forms.ModelForm):
+    custom_validators = {
+        'title': [validate_title_length],
+        'description': [validate_description_length],
+    }
+
+    class Meta:
+        model = Article
+        fields = ['draft', 'title', 'description']
+        widgets = {
+            'draft': forms.CheckboxInput(),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Description'}),
         }
 
 
