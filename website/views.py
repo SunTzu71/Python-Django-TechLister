@@ -13,7 +13,7 @@ from openai import OpenAI
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm, CoverLetterForm, ArticleForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
-                     SavedJobs, SavedUsers, User, AppliedJobs, Article)
+                     SavedJobs, SavedUsers, User, AppliedJobs, Article, AIToken)
 from common.image_resize import image_resize
 from common.currency_format import format_currency
 from .neural_searcher import NeuralSearcher
@@ -34,8 +34,9 @@ def register_user(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password1'])
-            user.is_active = False;
+            user.is_active = False
             user.save()
+
             send_verification_email(user)
             return redirect('home')
     else:
@@ -733,12 +734,21 @@ def save_job(request, pk):
 
 @login_required
 def apply_job(request, pk):
+    # get token amount to display AI button
+    user_tokens = AIToken.objects.get(user=request.user)
+    if user_tokens.amount > 0:
+        ai_token = True
+    else:
+        ai_token = False
+
     if request.method == 'POST':
         job = JobListing.objects.get(pk=pk)
         form = CoverLetterForm(request.POST)
         context = {'jobinfo': get_job_information(pk),
                    'userinfo': get_resume_information(request.user.id),
+                   'ai_token': ai_token,
                    'form': form}
+
         if form.is_valid():
             add_letter = form.save(commit=False)
             add_letter.user = request.user
@@ -750,6 +760,7 @@ def apply_job(request, pk):
     else:
         context = {'jobinfo': get_job_information(pk),
                    'userinfo': get_resume_information(request.user.id),
+                   'ai_token': ai_token,
                    'form': CoverLetterForm()}
     return render(request, 'apply_job.html', context)
 
@@ -783,6 +794,12 @@ def generate_cover_letter(user_id, job_id):
 
     # Get the generated cover letter from the response
     cover_letter = response.choices[0].message.content.strip()
+
+    user_tokens = AIToken.objects.get(user=user_instance)
+    if user_tokens.amount > 0:
+        user_tokens.amount = user_tokens.amount - 1
+        user_tokens.save()
+
     return cover_letter
 
 

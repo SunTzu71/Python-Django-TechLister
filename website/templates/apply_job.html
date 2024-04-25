@@ -71,6 +71,7 @@
                                       </button>
                                   </div>
                                   <div class="mx-3">
+                                      {% if ai_token %}
                                       <button
                                               id="jeffrey-button"
                                               hx-get="{% url 'ai_cover_letter' jobinfo.job.id %}"
@@ -80,6 +81,7 @@
                                               onclick="disableCoverLetterButton()">
                                           Jeffrey
                                       </button>
+                                      {% endif %}
                                   </div>
                               </div>
 

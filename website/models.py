@@ -101,7 +101,7 @@ class UserSkill(models.Model):
         unique_together = (('user', 'skill'),)
 
     def __str__(self):
-        return f'{self.user.name} {self.skill_name}'
+        return f'{self.user.username} {self.skill_name}'
 
 
 class JobListing(models.Model):
@@ -119,7 +119,7 @@ class JobListing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.name} {self.title}'
+        return f'{self.user.username} {self.title}'
 
 
 class AppliedJobs(models.Model):
@@ -159,4 +159,4 @@ class AIToken(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return self.user.name + ' - ' + str(self.amount)
+        return self.user.username + ' - ' + str(self.amount)

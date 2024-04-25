@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
+from website.models import AIToken
 
 # Send grid
 from sendgrid import SendGridAPIClient
@@ -43,6 +44,13 @@ def verify_email(request, uidb64, token):
     if user and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
+
+        # add ai tokens for user
+        user_tokens = AIToken.objects.get(user=user)
+        user_tokens.user = user
+        user_tokens.amount = 25
+        user_tokens.save()
+
         return redirect("verification_success")
     else:
         return redirect("verification_failure")
