@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -31,13 +32,15 @@ def ai_resume(request):
 def ai_edit_education(request, pk):
     try:
         education = Education.objects.get(user=request.user, pk=pk)
+        form = AddEducationForm(instance=education)
+        context = {'form': form, 'edu_id': pk}
+
         if request.method == 'POST':
             form = AddEducationForm(request.POST, instance=education)
             if form.is_valid():
                 form.save()
-                return redirect('user_profile')
+                return HttpResponse('')
         else:
-            form = AddEducationForm(instance=education)
-        return render(request, 'ai_edit_education.html', {'form': form})
+            return render(request, 'ai_edit_education.html', context)
     except ObjectDoesNotExist:
         return redirect('restricted_access')

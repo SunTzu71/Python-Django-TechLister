@@ -1,4 +1,4 @@
- <form>
+<form hx-post="{% url 'ai_edit_education' edu_id %}" hx-trigger="submit">
     {% csrf_token %}
     <div class="mb-3">
         {{ form.title }}
@@ -13,6 +13,9 @@
         {% endfor %}
     </div>
     <div>
-        <button type="submit" class="btn btn-secondary">Save</button>
+       <button
+            hx-target=".education-row"
+            hx-swap="innerHTML"
+            class="btn btn-secondary">Save</button>
     </div>
 </form>
