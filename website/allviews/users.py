@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from website.models import SavedJobs, AppliedJobs, PersonalInformation, Education, Experience, UserSkill, AIToken
 from messaging.views import user_list_messages
+from website.views import get_resume_information
 
 
 @login_required

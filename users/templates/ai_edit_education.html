@@ -1,0 +1,18 @@
+ <form>
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.title }}
+        {% for error in form.title.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.description }}
+        {% for error in form.description.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div>
+        <button type="submit" class="btn btn-secondary">Save</button>
+    </div>
+</form>

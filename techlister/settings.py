@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'template_partials',
     'django_summernote',
     'website',
+    'users',
     'messaging',
 ]
 
