@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.template.loader import render_to_string
 
 from website.models import PersonalInformation, Education, Experience, UserSkill
 from website.forms import AddEducationForm
@@ -39,7 +40,8 @@ def ai_edit_education(request, pk):
             form = AddEducationForm(request.POST, instance=education)
             if form.is_valid():
                 form.save()
-                return HttpResponse('')
+                edu_context  = {'edu': education}
+                return render(request, 'education_snippet.html', edu_context)
         else:
             return render(request, 'ai_edit_education.html', context)
     except ObjectDoesNotExist:
