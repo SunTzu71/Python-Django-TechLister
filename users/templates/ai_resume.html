@@ -51,7 +51,7 @@
     <div class="mt-2 ms-2">
         <a href="{% url 'add_education' %}"><button type="button" class="btn btn-primary mx-1" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Add</button></a>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="education-card">
         <div id="edit-education"></div>
         {% for edu in edus %}
         <div id="education-row-{{ edu.pk }}" class="row row-cols-2">

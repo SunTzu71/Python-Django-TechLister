@@ -40,7 +40,7 @@ def ai_edit_education(request, pk):
             form = AddEducationForm(request.POST, instance=education)
             if form.is_valid():
                 form.save()
-                edu_context  = {'edu': education}
+                edu_context = {'edu': education}
                 return render(request, 'education_snippet.html', edu_context)
         else:
             return render(request, 'ai_edit_education.html', context)
