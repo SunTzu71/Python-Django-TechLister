@@ -21,7 +21,7 @@ def get_education_list(request):
     return render(request, 'education_list.html', context)
 
 
-def add_education(request):
+def ai_add_education(request):
     form = AddEducationForm(request.POST)
     return render(request, 'ai_add_education.html', {'form': form})
 
@@ -41,16 +41,16 @@ def add_education_cancel(request):
     return HttpResponse('')
 
 
-def submit_new_education(request):
-    if request.method == 'POST':
-        form = AddEducationForm(request.POST)
-        if form.is_valid():
-            add_education = form.save(commit=False)
-            add_education.user = request.user
-            add_education.save()
-        else:
-            return render(request, 'add_education.html', {'form': form})
-        return render(request, 'education_row.html', {'form': form})
+# def submit_new_education(request):
+#     if request.method == 'POST':
+#         form = AddEducationForm(request.POST)
+#         if form.is_valid():
+#             add_education = form.save(commit=False)
+#             add_education.user = request.user
+#             add_education.save()
+#         else:
+#             return render(request, 'add_education.html', {'form': form})
+#         return render(request, 'education_row.html', {'form': form})
 
 
 def ai_edit_education(request, pk):
