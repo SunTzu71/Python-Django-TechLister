@@ -1,24 +1,27 @@
-<form
-        hx-post="{% url 'ai_edit_education' edu_id %}"
-        hx-trigger="submit"
-        hx-cache="no-store">
-    {% csrf_token %}
-    <div class="mb-3">
-        {{ form.title }}
-        {% for error in form.title.errors %}
-        <span class="text-danger">{{ error }}</span>
-        {% endfor %}
-    </div>
-    <div class="mb-3">
-        {{ form.description }}
-        {% for error in form.description.errors %}
-        <span class="text-danger">{{ error }}</span>
-        {% endfor %}
-    </div>
-    <div>
-       <button
-            hx-target="#education-card"
-            hx-swap="outerHTML"
-            class="btn btn-secondary">Save</button>
-    </div>
-</form>
+<tr>
+    <td>{{ form.title }}
+        {{ form.title.errors}}
+    </td>
+    <td>{{ form.description }}
+        {{ form.description.errors }}
+    </td>
+    <td>
+        <a href="#"
+           hx-post="{% url 'edit_education_submit' education.id %}"
+           hx-target="closest tr"
+           hx-swap="outerHTML"
+           hx-include="closest tr"
+           class="text-secondary">
+            submit
+        </a>
+    </td>
+    <td>
+        <a href="#"
+           hx-get="{% url 'edit_education_cancel' education.id %}"
+           hx-target="closest tr"
+           hx-swap="outerHTML"
+           class="text-secondary">
+            cancel
+        </a>
+    </td>
+</tr>

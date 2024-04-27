@@ -1,0 +1,23 @@
+<tr>
+    <td>{{ education.title }}</td>
+    <td>{{ education.description }}</td>
+    <td>
+      <button
+              hx-get="{% url 'ai_edit_education' education.id %}"
+              hx-target="closest tr"
+              hx-swap="outerHTML"
+              class='btn btn-primary btn-sm'>
+          Edit
+      </button>
+    </td>
+    <td>
+      <button
+              hx-confirm="Are you sure"
+              hx-target="closest tr"
+              hx-swap="outHTML swap:ls"
+              hx-delete="{% url 'delete_education' education.id %}"
+              class='btn btn-primary btn-sm'>
+          Delete
+      </button>
+    </td>
+</tr>

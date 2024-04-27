@@ -1,0 +1,12 @@
+<table class="table table-striped w-100 d-block d-md-table">
+    <thead>
+        <th>Title</th>
+        <th>Description</th>
+    </thead>
+
+    <tbody>
+        {% for education in education_info %}
+            {% include 'education_row.html' %}
+        {% endfor %}
+    </tbody>
+</table>

@@ -11,38 +11,83 @@ from website.forms import AddEducationForm
 # Create your views here.
 @login_required
 def ai_resume(request):
+    return render(request, 'ai_resume.html')
+
+
+def get_education_list(request):
     user_id = request.user.id
-    try:
-        personal_info = PersonalInformation.objects.get(user_id=user_id)
-        education_info = Education.objects.filter(user_id=user_id)
-        experience_info = Experience.objects.filter(user_id=user_id)
-        user_skills = UserSkill.objects.filter(user_id=user_id)
+    education_info = Education.objects.filter(user_id=user_id)
+    context = {'education_info': education_info}
+    return render(request, 'education_list.html', context)
 
-        context = {'pii': personal_info,
-                   'edus': education_info,
-                   'exps': experience_info,
-                   'uskills': user_skills}
 
-    except PersonalInformation.DoesNotExist:
-        return redirect('add_personalinfo')
+def add_education(request):
+    form = AddEducationForm(request.POST)
+    return render(request, 'ai_add_education.html', {'form': form})
 
-    return render(request, 'ai_resume.html', context)
+
+def add_education_submit(request):
+    context = {}
+    form = AddEducationForm(request.POST)
+    context['form'] = form
+    if form.is_valid():
+        context['form'] = form.save()
+    else:
+        return render(request, 'ai_add_education.html', context)
+    return render(request, 'education_row.htnl', context)
+
+
+def add_education_cancel(request):
+    return HttpResponse('')
+
+
+def submit_new_education(request):
+    if request.method == 'POST':
+        form = AddEducationForm(request.POST)
+        if form.is_valid():
+            add_education = form.save(commit=False)
+            add_education.user = request.user
+            add_education.save()
+        else:
+            return render(request, 'add_education.html', {'form': form})
+        return render(request, 'education_row.html', {'form': form})
+
+
+def ai_edit_education(request, pk):
+    education = Education.objects.get(user=request.user, pk=pk)
+    context = {}
+    context['education'] = education
+    context['form'] = AddEducationForm(initial={
+        'title': education.title,
+        'description': education.description,
+    })
+    return render(request, 'ai_edit_education.html', context)
 
 
 @login_required
-def ai_edit_education(request, pk):
-    try:
-        education = Education.objects.get(user=request.user, pk=pk)
-        form = AddEducationForm(instance=education)
-        context = {'form': form, 'edu_id': pk}
-
-        if request.method == 'POST':
-            form = AddEducationForm(request.POST, instance=education)
-            if form.is_valid():
-                form.save()
-                edu_context = {'edu': education}
-                return render(request, 'education_snippet.html', edu_context)
+def edit_education_submit(request, pk):
+    context = {}
+    education = Education.objects.get(user=request.user, pk=pk)
+    context['education'] = education
+    if request.method == 'POST':
+        form = AddEducationForm(request.POST, instance=education)
+        if form.is_valid():
+            form.save()
+            return render(request, 'education_row.html', context)
         else:
             return render(request, 'ai_edit_education.html', context)
-    except ObjectDoesNotExist:
-        return redirect('restricted_access')
+    else:
+        return render(request, 'education_row.html')
+
+
+def edit_education_cancel(request, pk):
+    context = {}
+    education = Education.objects.get(user=request.user, pk=pk)
+    context['education'] = education
+    return render(request, 'education_row.html', context)
+
+
+def delete_education(request, pk):
+    education = Education.objects.get(pk=pk)
+    education.delete()
+    return HttpResponse()
