@@ -6,26 +6,34 @@
             <!-- First Column -->
           <div class="col 6">
 
-            <h1>Education:</h1>
+            <h1>Education</h1>
               <button
                       hx-get="{% url 'ai_add_education' %}"
                       hx-target="next tbody"
                       hx-swap="afterbegin"
                       class="btn btn-success btn-sm">Add
               </button>
-
               <div id="query_result"
                    hx-target="this"
                    hx-swap="innerHTML"
                    hx-get="{% url 'get_education_list' %}"
                    hx-trigger="load">
               </div>
-                <div class="d-flex justify-content-center">
-                  <div id="spinner" class="spinner-border htmx-indicator" role="status">
-                    <span class="sr-only"></span>
-                  </div>
-                </div>
 
+            <h1>Experience</h1>
+               <button
+                      hx-get="{% url 'ai_add_experience' %}"
+                      hx-target="#exp-list"
+                      hx-swap="afterbegin"
+                      class="btn btn-success btn-sm">Add
+              </button>
+
+              <div id="exp_result"
+                   hx-target="this"
+                   hx-swap="innerHTML"
+                   hx-get="{% url 'get_experience_list' %}"
+                   hx-trigger="load">
+              </div>
           </div>
             <!-- End First Column -->
 

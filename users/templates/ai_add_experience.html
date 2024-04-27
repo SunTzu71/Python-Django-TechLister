@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-12">
+                <div class="mb-3">
+                    {{ form.company }}
+                    {% for error in form.company.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    {{ form.position }}
+                    {% for error in form.position.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        {{ form.start_month }}
+                        {% for error in form.start_month.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.start_year}}
+                        {% for error in form.start_year.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        {{ form.end_month }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.end_year}}
+                    </div>
+                </div>
+                <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.currently_working }}
+                            <label class="form-check-label">Currently working here</label>
+                        </div>
+                </div>
+
+                <div class="mb-3">
+                    Add tasks that you completed for this position.
+                </div>
+                <div class="mb-3">
+                    {{ form.task_one }}
+                    {% for error in form.task_one.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_two }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_three }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_four }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_five }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_six }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_seven }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_eight }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_nine }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_ten }}
+                </div>
+                <div class="d-flex justify-content-end">
+
+                    <button
+                            hx-post="{% url 'add_experience_submit' %}"
+                            hx-target="#exp-list"
+                            hx-swap="outerHTML"
+                            hx-include="exp-list"
+                            class="btn md-yellow-button">Save
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>

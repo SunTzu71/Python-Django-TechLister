@@ -1,0 +1,46 @@
+
+  <div class="container">
+    <!-- First row with 2 columns -->
+    <div class="row rows-cols-3">
+      <div class="col">
+        <div><h5>{{ exp.company }}</h5></div>
+      </div>
+      <div class="col d-flex justify-content-end">
+        {{ exp.start_month }}-{{ exp.start_year}}
+        {% if exp.currently_working %}
+        Current
+        {% else %}
+        {{ exp.end_month }}-{{ exp.end_year}}
+        {% endif %}
+      </div>
+      <div class="col d-flex justify-content-end  ">
+        <a href="{% url 'edit_experience' exp.pk %}"><button type="button" class="btn btn-primary mx-1"
+                                                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit</button></a>
+        <a href="{% url 'delete_experience' exp.pk %}"><button type="button" class="btn btn-danger mx-1"
+                                                               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete</button></a>
+      </div>
+    </div>
+
+    <!-- Second row expanding both columns -->
+    <div class="row">
+      <div>
+        <div>
+          <strong>{{ exp.position }}</strong><br />
+          <ul>
+            <li>{{ exp.task_one }}</li>
+            {% if exp.task_two %} <li>{{ exp.task_two }}</li> {% endif %}
+            {% if exp.task_three %} <li>{{ exp.task_three }}</li> {% endif %}
+            {% if exp.task_four %} <li>{{ exp.task_four }}</li> {% endif %}
+            {% if exp.task_five %} <li>{{ exp.task_five }}</li> {% endif %}
+            {% if exp.task_six %} <li>{{ exp.task_six }}</li> {% endif %}
+            {% if exp.task_seven %} <li>{{ exp.task_seven }}</li> {% endif %}
+            {% if exp.task_eight %} <li>{{ exp.task_eight }}</li> {% endif %}
+            {% if exp.task_nine %} <li>{{ exp.task_nine }}</li> {% endif %}
+            {% if exp.task_ten %} <li>{{ exp.task_ten }}</li> {% endif %}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <hr />

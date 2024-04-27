@@ -7,6 +7,8 @@ from . import views
 # message system is for users and recruiters
 urlpatterns = [
     path('user/ai/resume', views.ai_resume, name='ai_resume'),
+
+    # education
     path('get/education/list', views.get_education_list, name='get_education_list'),
     path('ai/add/education/', views.ai_add_education, name='ai_add_education'),
     path('add/education/submit', views.add_education_submit, name='add_education_submit'),
@@ -15,6 +17,11 @@ urlpatterns = [
     path('ai/edit/education/<int:pk>', views.ai_edit_education, name='ai_edit_education'),
     path('edit/education/submit/<int:pk>', views.edit_education_submit, name='edit_education_submit'),
     path('edit/education/cancel/<int:pk>', views.edit_education_cancel, name='edit_education_cancel'),
+
+    # experience
+    path('get/experience/list', views.get_experience_list, name='get_experience_list'),
+    path('ai/add/experience/', views.ai_add_experience, name='ai_add_experience'),
+    path('add/experience/submit', views.add_experience_submit, name='add_experience_submit'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
