@@ -116,3 +116,61 @@ def add_experience_submit(request):
         return render(request, 'ai_add_experience.html', context)
     return render(request, 'experience_row.htnl', context)
 
+
+def add_experience_cancel(request):
+    return HttpResponse('')
+
+
+def ai_delete_experience(request, pk):
+    experience = Experience.objects.get(pk=pk)
+    experience.delete()
+    return HttpResponse()
+
+
+def ai_edit_experience(request, pk):
+    experience = Experience.objects.get(user=request.user, pk=pk)
+    context = {}
+    context['experience'] = experience
+    context['form'] = AddExperienceForm(initial={
+        'company': experience.company,
+        'position': experience.position,
+        'start_month': experience.start_month,
+        'start_year': experience.start_year,
+        'end_month': experience.end_month,
+        'end_year': experience.end_year,
+        'currently_working': experience.currently_working,
+        'task_one': experience.task_one,
+        'task_two': experience.task_two,
+        'task_three': experience.task_three,
+        'task_four': experience.task_four,
+        'task_five': experience.task_five,
+        'task_six': experience.task_six,
+        'task_seven': experience.task_seven,
+        'task_eight': experience.task_eight,
+        'task_nine': experience.task_nine,
+        'task_ten': experience.task_ten,
+    })
+    return render(request, 'ai_edit_experience.html', context)
+
+
+@login_required
+def edit_experience_submit(request, pk):
+    context = {}
+    experience = Experience.objects.get(user=request.user, pk=pk)
+    context['experience'] = experience
+    if request.method == 'POST':
+        form = AddExperienceForm(request.POST, instance=experience)
+        if form.is_valid():
+            form.save()
+            return render(request, 'experience_row.html', context)
+        else:
+            return render(request, 'ai_edit_experience.html', context)
+    else:
+        return render(request, 'experience_row.html')
+
+
+def edit_experience_cancel(request, pk):
+    context = {}
+    experience = Experience.objects.get(user=request.user, pk=pk)
+    context['experience'] = experience
+    return render(request, 'experience_row.html', context)

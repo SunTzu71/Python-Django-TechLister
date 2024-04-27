@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-12">
+                <div class="mb-3">
+                    {{ form.company }}
+                    {{ form.company.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.position }}
+                    {{ form.position.errors }}
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        {{ form.start_month }}
+                        {{ form.start_month.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.start_year}}
+                        {{ form.start_year.errors }}
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        {{ form.end_month }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.end_year}}
+                    </div>
+                </div>
+                <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.currently_working }}
+                            <label class="form-check-label">Currently working here</label>
+                        </div>
+                </div>
+
+                <div class="mb-3">
+                    Add tasks that you completed for this position.
+                </div>
+                <div class="mb-3">
+                    {{ form.task_one }}
+                    {{ form.task_one.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_two }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_three }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_four }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_five }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_six }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_seven }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_eight }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_nine }}
+                </div>
+                <div class="mb-3">
+                    {{ form.task_ten }}
+                </div>
+                <div class="d-flex justify-content-end">
+                <a href="#"
+                    hx-post="{% url 'edit_experience_submit' experience.id %}"
+                    hx-target="#exp-list"
+                    hx-swap="outerHTML"
+                    hx-include="#exp-list"
+                    hx-encoding="multipart/form-data"
+                    class="text-secondary">
+                    Add
+                </a>
+
+                </div>
+        </div>
+    </div>
+</div>
