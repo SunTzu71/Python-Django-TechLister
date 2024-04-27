@@ -99,12 +99,13 @@ def ai_add_experience(request):
 
 
 def add_experience_submit(request):
-    print('add experience submit')
+    print("Form values:")
+    for key, values in request.POST.lists():
+        print(f"{key}: {values}")
     context = {}
     form = AddExperienceForm(request.POST)
     context['form'] = form
     if form.is_valid():
-        print('form is valid')
         add_experience = form.save(commit=False)
         add_experience.user = request.user
         add_experience.save()
@@ -112,6 +113,6 @@ def add_experience_submit(request):
         context['experience'] = add_experience
         return render(request, 'experience_row.html', context)
     else:
-        print('form is invalid')
         return render(request, 'ai_add_experience.html', context)
     return render(request, 'experience_row.htnl', context)
+

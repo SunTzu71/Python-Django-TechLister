@@ -105,7 +105,6 @@ def add_experience(request):
             add_experience.save()
             return redirect('edit_resume')
         else:
-            print(request.POST)
             return render(request, 'add_experience.html', {'form': form})
     else:
         form = AddExperienceForm()
