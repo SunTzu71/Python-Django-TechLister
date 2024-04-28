@@ -16,14 +16,14 @@
       <div class="col d-flex justify-content-end  ">
           <button
                   hx-get="{% url 'ai_edit_experience' exp.pk %}"
-                  hx-target="#exp-list"
+                  hx-target="closest .container"
                   hx-swap="outerHTML"
                   class="btn btn-primary mx-1"
                   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit
           </button>
           <button
                   hx-confirm="Are you sure"
-                  hx-target="#exp-list"
+                  hx-target="closest .container"
                   hx-swap="outHTML swap:ls"
                   hx-delete="{% url 'ai_delete_experience' exp.pk %}"
                   class="btn btn-danger mx-1"

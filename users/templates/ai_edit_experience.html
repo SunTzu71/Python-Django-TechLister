@@ -71,12 +71,11 @@
                 <div class="d-flex justify-content-end">
                 <a href="#"
                     hx-post="{% url 'edit_experience_submit' experience.id %}"
-                    hx-target="#exp-list"
+                    hx-target="closest .container"
                     hx-swap="outerHTML"
-                    hx-include="#exp-list"
-                    hx-encoding="multipart/form-data"
-                    class="text-secondary">
-                    Add
+                    hx-include="closest .container"
+                    class="text-primary">
+                    Submit
                 </a>
 
                 </div>
