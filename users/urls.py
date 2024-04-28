@@ -20,7 +20,6 @@ urlpatterns = [
 
     # experience
     path('get/experience/list', views.get_experience_list, name='get_experience_list'),
-    path('ai/add/experience/', views.ai_add_experience, name='ai_add_experience'),
     path('add/experience/submit', views.add_experience_submit, name='add_experience_submit'),
     path('add/experience/cancel', views.add_experience_cancel, name='add_experience_cancel'),
     path('ai/delete/experience/<int:pk>', views.ai_delete_experience, name='ai_delete_experience'),

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -93,28 +94,22 @@ def get_experience_list(request):
     return render(request, 'experience_list.html', context)
 
 
-def ai_add_experience(request):
-    form = AddExperienceForm(request.POST)
-    return render(request, 'ai_add_experience.html', {'form': form})
-
-
 def add_experience_submit(request):
-    print("Form values:")
-    for key, values in request.POST.lists():
-        print(f"{key}: {values}")
     context = {}
-    form = AddExperienceForm(request.POST)
-    context['form'] = form
-    if form.is_valid():
-        add_experience = form.save(commit=False)
-        add_experience.user = request.user
-        add_experience.save()
-
-        context['experience'] = add_experience
-        return render(request, 'experience_row.html', context)
+    if request.method == 'POST':
+        form = AddExperienceForm(request.POST)
+        if form.is_valid():
+            add_experience = form.save(commit=False)
+            add_experience.user = request.user
+            add_experience.save()
+            context['experience'] = add_experience
+            return render(request, 'experience_row.html', context)
+        else:
+            messages.error(request, "Please correct the errors.")
     else:
-        return render(request, 'ai_add_experience.html', context)
-    return render(request, 'experience_row.htnl', context)
+        form = AddExperienceForm()
+    context['form'] = form
+    return render(request, 'ai_add_experience.html', context)
 
 
 def add_experience_cancel(request):
