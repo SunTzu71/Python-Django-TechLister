@@ -23,7 +23,6 @@ urlpatterns = [
     path('add/experience/submit', views.add_experience_submit, name='add_experience_submit'),
     path('add/experience/cancel', views.add_experience_cancel, name='add_experience_cancel'),
     path('ai/delete/experience/<int:pk>', views.ai_delete_experience, name='ai_delete_experience'),
-    path('ai/edit/experience/<int:pk>', views.ai_edit_experience, name='ai_edit_experience'),
     path('edit/experience/submit/<int:pk>', views.edit_experience_submit, name='edit_experience_submit'),
     path('edit/experience/cancel/<int:pk>', views.edit_experience_cancel, name='edit_experience_cancel'),
 ]

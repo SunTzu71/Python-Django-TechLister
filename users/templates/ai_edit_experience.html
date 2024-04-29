@@ -1,22 +1,30 @@
 <div class="container">
-    <div class="row justify-content-center mb-5">
+    <div class="row justify-content-center mt-3 mb-5">
         <div class="col-lg-12">
                 <div class="mb-3">
                     {{ form.company }}
-                    {{ form.company.errors }}
+                    {% for error in form.company.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     {{ form.position }}
-                    {{ form.position.errors }}
+                    {% for error in form.position.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         {{ form.start_month }}
-                        {{ form.start_month.errors }}
+                        {% for error in form.start_month.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <div class="col-md-6">
                         {{ form.start_year}}
-                        {{ form.start_year.errors }}
+                        {% for error in form.start_year.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
@@ -39,7 +47,9 @@
                 </div>
                 <div class="mb-3">
                     {{ form.task_one }}
-                    {{ form.task_one.errors }}
+                    {% for error in form.task_one.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     {{ form.task_two }}
@@ -69,13 +79,19 @@
                     {{ form.task_ten }}
                 </div>
                 <div class="d-flex justify-content-end">
+                    <a href="#"
+                    hx-get="{% url 'edit_experience_cancel' experience.id %}"
+                    hx-target="closest .container"
+                    hx-swap="outerHTML"
+                    class="text-secondary mx-3">
+                    Cancel
+                </a>
                 <a href="#"
                     hx-post="{% url 'edit_experience_submit' experience.id %}"
                     hx-target="closest .container"
                     hx-swap="outerHTML"
-                    hx-include="closest .container"
-                    class="text-primary">
-                    Submit
+                    hx-include="closest .container">
+                    <div class="btn md-yellow-button">Submit</div>
                 </a>
 
                 </div>

@@ -15,7 +15,7 @@
       </div>
       <div class="col d-flex justify-content-end  ">
           <button
-                  hx-get="{% url 'ai_edit_experience' experience.id %}"
+                  hx-get="{% url 'edit_experience_submit' experience.id %}"
                   hx-target="closest .container"
                   hx-swap="outerHTML"
                   class="btn btn-primary mx-1"

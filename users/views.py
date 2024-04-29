@@ -122,10 +122,12 @@ def ai_delete_experience(request, pk):
     return HttpResponse()
 
 
-def ai_edit_experience(request, pk):
-    experience = Experience.objects.get(user=request.user, pk=pk)
+@login_required
+def edit_experience_submit(request, pk):
     context = {}
+    experience = Experience.objects.get(user=request.user, pk=pk)
     context['experience'] = experience
+
     context['form'] = AddExperienceForm(initial={
         'company': experience.company,
         'position': experience.position,
@@ -145,23 +147,19 @@ def ai_edit_experience(request, pk):
         'task_nine': experience.task_nine,
         'task_ten': experience.task_ten,
     })
-    return render(request, 'ai_edit_experience.html', context)
 
-
-@login_required
-def edit_experience_submit(request, pk):
-    context = {}
-    experience = Experience.objects.get(user=request.user, pk=pk)
-    context['experience'] = experience
     if request.method == 'POST':
         form = AddExperienceForm(request.POST, instance=experience)
         if form.is_valid():
             form.save()
+            context['experience'] = experience
             return render(request, 'experience_row.html', context)
         else:
-            return render(request, 'ai_edit_experience.html', context)
+            messages.error(request, "Please correct the errors.")
     else:
-        return render(request, 'experience_row.html')
+        form = AddExperienceForm(instance=experience)
+    context['form'] = form
+    return render(request, 'ai_edit_experience.html', context)
 
 
 def edit_experience_cancel(request, pk):
