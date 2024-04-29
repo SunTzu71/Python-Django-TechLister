@@ -1,7 +1,12 @@
 <!-- Education Section -->
 <div class="container">
         <div class="row row-cols-2">
-            <div class="col"><h5>{{ form.title }}</h5></div>
+            <div class="col">
+                 <h5>{{ form.title }}</h5>
+                {% for error in form.title.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
             <div class="col d-flex justify-content-end">
                 <a href="#"
                    hx-get="{% url 'edit_education_cancel' education.id %}"
@@ -20,7 +25,12 @@
                 </a>
             </div>
         </div>
-        <p class="card-text">{{ form.description }}</p>
+        <p class="card-text">
+            {{ form.description }}
+            {% for error in form.description.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+            </p>
         <hr />
 </div>
 <!-- End Education Section -->

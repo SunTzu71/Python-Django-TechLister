@@ -29,18 +29,20 @@ def ai_add_education(request):
 
 def add_education_submit(request):
     context = {}
-    form = AddEducationForm(request.POST)
-    context['form'] = form
-    if form.is_valid():
-        add_education = form.save(commit=False)
-        add_education.user = request.user
-        add_education.save()
-
-        context['education'] = add_education
-        return render(request, 'education_row.html', context)
+    if request.method == 'POST':
+        form = AddEducationForm(request.POST)
+        if form.is_valid():
+            add_education = form.save(commit=False)
+            add_education.user = request.user
+            add_education.save()
+            context['education'] = add_education
+            return render(request, 'education_row.html', context)
+        else:
+            messages.error(request, 'Please correct the errors.')
     else:
-        return render(request, 'ai_add_education.html', context)
-    return render(request, 'education_row.htnl', context)
+        form = AddEducationForm()
+    context['form'] = form
+    return render(request, 'ai_add_education.html', context)
 
 
 def add_education_cancel(request):
@@ -63,15 +65,24 @@ def edit_education_submit(request, pk):
     context = {}
     education = Education.objects.get(user=request.user, pk=pk)
     context['education'] = education
+
+    context['form'] = AddEducationForm(initial={
+        'title': education.title,
+        'description': education.description,
+    })
+
     if request.method == 'POST':
         form = AddEducationForm(request.POST, instance=education)
         if form.is_valid():
             form.save()
+            context['education'] = education
             return render(request, 'education_row.html', context)
         else:
-            return render(request, 'ai_edit_education.html', context)
+            messages.error(request, 'Please correct the errors.')
     else:
-        return render(request, 'education_row.html')
+        form = AddEducationForm(instance=education)
+    context['form'] = form
+    return render(request, 'education_row.html')
 
 
 def edit_education_cancel(request, pk):
