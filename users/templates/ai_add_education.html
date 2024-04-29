@@ -4,21 +4,22 @@
             <div class="col"><h5>{{ form.title }}</h5></div>
             <div class="col d-flex justify-content-end">
             <a href="#"
+                hx-get="{% url 'add_education_cancel' %}"
+                hx-target="closest .container"
+                hx-swap="outerHTML"
+                class="text-secondary mx-3">
+                Cancel
+            </a>
+            <a href="#"
                 hx-post="{% url 'add_education_submit' %}"
                 hx-target="closest .container"
                 hx-swap="outerHTML"
                 hx-include="closest .container"
                 hx-encoding="multipart/form-data"
                 class="text-secondary">
-                Add
+                <button class="btn md-yellow-button">Add</button>
             </a>
-            <a href="#"
-                hx-get="{% url 'add_education_cancel' %}"
-                hx-target="closest .container"
-                hx-swap="outerHTML"
-                class="text-secondary">
-                Cancel
-            </a>
+
             </div>
         </div>
         <p class="card-text">{{ form.description }}</p>

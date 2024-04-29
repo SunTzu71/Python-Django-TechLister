@@ -4,19 +4,19 @@
             <div class="col"><h5>{{ form.title }}</h5></div>
             <div class="col d-flex justify-content-end">
                 <a href="#"
+                   hx-get="{% url 'edit_education_cancel' education.id %}"
+                   hx-target="closest .container"
+                   hx-swap="outerHTML"
+                   class="text-secondary mx-3">
+                    cancel
+                </a>
+                <a href="#"
                    hx-post="{% url 'edit_education_submit' education.id %}"
                    hx-target="closest .container"
                    hx-swap="outerHTML"
                    hx-include="closest .container"
                    class="text-primary">
-                    submit
-                </a>
-                <a href="#"
-                   hx-get="{% url 'edit_education_cancel' education.id %}"
-                   hx-target="closest .container"
-                   hx-swap="outerHTML"
-                   class="text-secondary">
-                    cancel
+                    <div class="btn md-yellow-button">Submit</div>
                 </a>
             </div>
         </div>
