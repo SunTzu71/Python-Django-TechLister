@@ -6,10 +6,10 @@
             <!-- First Column -->
           <div class="col 6">
 
-            <h2>Education</h2>
+            <h3>Education</h3>
               <button
                       hx-get="{% url 'ai_add_education' %}"
-                      hx-target="next tbody"
+                      hx-target="#edu-list"
                       hx-swap="afterbegin"
                       class="btn btn-success btn-sm">Add
               </button>
@@ -20,7 +20,7 @@
                    hx-trigger="load">
               </div>
 
-            <h2>Experience</h2>
+            <h3>Experience</h3>
                <button
                       hx-get="{% url 'add_experience_submit' %}"
                       hx-target="#exp-list"

@@ -1,23 +1,26 @@
-<tr>
-    <td>{{ education.title }}</td>
-    <td>{{ education.description }}</td>
-    <td>
-      <button
-              hx-get="{% url 'ai_edit_education' education.id %}"
-              hx-target="closest tr"
-              hx-swap="outerHTML"
-              class='btn btn-primary btn-sm'>
-          Edit
-      </button>
-    </td>
-    <td>
-      <button
-              hx-confirm="Are you sure"
-              hx-target="closest tr"
-              hx-swap="outerHTML swap:ls"
-              hx-delete="{% url 'delete_education' education.id %}"
-              class='btn btn-primary btn-sm'>
-          Delete
-      </button>
-    </td>
-</tr>
+<!-- Education Section -->
+<div class="container">
+        <div class="row row-cols-2">
+            <div class="col"><h5>{{ education.title }}</h5></div>
+            <div class="col d-flex justify-content-end">
+                <button
+                        hx-get="{% url 'ai_edit_education' education.id %}"
+                        hx-target="closest .container"
+                        hx-swap="outerHTML"
+                        class="btn btn-primary mx-1"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Edit
+                </button>
+                <button
+                        hx-confirm="Are you sure"
+                        hx-target="closest .container"
+                        hx-swap="outerHTML swap:ls"
+                        hx-delete="{% url 'delete_education' education.id %}"
+                        class="btn btn-danger mx-1"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete
+                </button>
+            </div>
+        </div>
+        <p class="card-text">{{ education.description }}</p>
+        <hr />
+</div>
+<!-- End Education Section -->

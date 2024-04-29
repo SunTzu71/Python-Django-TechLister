@@ -1,27 +1,26 @@
-<tr>
-    <td>{{ form.title }}
-        {{ form.title.errors}}
-    </td>
-    <td>{{ form.description }}
-        {{ form.description.errors }}
-    </td>
-    <td>
-        <a href="#"
-           hx-post="{% url 'edit_education_submit' education.id %}"
-           hx-target="closest tr"
-           hx-swap="outerHTML"
-           hx-include="closest tr"
-           class="text-primary">
-            submit
-        </a>
-    </td>
-    <td>
-        <a href="#"
-           hx-get="{% url 'edit_education_cancel' education.id %}"
-           hx-target="closest tr"
-           hx-swap="outerHTML"
-           class="text-secondary">
-            cancel
-        </a>
-    </td>
-</tr>
+<!-- Education Section -->
+<div class="container">
+        <div class="row row-cols-2">
+            <div class="col"><h5>{{ form.title }}</h5></div>
+            <div class="col d-flex justify-content-end">
+                <a href="#"
+                   hx-post="{% url 'edit_education_submit' education.id %}"
+                   hx-target="closest .container"
+                   hx-swap="outerHTML"
+                   hx-include="closest .container"
+                   class="text-primary">
+                    submit
+                </a>
+                <a href="#"
+                   hx-get="{% url 'edit_education_cancel' education.id %}"
+                   hx-target="closest .container"
+                   hx-swap="outerHTML"
+                   class="text-secondary">
+                    cancel
+                </a>
+            </div>
+        </div>
+        <p class="card-text">{{ form.description }}</p>
+        <hr />
+</div>
+<!-- End Education Section -->
