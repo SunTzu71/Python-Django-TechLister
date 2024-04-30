@@ -15,6 +15,12 @@ def ai_resume(request):
     return render(request, 'ai_resume.html')
 
 
+def get_skill_list(request):
+    user_skills = UserSkill.objects.filter(user=request.user)
+    context = {'uskills': user_skills}
+    return render(request, 'skill_list.html', context)
+
+
 def get_education_list(request):
     user_id = request.user.id
     education_info = Education.objects.filter(user_id=user_id)

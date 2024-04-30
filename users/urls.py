@@ -8,6 +8,9 @@ from . import views
 urlpatterns = [
     path('user/ai/resume', views.ai_resume, name='ai_resume'),
 
+    # skills
+    path('get/skills/list', views.get_skill_list, name='get_skill_list'),
+
     # education
     path('get/education/list', views.get_education_list, name='get_education_list'),
     path('ai/add/education/', views.ai_add_education, name='ai_add_education'),

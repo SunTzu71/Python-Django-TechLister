@@ -5,6 +5,23 @@
         <div class="row mb-5">
             <!-- First Column -->
           <div class="col 6">
+            <h3>Skills</h3>
+              <div class="card my-3">
+                  <div class="card-body">
+                      <button
+                              hx-get="#"
+                              hx-target="#edu-list"
+                              hx-swap="afterbegin"
+                              class="btn btn-success btn-sm mx-2">Add
+                      </button>
+                      <div id="skill-result"
+                            hx-target="this"
+                            hx-swap="innerHTML"
+                            hx-get="{% url 'get_skill_list' %}"
+                            hx-trigger="load">
+                      </div>
+                  </div>
+              </div>
 
             <h3>Education</h3>
               <div class="card my-3">
@@ -23,7 +40,6 @@
                       </div>
                   </div>
               </div>
-
 
             <h3>Experience</h3>
               <div class="card">
