@@ -9,8 +9,8 @@
               <div class="card my-3">
                   <div class="card-body">
                       <button
-                              hx-get="#"
-                              hx-target="#edu-list"
+                              hx-get="{% url 'ai_skill_add' %}"
+                              hx-target="#skill-add"
                               hx-swap="afterbegin"
                               class="btn btn-success btn-sm mx-2">Add
                       </button>
@@ -27,7 +27,7 @@
               <div class="card my-3">
                   <div class="card-body">
                       <button
-                              hx-get="{% url 'ai_add_education' %}"
+                              hx-get="{% url 'add_education_submit' %}"
                               hx-target="#edu-list"
                               hx-swap="afterbegin"
                               class="btn btn-success btn-sm mx-2">Add

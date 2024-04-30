@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 
 from website.models import PersonalInformation, Education, Experience, UserSkill
-from website.forms import AddEducationForm, AddExperienceForm
+from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm
 
 
 # Create your views here.
@@ -21,10 +21,29 @@ def get_skill_list(request):
     return render(request, 'skill_list.html', context)
 
 
+def ai_skill_add(request):
+    context = {}
+    if request.method == 'POST':
+        form = UserSkillForm(request.POST)
+        if form.is_valid():
+            user_skill = form.save(commit=False)
+            user_skill.user = request.user
+            user_skill.skill_id = 8
+            user_skill.save()
+            context['skill'] = user_skill
+            return render(request, 'skill_list.html', context)
+        else:
+            print('form is invalid')
+    else:
+        form = UserSkillForm()
+    context['form'] = form
+    return render(request, 'add_user_skill.html', context)
+
 def ai_skill_delete(request, skill_id):
     skill = UserSkill.objects.get(pk=skill_id)
     skill.delete()
     return HttpResponse()
+
 
 def get_education_list(request):
     user_id = request.user.id

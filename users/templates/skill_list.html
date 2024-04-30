@@ -1,6 +1,8 @@
- <div class="row row-cols-5">
+
+<div id="skill-add">
+<div class="row row-cols-5">
   {% for skill in uskills %}
-    <div class="col bg-secondar mx-1 my-1 py-1 position-relative">
+    <div class="col mx-1 my-1 py-1 position-relative">
       {{ skill.skill_name }}
       <a href="#">
         <button
@@ -14,4 +16,5 @@
       </a>
     </div>
   {% endfor %}
+</div>
 </div>
