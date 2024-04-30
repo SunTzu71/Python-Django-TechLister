@@ -31,7 +31,7 @@ def ai_skill_add(request):
             user_skill.skill_id = 8
             user_skill.save()
             context['skill'] = user_skill
-            return render(request, 'skill_list.html', context)
+            return render(request, 'skill_col.html', context)
         else:
             print('form is invalid')
     else:
