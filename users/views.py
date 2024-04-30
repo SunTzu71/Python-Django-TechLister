@@ -21,6 +21,11 @@ def get_skill_list(request):
     return render(request, 'skill_list.html', context)
 
 
+def ai_skill_delete(request, skill_id):
+    skill = UserSkill.objects.get(pk=skill_id)
+    skill.delete()
+    return HttpResponse()
+
 def get_education_list(request):
     user_id = request.user.id
     education_info = Education.objects.filter(user_id=user_id)

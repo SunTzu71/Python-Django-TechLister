@@ -1,11 +1,17 @@
-
-<table class="table table-hover table-bordered mt-3">
-  <tbody>
-    {% for skill in uskills %}
-        {% include 'skill_row.html' %}
-    {% endfor %}
-  </tbody>
-</table>
-
-
-
+ <div class="row row-cols-5">
+  {% for skill in uskills %}
+    <div class="col bg-secondar mx-1 my-1 py-1 position-relative">
+      {{ skill.skill_name }}
+      <a href="#">
+        <button
+              hx-confirm="Are you sure"
+              hx-target="closest .col"
+              hx-swap="outerHTML swap:ls"
+              hx-delete="{% url 'ai_skill_delete' skill.id %}"
+              class="btn btn-danger mx-1 float-end"
+              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">X
+        </button>
+      </a>
+    </div>
+  {% endfor %}
+</div>

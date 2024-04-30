@@ -10,6 +10,7 @@ urlpatterns = [
 
     # skills
     path('get/skills/list', views.get_skill_list, name='get_skill_list'),
+    path('ai/skill/delete/<int:skill_id>', views.ai_skill_delete, name='ai_skill_delete'),
 
     # education
     path('get/education/list', views.get_education_list, name='get_education_list'),
