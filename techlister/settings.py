@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'website',
     'users',
+    'recruiters',
     'messaging',
 ]
 
