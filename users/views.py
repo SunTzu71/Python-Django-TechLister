@@ -39,6 +39,7 @@ def ai_skill_add(request):
     context['form'] = form
     return render(request, 'add_user_skill.html', context)
 
+
 def ai_skill_delete(request, skill_id):
     skill = UserSkill.objects.get(pk=skill_id)
     skill.delete()

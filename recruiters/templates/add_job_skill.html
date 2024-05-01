@@ -1,0 +1,25 @@
+<div class="container">
+        <div class="row row-cols-2 mt-3">
+            <div class="col">
+                {{ form.skill_name }}
+            </div>
+            <div class="col d-flex justify-content-end">
+            <a href=""
+                hx-get=""
+                hx-target="closest .container"
+                hx-swap="outerHTML"
+                class="text-secondary mx-3">
+                Cancel
+            </a>
+            <a href="#"
+                hx-post="{% url 'job_skill_add' %}"
+                hx-target="closest .container"
+                hx-swap="outerHTML"
+                hx-include="closest .container"
+                hx-encoding="multipart/form-data"
+                class="text-secondary">
+                <button class="btn md-yellow-button">Add Skill</button>
+            </a>
+            </div>
+        </div>
+</div>
