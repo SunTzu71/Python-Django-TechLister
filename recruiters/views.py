@@ -27,6 +27,9 @@ def job_skill_add(request):
 
             job_skills = request.session.get('job_skills', [])
 
+            for skill in job_skills:
+                print(skill)
+
             return render(request, 'job_skill_list.html', {'job_skills': skill_name})
     else:
         form = JobSkillForm()
@@ -45,8 +48,6 @@ def job_skill_delete(request, skill_name):
 
 def get_job_skills(request):
     job_skills = request.session.get('job_skills', [])
-    # for skill in job_skills:
-    #     print(skill)
     return render(request, 'job_skill_list.html', {'job_skills': job_skills})
 
 
