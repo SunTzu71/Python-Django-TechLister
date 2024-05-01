@@ -10,6 +10,36 @@ from messaging.views import user_list_messages
 from website.forms import JobSkillForm
 
 
+def job_skill_add(request):
+    context = {}
+    if request.method == 'POST':
+        form = JobSkillForm(request.POST)
+        if form.is_valid():
+            skill_name = form.cleaned_data.get('skill_name')
+            if 'job_skills' not in request.session:
+                request.session['job_skills'] = []
+
+            job_skills = request.session['job_skills']
+            job_skills.append(skill_name)
+
+            request.session['job_skills'] = job_skills
+
+            job_skills = request.session.get('job_skills', [])
+
+            return render(request, 'job_skill_list.html', {'job_skills': skill_name})
+    else:
+        form = JobSkillForm()
+    context['form'] = form
+    return render(request, 'add_job_skill.html', context)
+
+
+def get_job_skills(request):
+    job_skills = request.session.get('job_skills', [])
+    # for skill in job_skills:
+    #     print(skill)
+    return render(request, 'job_skill_list.html', {'job_skills': job_skills})
+
+
 @login_required
 def add_job(request):
     try:
@@ -117,22 +147,3 @@ def saved_resumes(request):
     context = {'pii': personal_info, 'users': saved_users_with_info}
 
     return render(request, 'recruiters/saved_resumes.html', context)
-
-
-def job_skill_add(request):
-    context = {}
-    if request.method == 'POST':
-        form = JobSkillForm(request.POST)
-        if form.is_valid():
-            job_skill = form.save(commit=False)
-            job_skill.user = request.user
-            job_skill.skill_id = 8
-            job_skill.save()
-            context['skill'] = job_skill
-            return render(request, 'skill_col.html', context)
-        else:
-            print('form is invalid')
-    else:
-        form = JobSkillForm()
-    context['form'] = form
-    return render(request, 'add_job_skill.html', context)

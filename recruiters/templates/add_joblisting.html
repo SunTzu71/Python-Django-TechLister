@@ -9,15 +9,18 @@
                     {% csrf_token %}
                      <button
                               hx-get="{% url 'job_skill_add' %}"
-                              hx-target="#skill-add"
+                              hx-target="#add-job-skill"
                               hx-swap="afterbegin"
                               class="btn btn-success btn-sm mb-2">Add Skill
                       </button>
                     <p>
                         <strong>Skills: </strong>
-                        {% for skill in request.session.job_skills %}
-                            {{ skill.1 }},
-                        {% endfor %}
+                        <div id="skill-result"
+                            hx-target="this"
+                            hx-swap="innerHTML"
+                            hx-get="{% url 'get_job_skills' %}"
+                            hx-trigger="load">
+                      </div>
                     </p>
 
                     <div class="mb-3">
