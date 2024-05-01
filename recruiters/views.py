@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -31,6 +32,15 @@ def job_skill_add(request):
         form = JobSkillForm()
     context['form'] = form
     return render(request, 'add_job_skill.html', context)
+
+
+def job_skill_delete(request, skill_name):
+    if 'job_skills' in request.session:
+        job_skills = request.session['job_skills']
+        if skill_name in job_skills:
+            job_skills.remove(skill_name)
+            request.session['job_skills'] = job_skills
+            return HttpResponse()
 
 
 def get_job_skills(request):
