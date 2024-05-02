@@ -28,7 +28,6 @@ def ai_skill_add(request):
         if form.is_valid():
             user_skill = form.save(commit=False)
             user_skill.user = request.user
-            user_skill.skill_id = 8
             user_skill.save()
             context['skill'] = user_skill
             return render(request, 'skill_col.html', context)

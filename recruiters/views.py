@@ -24,7 +24,7 @@ def job_skill_add(request):
             job_skills.append(skill_name)
 
             request.session['job_skills'] = job_skills
-            job_skills = request.session.get('job_skills', [])
+            request.session.modified = True
 
             context['skill'] = skill_name
 
@@ -61,7 +61,7 @@ def add_job(request):
 
                 # loop through job skills and insert into database
                 for skill in request.session['job_skills']:
-                    JobSkill.objects.create(skill_id=skill[0], skill_name=skill[1], job_id=add_listing.id)
+                    JobSkill.objects.create(skill_name=skill, job_id=add_listing.id)
 
                 # delete session holding the job skills
                 del request.session['job_skills']

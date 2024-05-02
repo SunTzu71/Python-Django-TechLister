@@ -4,7 +4,10 @@
 <div class="container">
     <div class="row justify-content-center mb-5">
         <div class="col-lg-6">
-            <h1>Add Job Listing</h1>
+            <h3>Add Job Listing</h3>
+
+                <div class="card">
+                    <div class="card-body">
                      <button
                               hx-get="{% url 'job_skill_add' %}"
                               hx-target="#add-job-skill"
@@ -17,6 +20,9 @@
                             hx-get="{% url 'get_job_skills' %}"
                             hx-trigger="load">
                       </div>
+                    </div>
+                </div>
+
                 <form method="POST" action="{% url 'add_job' %}">
                     {% csrf_token %}
                     <div class="mb-3">
