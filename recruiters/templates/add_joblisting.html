@@ -5,24 +5,20 @@
     <div class="row justify-content-center mb-5">
         <div class="col-lg-6">
             <h1>Add Job Listing</h1>
-                <form method="POST" action="{% url 'add_job' %}">
-                    {% csrf_token %}
                      <button
                               hx-get="{% url 'job_skill_add' %}"
                               hx-target="#add-job-skill"
                               hx-swap="afterbegin"
                               class="btn btn-success btn-sm mb-2">Add Skill
                       </button>
-                    <p>
-                        <strong>Skills: </strong>
                         <div id="skill-result"
                             hx-target="this"
                             hx-swap="innerHTML"
                             hx-get="{% url 'get_job_skills' %}"
                             hx-trigger="load">
                       </div>
-                    </p>
-
+                <form method="POST" action="{% url 'add_job' %}">
+                    {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Active:</label>
                         {{ form.active }}

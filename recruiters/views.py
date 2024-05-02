@@ -24,13 +24,11 @@ def job_skill_add(request):
             job_skills.append(skill_name)
 
             request.session['job_skills'] = job_skills
-
             job_skills = request.session.get('job_skills', [])
 
-            for skill in job_skills:
-                print(skill)
+            context['skill'] = skill_name
 
-            return render(request, 'job_skill_list.html', {'job_skills': skill_name})
+            return render(request, 'job_skill_col.html', context)
     else:
         form = JobSkillForm()
     context['form'] = form
