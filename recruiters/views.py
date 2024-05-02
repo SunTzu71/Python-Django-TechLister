@@ -35,6 +35,41 @@ def job_skill_add(request):
     return render(request, 'add_job_skill.html', context)
 
 
+def edit_job(request, pk):
+    try:
+        edit_listing = JobListing.objects.get(user=request.user, id=pk)
+        if request.method == 'POST':
+            form = NewJobListingForm(request.POST, instance=edit_listing)
+            if form.is_valid():
+                form.save()
+
+                return redirect('job_listings')
+        else:
+            skills = JobSkill.objects.filter(job_id=edit_listing.id)
+            context = {'form': NewJobListingForm(instance=edit_listing),
+                       'job_id': pk,
+                       'jskills': skills}
+
+        return render(request, 'edit_joblisting.html', context)
+
+    except ObjectDoesNotExist:
+        return redirect('restricted_access')
+
+
+def get_session_skills(request, job_id):
+    job_instance = JobListing.objects.get(id=job_id)
+    skills = JobSkill.objects.filter(job=job_instance)
+
+    job_skills = []
+    for skill in skills:
+        job_skills.append(skill.skill_name)
+
+    request.session['job_skills'] = job_skills
+    request.session.modified = True
+
+    return render(request, 'job_skill_list.html', {'job_skills': job_skills})
+
+
 def job_skill_delete(request, skill_name):
     if 'job_skills' in request.session:
         job_skills = request.session['job_skills']

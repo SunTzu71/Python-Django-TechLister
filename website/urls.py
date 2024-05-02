@@ -60,7 +60,6 @@ urlpatterns = [
 
     # recruiter section
 
-    path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
     path('recruiter/profile/remove/resume/<int:pk>', views.rec_remove_resume, name='rec_remove_resume'),
     path('recruiter/view_cover_letter/<int:jobid>/<int:userid>', views.view_cover_letter, name='view_cover_letter'),

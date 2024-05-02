@@ -5,6 +5,24 @@
     <div class="row justify-content-center mb-5">
         <div class="col-lg-6">
             <h1>Edit Job Listing</h1>
+
+             <div class="card">
+                    <div class="card-body">
+                     <button
+                              hx-get="{% url 'job_skill_add' %}"
+                              hx-target="#add-job-skill"
+                              hx-swap="afterbegin"
+                              class="btn btn-success btn-sm mb-2">Add Skill
+                      </button>
+                        <div id="skill-result"
+                            hx-target="this"
+                            hx-swap="innerHTML"
+                            hx-get="{% url 'get_session_skills' job_id %}"
+                            hx-trigger="load">
+                      </div>
+                    </div>
+                </div>
+
                 <form method="POST">
                     {% csrf_token %}
                     <div class="mb-3">

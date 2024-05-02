@@ -421,31 +421,6 @@ def all_resume(request, pk):
     return render(request, 'all_resume.html', context)
 
 
-def edit_job(request, pk):
-    try:
-        # add job listing id to session
-        # this is used in add_user_skill method
-        request.session['job_id'] = pk
-
-        edit_listing = JobListing.objects.get(user=request.user, id=pk)
-        if request.method == 'POST':
-            form = NewJobListingForm(request.POST, instance=edit_listing)
-            if form.is_valid():
-                form.save()
-
-                # remove job_id from request session
-                del request.session['job_id']
-                return redirect('job_listings')
-        else:
-            skills = JobSkill.objects.filter(job_id=edit_listing.id)
-            context = {'form': NewJobListingForm(instance=edit_listing),
-                       'jskills': skills}
-
-        return render(request, 'edit_joblisting.html', context)
-    except ObjectDoesNotExist:
-        return redirect('restricted_access')
-
-
 @login_required
 def delete_job_skill(request, pk):
     try:
