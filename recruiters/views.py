@@ -41,7 +41,20 @@ def edit_job(request, pk):
         if request.method == 'POST':
             form = NewJobListingForm(request.POST, instance=edit_listing)
             if form.is_valid():
-                form.save()
+                job = form.save()
+
+                # remove the skills before updating them
+                job_instance = JobListing.objects.get(id=pk)
+                if request.user != job_instance.user:
+                    raise PermissionDenied
+                JobSkill.objects.filter(job_id=pk).delete()
+
+                # loop through job skills and insert into database
+                for skill in request.session['job_skills']:
+                    JobSkill.objects.create(skill_name=skill, job_id=job.id)
+
+                # delete session holding the job skills
+                del request.session['job_skills']
 
                 return redirect('job_listings')
         else:
