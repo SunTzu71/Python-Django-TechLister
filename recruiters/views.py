@@ -93,6 +93,8 @@ def job_skill_delete(request, skill_name):
 
 
 def get_job_skills(request):
+    # clear out any skills they may have added in edit and not saved then added new listing
+    del request.session['job_skills']
     job_skills = request.session.get('job_skills', [])
     return render(request, 'job_skill_list.html', {'job_skills': job_skills})
 
