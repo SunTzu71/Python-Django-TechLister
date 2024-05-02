@@ -35,6 +35,10 @@ def job_skill_add(request):
     return render(request, 'add_job_skill.html', context)
 
 
+def job_skill_cancel(request):
+    return HttpResponse('')
+
+
 def edit_job(request, pk):
     try:
         edit_listing = JobListing.objects.get(user=request.user, id=pk)
