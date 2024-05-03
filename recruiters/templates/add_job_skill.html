@@ -5,14 +5,14 @@
             </div>
             <div class="col d-flex justify-content-end">
             <a href=""
-                hx-get="{% url 'add_skill_cancel' %}"
+                hx-get="{% url 'job_skill_cancel' %}"
                 hx-target="closest .container"
                 hx-swap="outerHTML"
                 class="text-secondary mx-3">
                 Cancel
             </a>
             <a href="#"
-                hx-post="{% url 'ai_skill_add' %}"
+                hx-post="{% url 'job_skill_add' %}"
                 hx-target="closest .container"
                 hx-swap="outerHTML"
                 hx-include="closest .container"

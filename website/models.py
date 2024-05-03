@@ -93,12 +93,11 @@ class Skill(models.Model):
 
 class UserSkill(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_constraint=True)
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, db_constraint=True)
     skill_name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = (('user', 'skill'),)
+        unique_together = (('user', 'skill_name'),)
 
     def __str__(self):
         return f'{self.user.username} {self.skill_name}'
@@ -122,6 +121,15 @@ class JobListing(models.Model):
         return f'{self.user.username} {self.title}'
 
 
+class JobSkill(models.Model):
+    job = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True)
+    skill_name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.job} {self.skill_name}'
+
+
 class AppliedJobs(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
@@ -141,16 +149,6 @@ class SavedUsers(models.Model):
 
     class Meta:
         unique_together = ('recruiter', 'saved')
-
-
-class JobSkill(models.Model):
-    job = models.ForeignKey(JobListing, on_delete=models.CASCADE, db_constraint=True)
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, db_constraint=True)
-    skill_name = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.job} {self.skill} {self.skill_name}'
 
 
 class AIToken(models.Model):

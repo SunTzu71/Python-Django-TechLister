@@ -8,12 +8,17 @@ from . import views
 urlpatterns = [
     path('user/ai/resume', views.ai_resume, name='ai_resume'),
 
-    # skills
+    # ai resume section
+    path('get/about/info', views.get_about_info, name='get_about_info'),
+    path('get/ai/experience', views.get_ai_experience, name='get_ai_experience'),
+
+    # skills section
     path('get/skills/list', views.get_skill_list, name='get_skill_list'),
     path('ai/skill/delete/<int:skill_id>', views.ai_skill_delete, name='ai_skill_delete'),
     path('ai/skill/add', views.ai_skill_add, name='ai_skill_add'),
+    path('add/skill/cancel', views.add_skill_cancel, name='add_skill_cancel'),
 
-    # education
+    # education secton
     path('get/education/list', views.get_education_list, name='get_education_list'),
     path('ai/add/education/', views.ai_add_education, name='ai_add_education'),
     path('add/education/submit', views.add_education_submit, name='add_education_submit'),
@@ -23,7 +28,7 @@ urlpatterns = [
     path('edit/education/submit/<int:pk>', views.edit_education_submit, name='edit_education_submit'),
     path('edit/education/cancel/<int:pk>', views.edit_education_cancel, name='edit_education_cancel'),
 
-    # experience
+    # experience section
     path('get/experience/list', views.get_experience_list, name='get_experience_list'),
     path('add/experience/submit', views.add_experience_submit, name='add_experience_submit'),
     path('add/experience/cancel', views.add_experience_cancel, name='add_experience_cancel'),

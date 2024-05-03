@@ -3,7 +3,6 @@ from django.urls import path, include
 from . import views
 from .allviews import verify_user_email
 from .allviews import users
-from .allviews import recruiters
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
@@ -60,13 +59,7 @@ urlpatterns = [
     path('user/ai/info', users.ai_info, name='ai_info'),
 
     # recruiter section
-    path('recruiter/profile/', recruiters.recruiter_profile, name='recruiter_profile'),
-    path('recruiter/applications/', recruiters.user_applications, name='user_applications'),
-    path('recruiter/job/listings', recruiters.job_listings, name='job_listings'),
-    path('recruiter/saved/resumes', recruiters.saved_resumes, name='saved_resumes'),
-    path('recruiter/job/listing/add/skill', views.add_job_skill, name='add_job_skill'),
-    path('recruiter/job/listing/add', views.add_job, name='add_job'),
-    path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
+
     path('recruiter/job/listing/delete/<int:pk>', views.delete_job, name='delete_job'),
     path('recruiter/profile/remove/resume/<int:pk>', views.rec_remove_resume, name='rec_remove_resume'),
     path('recruiter/view_cover_letter/<int:jobid>/<int:userid>', views.view_cover_letter, name='view_cover_letter'),

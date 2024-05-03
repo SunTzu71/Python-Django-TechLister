@@ -4,40 +4,30 @@
 <div class="container">
     <div class="row justify-content-center mb-5">
         <div class="col-lg-6">
-            <h1>Edit Job Listing</h1>
+            <h3>Edit Job Listing</h3>
+
+             <div class="card mb-3">
+                    <div class="card-body">
+                     <button
+                              hx-get="{% url 'job_skill_add' %}"
+                              hx-target="#add-job-skill"
+                              hx-swap="afterbegin"
+                              class="btn btn-success btn-sm mb-2">Add Skill
+                      </button>
+                        <div id="skill-result"
+                            hx-target="this"
+                            hx-swap="innerHTML"
+                            hx-get="{% url 'get_session_skills' job_id %}"
+                            hx-trigger="load">
+                      </div>
+                    </div>
+                </div>
+
                 <form method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Active:</label>
                         {{ form.active }}
-                    </div>
-
-                    <div class="container text-center">
-                      <div class="row row-cols-4">
-                        {% for skill in jskills %}
-                          <div class="col bg-secondary mx-1 my-1 py-1 position-relative">
-                            {{ skill.skill_name }}
-                            <a href="{% url 'delete_job_skill' skill.id %}">
-                            <button
-                                    type="button"
-                                    class="btn btn-danger mx-1 float-end"
-                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">X</button></a>
-                          </div>
-                        {% endfor %}
-                      </div>
-                    </div>
-
-                    <div class="d-flex" role="search">
-                        <input class="form-control me-2"
-                               type="search"
-                               name="skill_input" placeholder="Search skill"
-                               hx-get="/skill_search"
-                               hx-trigger="input changed delay:500ms, search"
-                               hx-target="#search-results"
-                               hx-indicator=".htmx-indicator">
-                    </div>
-                    <div id="search-results" class="mt-2">
-                      {% include 'skill_search.html' %}
                     </div>
 
                     <div class="mb-3">

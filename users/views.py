@@ -9,10 +9,23 @@ from website.models import PersonalInformation, Education, Experience, UserSkill
 from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm
 
 
-# Create your views here.
+def get_about_info(user_inst):
+    pii = PersonalInformation.objects.get(user=user_inst)
+    return pii
+
+
+def get_ai_experience(user_inst):
+    exp = Experience.objects.filter(user=user_inst)
+    return exp
+
+
 @login_required
 def ai_resume(request):
-    return render(request, 'ai_resume.html')
+    context = {
+        'pii': get_about_info(request.user),
+        'exps': get_ai_experience(request.user),
+    }
+    return render(request, 'ai_resume.html', context)
 
 
 def get_skill_list(request):
@@ -28,7 +41,6 @@ def ai_skill_add(request):
         if form.is_valid():
             user_skill = form.save(commit=False)
             user_skill.user = request.user
-            user_skill.skill_id = 8
             user_skill.save()
             context['skill'] = user_skill
             return render(request, 'skill_col.html', context)
@@ -38,6 +50,11 @@ def ai_skill_add(request):
         form = UserSkillForm()
     context['form'] = form
     return render(request, 'add_user_skill.html', context)
+
+
+def add_skill_cancel(request):
+    return HttpResponse('')
+
 
 def ai_skill_delete(request, skill_id):
     skill = UserSkill.objects.get(pk=skill_id)
