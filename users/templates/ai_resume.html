@@ -6,7 +6,7 @@
             <!-- First Column -->
           <div class="col 6">
             <h3>Skills</h3>
-              <div class="card my-3">
+              <div class="card">
                   <div class="card-body">
                       <button
                               hx-get="{% url 'ai_skill_add' %}"
@@ -24,7 +24,7 @@
               </div>
 
             <h3>Education</h3>
-              <div class="card my-3">
+              <div class="card">
                   <div class="card-body">
                       <button
                               hx-get="{% url 'add_education_submit' %}"
@@ -62,11 +62,49 @@
           </div>
             <!-- End First Column -->
 
-
-
           <div class="col 6">
-                                  <h3>AI Resume</h3>
-              Have Jefrrey the AI Assistant here
+            <h3>AI Resume</h3>
+            <div class="card">
+                <div class="card-body">
+                    Place content here that explains how Jeffrey can help and how many coins it will cost.
+                </div>
+            </div>
+
+           <h3>About Me</h3>
+           <div class="card my-3">
+               <div class="card-body">
+                   <p>
+                       You can have Jeffrey rewrite your about for your profile.
+                   </p>
+                   <hr />
+                   <p>
+                       {{ pii.about | safe }}
+                   </p>
+                   <hr />
+                   <div class="d-flex justify-content-end">
+                       <button
+                              hx-get="#"
+                              hx-target="#ai-about-info"
+                              hx-swap="innerHTML"
+                              class="btn md-yellow-button mb-2"
+                              onclick="disableCoverLetterButton()">
+                          Jeffrey
+                      </button>
+                   </div>
+               </div>
+           </div>
+
+            <h3>Experience</h3>
+           <div class="card my-3">
+               <div class="card-body">
+                   You can have Jeffrey give you suggestions for your tasks for each company you have worked for.
+               </div>
+           </div>
+
+                   {% for exp in exps %}
+                    {{ exp.position }} - {{ exp.company }}<br />
+                   {% endfor %}
+
           </div>
         </div>
     </div>

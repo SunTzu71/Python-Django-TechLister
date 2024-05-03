@@ -9,10 +9,23 @@ from website.models import PersonalInformation, Education, Experience, UserSkill
 from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm
 
 
-# Create your views here.
+def get_about_info(user_inst):
+    pii = PersonalInformation.objects.get(user=user_inst)
+    return pii
+
+
+def get_ai_experience(user_inst):
+    exp = Experience.objects.filter(user=user_inst)
+    return exp
+
+
 @login_required
 def ai_resume(request):
-    return render(request, 'ai_resume.html')
+    context = {
+        'pii': get_about_info(request.user),
+        'exps': get_ai_experience(request.user),
+    }
+    return render(request, 'ai_resume.html', context)
 
 
 def get_skill_list(request):
