@@ -63,20 +63,14 @@
             <!-- End First Column -->
 
           <div class="col 6">
-            <h3>AI Resume</h3>
-            <div class="card">
-                <div class="card-body">
-                    Place content here that explains how Jeffrey can help and how many coins it will cost.
-                </div>
-            </div>
-
            <h3>About Me</h3>
+              <div class="card my-3">
+               <div class="card-body">
+                   You can have Jeffrey give you suggestions for your tasks for each company you have worked for.
+               </div>
+           </div>
            <div class="card my-3">
                <div class="card-body">
-                   <p>
-                       You can have Jeffrey rewrite your about for your profile.
-                   </p>
-                   <hr />
                    <p>
                        {{ pii.about | safe }}
                    </p>
@@ -101,9 +95,41 @@
                </div>
            </div>
 
-                   {% for exp in exps %}
-                    {{ exp.position }} - {{ exp.company }}<br />
-                   {% endfor %}
+
+            {% for exp in exps %}
+             <div class="card mb-2">
+                  <div class="card-header bg-white">
+                    {{ exp.company }}
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ exp.position }}</h5>
+                    <p class="card-text">
+                        <ul>
+                        <li>{{ exp.task_one }}</li>
+                            {% if exp.task_two %} <li>{{ exp.task_two }}</li> {% endif %}
+                            {% if exp.task_three %} <li>{{ exp.task_three }}</li> {% endif %}
+                            {% if exp.task_four %} <li>{{ exp.task_four }}</li> {% endif %}
+                            {% if exp.task_five %} <li>{{ exp.task_five }}</li> {% endif %}
+                            {% if exp.task_six %} <li>{{ exp.task_six }}</li> {% endif %}
+                            {% if exp.task_seven %} <li>{{ exp.task_seven }}</li> {% endif %}
+                            {% if exp.task_eight %} <li>{{ exp.task_eight }}</li> {% endif %}
+                            {% if exp.task_nine %} <li>{{ exp.task_nine }}</li> {% endif %}
+                            {% if exp.task_ten %} <li>{{ exp.task_ten }}</li> {% endif %}
+                        </ul>
+                    </p>
+                      <div class="d-flex justify-content-end">
+                      <button
+                              hx-get="#"
+                              hx-target="#"
+                              hx-swap="innerHTML"
+                              class="btn md-yellow-button mb-2"
+                              onclick="disableCoverLetterButton()">
+                          Jeffrey
+                      </button>
+                      </div>
+                  </div>
+             </div>
+            {% endfor %}
 
           </div>
         </div>
