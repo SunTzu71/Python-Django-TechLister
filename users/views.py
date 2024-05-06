@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 
-from website.models import PersonalInformation, Education, Experience, UserSkill
+from openai import OpenAI
+
+from website.models import PersonalInformation, Education, Experience, UserSkill, User, AIToken
 from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm
 
 
@@ -225,3 +227,39 @@ def edit_experience_cancel(request, pk):
     experience = Experience.objects.get(user=request.user, pk=pk)
     context['experience'] = experience
     return render(request, 'experience_row.html', context)
+
+
+def generate_about(user_id):
+    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+    user_instance = get_object_or_404(User, id=user_id)
+    user_about = get_about_info(user_instance)
+    prompt = (f"Write me a about section that is no longer than 5 sentences. "
+              f"Then paste the about into the input text.\n\nJob Description:\n{user_about.about}\n\nAbout:")
+
+    # Use the new ChatCompletion of OpenAI to generate the cover letter
+    response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+    ])
+
+    # Get the generated cover letter from the response
+    about_section = response.choices[0].message.content.strip()
+
+    user_tokens = AIToken.objects.get(user=user_instance)
+    if user_tokens.amount > 0:
+        user_tokens.amount = user_tokens.amount - 1
+        user_tokens.save()
+
+    return about_section
+
+
+def ai_about_me(request):
+    gen_about = generate_about(request.user.id)
+    context = {'about_me': gen_about}
+    return render(request, 'ai_about_me.html', context)
+
+
+def ai_about_update(request):
+    personal_info = PersonalInformation.objects.get(user=request.user)
+

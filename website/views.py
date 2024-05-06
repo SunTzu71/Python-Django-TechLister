@@ -773,7 +773,6 @@ def user_profile_remove_job(request, pk):
 
 @login_required
 def view_cover_letter(request, jobid, userid):
-
     personal_info = PersonalInformation.objects.get(user=userid)
     applied_jobs = AppliedJobs.objects.select_related('user').get(job_id=jobid, user_id=userid)
     resume = get_resume_information(userid)

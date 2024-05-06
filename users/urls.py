@@ -18,7 +18,7 @@ urlpatterns = [
     path('ai/skill/add', views.ai_skill_add, name='ai_skill_add'),
     path('add/skill/cancel', views.add_skill_cancel, name='add_skill_cancel'),
 
-    # education secton
+    # education section
     path('get/education/list', views.get_education_list, name='get_education_list'),
     path('ai/add/education/', views.ai_add_education, name='ai_add_education'),
     path('add/education/submit', views.add_education_submit, name='add_education_submit'),
@@ -35,6 +35,10 @@ urlpatterns = [
     path('ai/delete/experience/<int:pk>', views.ai_delete_experience, name='ai_delete_experience'),
     path('edit/experience/submit/<int:pk>', views.edit_experience_submit, name='edit_experience_submit'),
     path('edit/experience/cancel/<int:pk>', views.edit_experience_cancel, name='edit_experience_cancel'),
+
+    # AI section
+    path('ai/about/me', views.ai_about_me, name='ai_about_me'),
+    path('ai/about/update', views.ai_about_update, name='ai_about_update'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

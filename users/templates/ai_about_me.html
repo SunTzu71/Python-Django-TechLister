@@ -1,0 +1,18 @@
+<p>
+    {{ about_me }}
+</p>
+
+<button
+    hx-get="{% url 'ai_about_update' %}"
+    hx-target="#ai_about_me"
+    hx-swap="innerHTML"
+    class="btn md-yellow-button mb-2">
+  Update
+</button>
+
+<button
+    id="reset-about"
+    class="btn md-yellow-button mb-2"
+    onclick="enableJeffreyButton()">
+  Reset
+</button>

@@ -66,7 +66,7 @@
            <h3>About Me</h3>
               <div class="card my-3">
                <div class="card-body">
-                   You can have Jeffrey give you suggestions for your tasks for each company you have worked for.
+                   You can have Jeffrey give you suggestion for about me section of your resume.
                </div>
            </div>
            <div class="card my-3">
@@ -77,14 +77,26 @@
                    <hr />
                    <div class="d-flex justify-content-end">
                        <button
-                              hx-get="#"
-                              hx-target="#ai-about-info"
-                              hx-swap="innerHTML"
-                              class="btn md-yellow-button mb-2"
-                              onclick="disableCoverLetterButton()">
+                            id="jeffrey-button"
+                            hx-get="{% url 'ai_about_me' %}"
+                            hx-target="#ai_about_me"
+                            hx-swap="innerHTML"
+                            class="btn md-yellow-button mb-2"
+                            onclick="disableJeffreyButton()">
                           Jeffrey
                       </button>
                    </div>
+                   <div id="ai_about_me"></div>
+                   <script>
+                      function disableJeffreyButton() {
+                          let button = document.getElementById('jeffrey-button');
+                          document.getElementById('jeffrey-button').disabled = true;
+                          button.innerText = "Please give me a few seconds to work on your about section.";
+                      }
+                      function enableJeffreyButton() {
+                          document.getElementById('jeffrey-button').disabled = false;
+                      }
+                   </script>
                </div>
            </div>
 
