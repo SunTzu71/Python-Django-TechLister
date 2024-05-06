@@ -2,13 +2,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.template.loader import render_to_string
 
 from openai import OpenAI
 
 from website.models import PersonalInformation, Education, Experience, UserSkill, User, AIToken
-from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm
+from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm, PersonalInformationForm
 
 
 def get_about_info(user_inst):
@@ -262,4 +262,10 @@ def ai_about_me(request):
 
 def ai_about_update(request):
     personal_info = PersonalInformation.objects.get(user=request.user)
-
+    if request.method == 'POST':
+        ai_about = request.POST.get('about')
+        if ai_about:
+            personal_info.about = ai_about
+            personal_info.save()
+        else:
+            raise ValidationError("Please enter about text.")
