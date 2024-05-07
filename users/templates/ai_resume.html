@@ -77,7 +77,7 @@
                    <hr />
                    <div class="d-flex justify-content-end">
                        <button
-                            id="jeffrey-button"
+                            id="jeffrey-about-button"
                             hx-get="{% url 'ai_about_me' %}"
                             hx-target="#ai_about_me"
                             hx-swap="innerHTML"
@@ -89,12 +89,12 @@
                    <div id="ai_about_me"></div>
                    <script>
                       function disableJeffreyButton() {
-                          let button = document.getElementById('jeffrey-button');
-                          document.getElementById('jeffrey-button').disabled = true;
+                          let button = document.getElementById('jeffrey-about-button');
+                          document.getElementById('jeffrey-about-button').disabled = true;
                           button.innerText = "Please give me a few seconds to work on your about section.";
                       }
                       function enableJeffreyButton() {
-                          document.getElementById('jeffrey-button').disabled = false;
+                          document.getElementById('jeffrey-about-button').disabled = false;
                       }
                    </script>
                </div>
@@ -107,42 +107,27 @@
                </div>
            </div>
 
+            <div class="card">
+               <div class="card-body">
 
-            {% for exp in exps %}
-             <div class="card mb-2">
-                  <div class="card-header bg-white">
-                    {{ exp.company }}
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">{{ exp.position }}</h5>
-                    <p class="card-text">
-                        <ul>
-                        <li>{{ exp.task_one }}</li>
-                            {% if exp.task_two %} <li>{{ exp.task_two }}</li> {% endif %}
-                            {% if exp.task_three %} <li>{{ exp.task_three }}</li> {% endif %}
-                            {% if exp.task_four %} <li>{{ exp.task_four }}</li> {% endif %}
-                            {% if exp.task_five %} <li>{{ exp.task_five }}</li> {% endif %}
-                            {% if exp.task_six %} <li>{{ exp.task_six }}</li> {% endif %}
-                            {% if exp.task_seven %} <li>{{ exp.task_seven }}</li> {% endif %}
-                            {% if exp.task_eight %} <li>{{ exp.task_eight }}</li> {% endif %}
-                            {% if exp.task_nine %} <li>{{ exp.task_nine }}</li> {% endif %}
-                            {% if exp.task_ten %} <li>{{ exp.task_ten }}</li> {% endif %}
-                        </ul>
-                    </p>
-                      <div class="d-flex justify-content-end">
-                      <button
-                              hx-get="#"
-                              hx-target="#"
-                              hx-swap="innerHTML"
-                              class="btn md-yellow-button mb-2"
-                              onclick="disableCoverLetterButton()">
-                          Jeffrey
-                      </button>
-                      </div>
-                  </div>
-             </div>
-            {% endfor %}
+                 <form hx-post="{% url 'ai_experience_tasks' %}" hx-vals="{exp_id: document.getElementById('exp_id').value}">
+                    <select name="exp_id" id="exp_id" class="form-select">
+                        {% for exp in exps %}
+                        <option value="{{ exp.id }}">{{ exp.company }}</option>
+                        {% endfor %}
+                    </select>
 
+                    <button
+                      id="jeffrey-exp-button"
+                      hx-target="#ai-exp-tasks"
+                      hx-swap="innerHTML"
+                      class="btn md-yellow-button mb-2">
+                    Jeffrey
+                    </button>
+                </form>
+                   <div id="ai-exp-tasks"></div>
+               </div>
+            </div>
           </div>
         </div>
     </div>

@@ -272,3 +272,10 @@ def ai_about_update(request):
         if form.is_valid():
             ai_about = form.save(commit=True)
             return redirect('user_profile')
+
+
+def ai_experience_tasks(request):
+    if request.method == 'POST':
+        exp_id = request.POST.get('exp_id')
+        print('exp id:', exp_id)
+        return render(request, 'ai_experience_tasks.html', {'exp_id': exp_id})

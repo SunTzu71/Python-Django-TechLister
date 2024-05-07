@@ -39,6 +39,7 @@ urlpatterns = [
     # AI section
     path('ai/about/me', views.ai_about_me, name='ai_about_me'),
     path('ai/about/update', views.ai_about_update, name='ai_about_update'),
+    path('ai/experience/tasks', views.ai_experience_tasks, name='ai_experience_tasks'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
