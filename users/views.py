@@ -261,7 +261,7 @@ def ai_about_me(request):
     form = AIPersonalAboutForm(request.POST or None, instance=personal_info,
                                initial={'about': gen_about})
 
-    context = {'form': form, 'about_me': gen_about}
+    context = {'form': form}
     return render(request, 'ai_about_me.html', context)
 
 
