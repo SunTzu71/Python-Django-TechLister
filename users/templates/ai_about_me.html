@@ -1,9 +1,7 @@
 <form method="POST" action="{% url 'ai_about_update' %}">
     {% csrf_token %}
-    <textarea name="about" cols="40" rows="10" hidden="true" style="display: none;">
-    {{ about_me | safe }}
-    </textarea>
-      <div class="col d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary mb-2">Update</button>
-  </div>
+    {{ form.about }}
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn md-yellow-button">Update</button>
+    </div>
 </form>

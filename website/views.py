@@ -254,7 +254,6 @@ def edit_personal_info(request, pk):
             else:
                 # form is not valid render again
                 return render(request, 'edit_personalinfo.html', {'form': form})
-
         else:
             form = PersonalInformationForm(instance=personal_info)
             return render(request, 'edit_personalinfo.html', {'form': form})

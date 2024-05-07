@@ -136,6 +136,16 @@ class PersonalInformationForm(CustomModelForm):
         }
 
 
+class AIPersonalAboutForm(forms.ModelForm):
+    class Meta:
+        model = PersonalInformation
+        fields = ['about']
+
+        widgets = {
+            'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+        }
+
+
 class AddEducationForm(CustomModelForm):
     custom_validators = {
         'title': [validate_title_length],

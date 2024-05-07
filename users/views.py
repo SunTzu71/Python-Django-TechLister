@@ -8,7 +8,8 @@ from django.template.loader import render_to_string
 from openai import OpenAI
 
 from website.models import PersonalInformation, Education, Experience, UserSkill, User, AIToken
-from website.forms import AddEducationForm, AddExperienceForm, UserSkillForm, PersonalInformationForm
+from website.forms import (AddEducationForm, AddExperienceForm, UserSkillForm, PersonalInformationForm,
+                           AIPersonalAboutForm)
 
 
 def get_about_info(user_inst):
@@ -256,16 +257,18 @@ def generate_about(user_id):
 
 def ai_about_me(request):
     gen_about = generate_about(request.user.id)
-    context = {'about_me': gen_about}
+    personal_info = PersonalInformation.objects.get(user=request.user)
+    form = AIPersonalAboutForm(request.POST or None, instance=personal_info,
+                               initial={'about': gen_about})
+
+    context = {'form': form, 'about_me': gen_about}
     return render(request, 'ai_about_me.html', context)
 
 
 def ai_about_update(request):
     personal_info = PersonalInformation.objects.get(user=request.user)
     if request.method == 'POST':
-        ai_about = request.POST.get('about')
-        if ai_about:
-            personal_info.about = ai_about
-            personal_info.save()
-        else:
-            raise ValidationError("Please enter about text.")
+        form = AIPersonalAboutForm(request.POST, instance=personal_info)
+        if form.is_valid():
+            ai_about = form.save(commit=True)
+            return redirect('user_profile')
