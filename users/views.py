@@ -274,8 +274,19 @@ def ai_about_update(request):
             return redirect('user_profile')
 
 
+def generate_exp_tasks(exp_id):
+    experience = Experience.objects.get(id=exp_id)
+    task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
+                   'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
+    tasks = [getattr(experience, field) for field in task_fields]
+    for task in tasks:
+        if task:
+            print(task)
+
+
 def ai_experience_tasks(request):
     if request.method == 'POST':
         exp_id = request.POST.get('exp_id')
-        print('exp id:', exp_id)
+        generate_exp_tasks(exp_id)
+
         return render(request, 'ai_experience_tasks.html', {'exp_id': exp_id})

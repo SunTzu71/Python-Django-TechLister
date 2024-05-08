@@ -107,30 +107,33 @@
                </div>
            </div>
 
-            <div class="card">
-               <div class="card-body">
-                 <form hx-post="{% url 'ai_experience_tasks' %}"
-                       hx-vals="{exp_id: document.getElementById('exp_id').value}"
-                       hx-target="#ai-exp-tasks"
-                       hx-swap="innerHTML">
-                     <label for="exp_id"></label>
-                     <select name="exp_id" id="exp_id" class="form-select">
-                        {% for exp in exps %}
-                        <option value="{{ exp.id }}">{{ exp.company }}</option>
-                        {% endfor %}
-                    </select>
+              <div class="card">
+                  <div class="card-body">
+                      <form hx-post="{% url 'ai_experience_tasks' %}"
+                            hx-vals="{exp_id: document.getElementById('exp_id').value}"
+                            hx-target="#ai-exp-tasks"
+                            hx-swap="innerHTML"
+                            class="row align-items-center">
+                          <div class="col-10">
+                              <label for="exp_id"></label>
+                              <select name="exp_id" id="exp_id" class="form-select">
+                                  {% for exp in exps %}
+                                  <option value="{{ exp.id }}">{{ exp.company }}</option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                          <div class="col-2">
+                              <button
+                                      id="jeffrey-exp-button"
+                                      class="btn md-yellow-button mt-3">
+                                  Jeffrey
+                              </button>
+                          </div>
+                      </form>
+                      <div id="ai-exp-tasks"></div>
+                  </div>
+              </div>
 
-                     <div class="d-flex justify-content-end">
-                    <button
-                      id="jeffrey-exp-button"
-                      class="btn md-yellow-button mb-2">
-                        Jeffrey
-                    </button>
-                     </div>
-                </form>
-                   <div id="ai-exp-tasks"></div>
-               </div>
-            </div>
           </div>
         </div>
     </div>
