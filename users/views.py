@@ -279,14 +279,41 @@ def generate_exp_tasks(exp_id):
     task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
                    'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
     tasks = [getattr(experience, field) for field in task_fields]
+    task_list = ""
     for task in tasks:
         if task:
-            print(task)
+            task_list += f"{task}"
+    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+    prompt = (f"Go through the list of tasks updating the description to be more appealing. "
+              f"Do not duplicate the task_list in the response "
+              f"Then paste the numbered list into the input text.{task_list}")
+
+    response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
+                                              messages=[
+                                                  {"role": "system", "content": "You are a helpful assistant."},
+                                                  {"role": "user", "content": prompt}
+                                              ])
+    # Get the generated tasks from the response
+    new_tasks = response.choices[0].message.content.strip()
+    return new_tasks
+
+
+def ai_tasks_update(request, exp_id):
+    experience = Experience.objects.get(id=exp_id)
+    task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
+                   'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
 
 
 def ai_experience_tasks(request):
     if request.method == 'POST':
         exp_id = request.POST.get('exp_id')
-        generate_exp_tasks(exp_id)
-
-        return render(request, 'ai_experience_tasks.html', {'exp_id': exp_id})
+        gen_tasks = generate_exp_tasks(exp_id)
+        experience = Experience.objects.get(id=exp_id)
+        task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
+                       'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
+        task_list = gen_tasks.split('\n')
+        for task, field in zip(task_list, task_fields):
+            task = task.split('. ', 1)[-1]  # Strip out the part before ". "
+            setattr(experience, field, task)
+        experience.save()
+        return render(request, 'ai_experience_tasks.html', {'tasks': task_list})
