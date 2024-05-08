@@ -40,7 +40,7 @@ urlpatterns = [
     path('ai/about/me', views.ai_about_me, name='ai_about_me'),
     path('ai/about/update', views.ai_about_update, name='ai_about_update'),
     path('ai/experience/tasks', views.ai_experience_tasks, name='ai_experience_tasks'),
-    path('ai/experience/update', views.ai_experience_update, name='ai_experience_update'),
+    path('ai/experience/update/<int:exp_id>', views.ai_experience_update, name='ai_experience_update'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

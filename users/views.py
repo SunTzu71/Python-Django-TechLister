@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.cache import cache
 from django.template.loader import render_to_string
 
 from openai import OpenAI
@@ -299,7 +300,20 @@ def generate_exp_tasks(exp_id):
 
 
 def ai_experience_update(request, exp_id):
-    pass
+    experience = Experience.objects.get(id=exp_id)
+    task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
+                   'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
+
+    get_cache_name = f'gen_tasks_{exp_id}'
+    tasks = cache.get(get_cache_name, [])
+
+    for task, field in zip(tasks, task_fields):
+        task = task.split('. ', 1)[-1]  # Strip out the part before ". "
+        setattr(experience, field, task)
+
+    experience.save()
+
+    return redirect('ai_resume')
 
 
 def ai_experience_tasks(request):
@@ -312,11 +326,10 @@ def ai_experience_tasks(request):
         gen_tasks = generate_exp_tasks(exp_id)
         task_list = gen_tasks.split('\n')
 
-        for task, field in zip(task_list, task_fields):
-            task = task.split('. ', 1)[-1]  # Strip out the part before ". "
-            setattr(experience, field, task)
+        # Store the tasks in cache
+        cache_name = f'gen_tasks_{exp_id}'
+        cache.set(cache_name, task_list, 300)  # Cache data for 5 minutes
 
-        experience.save()
         context = {'exp_id': exp_id, 'tasks': task_list}
 
         return render(request, 'ai_experience_tasks.html', context)
