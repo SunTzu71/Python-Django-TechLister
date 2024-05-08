@@ -4,3 +4,13 @@
     <p>{{ task }} - copy</p>
     {% endfor %}
 </div>
+
+<div class="d-flex justify-content-end">
+   <button
+        hx-post="{% url 'ai_experience_update' tasks %}"
+        hx-target="#ai_exp_updated"
+        hx-swap="innerHTML"
+        class="btn md-yellow-button mb-2">
+       Update
+   </button>
+</div>

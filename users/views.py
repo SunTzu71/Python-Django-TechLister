@@ -298,22 +298,25 @@ def generate_exp_tasks(exp_id):
     return new_tasks
 
 
-def ai_tasks_update(request, exp_id):
-    experience = Experience.objects.get(id=exp_id)
-    task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
-                   'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
+def ai_experience_update(request, exp_id):
+    pass
 
 
 def ai_experience_tasks(request):
     if request.method == 'POST':
         exp_id = request.POST.get('exp_id')
-        gen_tasks = generate_exp_tasks(exp_id)
         experience = Experience.objects.get(id=exp_id)
         task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
                        'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
+
+        gen_tasks = generate_exp_tasks(exp_id)
         task_list = gen_tasks.split('\n')
+
         for task, field in zip(task_list, task_fields):
             task = task.split('. ', 1)[-1]  # Strip out the part before ". "
             setattr(experience, field, task)
+
         experience.save()
-        return render(request, 'ai_experience_tasks.html', {'tasks': task_list})
+        context = {'exp_id': exp_id, 'tasks': task_list}
+
+        return render(request, 'ai_experience_tasks.html', context)

@@ -101,14 +101,9 @@
            </div>
 
             <h3>Experience</h3>
-           <div class="card my-3">
-               <div class="card-body">
-                   You can have Jeffrey give you suggestions for your tasks for each company you have worked for.
-               </div>
-           </div>
-
               <div class="card">
                   <div class="card-body">
+                      You can have Jeffrey give you suggestions for your tasks for each company you have worked for.
                       <form hx-post="{% url 'ai_experience_tasks' %}"
                             hx-vals="{exp_id: document.getElementById('exp_id').value}"
                             hx-target="#ai-exp-tasks"
@@ -124,12 +119,17 @@
                           </div>
                           <div class="col-2">
                               <button
-                                      id="jeffrey-exp-button"
-                                      class="btn md-yellow-button mt-3">
+                                      class="btn md-yellow-button mt-3"
+                                    onclick="ai_task_confirm()">
                                   Jeffrey
                               </button>
                           </div>
                       </form>
+                      <script>
+                          function ai_task_confirm() {
+                              confirm('Please allow me a few seconds to work on this.')
+                          }
+                      </script>
                       <div id="ai-exp-tasks"></div>
                   </div>
               </div>
