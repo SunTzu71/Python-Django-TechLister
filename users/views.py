@@ -275,7 +275,7 @@ def ai_about_update(request):
             return redirect('user_profile')
 
 
-def generate_exp_tasks(exp_id):
+def generate_exp_tasks(user_id, exp_id):
     experience = Experience.objects.get(id=exp_id)
     task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
                    'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
@@ -296,6 +296,13 @@ def generate_exp_tasks(exp_id):
                                               ])
     # Get the generated tasks from the response
     new_tasks = response.choices[0].message.content.strip()
+
+    user_instance = get_object_or_404(User, id=user_id)
+    user_tokens = AIToken.objects.get(user=user_instance)
+    if user_tokens.amount > 0:
+        user_tokens.amount = user_tokens.amount - 1
+        user_tokens.save()
+
     return new_tasks
 
 
@@ -323,7 +330,7 @@ def ai_experience_tasks(request):
         task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
                        'task_six', 'task_seven', 'task_eight', 'task_nine', 'task_ten']
 
-        gen_tasks = generate_exp_tasks(exp_id)
+        gen_tasks = generate_exp_tasks(request.user.id, exp_id)
         task_list = gen_tasks.split('\n')
 
         # Store the tasks in cache

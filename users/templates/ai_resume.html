@@ -66,7 +66,8 @@
            <h3>About Me</h3>
               <div class="card my-3">
                <div class="card-body">
-                   You can have Jeffrey give you suggestion for about me section of your resume.
+                   Let your AI assistant Jeffrey write a compiling about me section for your resume.
+                   This will cost 1 token to write your about section.
                </div>
            </div>
            <div class="card my-3">
@@ -103,7 +104,8 @@
             <h3>Experience</h3>
               <div class="card">
                   <div class="card-body">
-                      You can have Jeffrey give you suggestions for your tasks for each company you have worked for.
+                     Let your AI assistant Jeffrey update your tasks for each company you have worked with.
+                     This will cost 1 token to update all tasks for the company.
                       <form hx-post="{% url 'ai_experience_tasks' %}"
                             hx-vals="{exp_id: document.getElementById('exp_id').value}"
                             hx-target="#ai-exp-tasks"
