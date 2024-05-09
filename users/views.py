@@ -25,9 +25,17 @@ def get_ai_experience(user_inst):
 
 @login_required
 def ai_resume(request):
+    # get token amount to display AI button
+    user_tokens = AIToken.objects.get(user=request.user)
+    if user_tokens.amount > 0:
+        ai_token = True
+    else:
+        ai_token = False
+
     context = {
         'pii': get_about_info(request.user),
         'exps': get_ai_experience(request.user),
+        'ai_token': ai_token,
     }
     return render(request, 'ai_resume.html', context)
 
@@ -272,7 +280,7 @@ def ai_about_update(request):
         form = AIPersonalAboutForm(request.POST, instance=personal_info)
         if form.is_valid():
             ai_about = form.save(commit=True)
-            return redirect('user_profile')
+            return redirect('ai_resume')
 
 
 def generate_exp_tasks(user_id, exp_id):
