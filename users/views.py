@@ -46,6 +46,7 @@ def get_skill_list(request):
     return render(request, 'skill_list.html', context)
 
 
+@login_required
 def ai_skill_add(request):
     context = {}
     if request.method == 'POST':
@@ -68,12 +69,14 @@ def add_skill_cancel(request):
     return HttpResponse('')
 
 
+@login_required
 def ai_skill_delete(request, skill_id):
     skill = UserSkill.objects.get(pk=skill_id)
     skill.delete()
     return HttpResponse()
 
 
+@login_required
 def get_education_list(request):
     user_id = request.user.id
     education_info = Education.objects.filter(user_id=user_id)
@@ -81,11 +84,13 @@ def get_education_list(request):
     return render(request, 'education_list.html', context)
 
 
+@login_required
 def ai_add_education(request):
     form = AddEducationForm(request.POST)
     return render(request, 'ai_add_education.html', {'form': form})
 
 
+@login_required
 def add_education_submit(request):
     context = {}
     if request.method == 'POST':
@@ -108,6 +113,7 @@ def add_education_cancel(request):
     return HttpResponse('')
 
 
+@login_required
 def ai_edit_education(request, pk):
     education = Education.objects.get(user=request.user, pk=pk)
     context = {}
@@ -151,6 +157,7 @@ def edit_education_cancel(request, pk):
     return render(request, 'education_row.html', context)
 
 
+@login_required
 def delete_education(request, pk):
     education = Education.objects.get(pk=pk)
     education.delete()
@@ -164,6 +171,7 @@ def get_experience_list(request):
     return render(request, 'experience_list.html', context)
 
 
+@login_required
 def add_experience_submit(request):
     context = {}
     if request.method == 'POST':
@@ -186,6 +194,7 @@ def add_experience_cancel(request):
     return HttpResponse('')
 
 
+@login_required
 def ai_delete_experience(request, pk):
     experience = Experience.objects.get(pk=pk)
     experience.delete()
@@ -264,6 +273,7 @@ def generate_about(user_id):
     return about_section
 
 
+@login_required
 def ai_about_me(request):
     gen_about = generate_about(request.user.id)
     personal_info = PersonalInformation.objects.get(user=request.user)
@@ -274,6 +284,7 @@ def ai_about_me(request):
     return render(request, 'ai_about_me.html', context)
 
 
+@login_required
 def ai_about_update(request):
     personal_info = PersonalInformation.objects.get(user=request.user)
     if request.method == 'POST':
@@ -314,6 +325,7 @@ def generate_exp_tasks(user_id, exp_id):
     return new_tasks
 
 
+@login_required
 def ai_experience_update(request, exp_id):
     experience = Experience.objects.get(id=exp_id)
     task_fields = ['task_one', 'task_two', 'task_three', 'task_four', 'task_five',
@@ -331,6 +343,7 @@ def ai_experience_update(request, exp_id):
     return redirect('ai_resume')
 
 
+@login_required
 def ai_experience_tasks(request):
     if request.method == 'POST':
         exp_id = request.POST.get('exp_id')
