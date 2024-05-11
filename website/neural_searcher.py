@@ -1,5 +1,6 @@
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
+from django.conf import settings
 
 
 class NeuralSearcher:
@@ -9,8 +10,8 @@ class NeuralSearcher:
         self.model = SentenceTransformer("all-mpnet-base-v2", device="cpu")
         # initialize Qdrant client
         self.qdrant_client = QdrantClient(
-            url="https://a70aa4ee-b102-4f72-87bc-2d84095c40fd.us-east4-0.gcp.cloud.qdrant.io:6333",
-            api_key="LBtuvaZRmX_kTUZJTTaj2D7DOqSl8DoipFBnMqWH9C16BC15u7MqlQ",
+            url=settings.QDRANT_URL,
+            api_key=settings.QDRANT_API_KEY,
         )
 
     def search(self, text: str):
