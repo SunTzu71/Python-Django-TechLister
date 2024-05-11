@@ -154,7 +154,7 @@ def add_portfolio(request):
                 # generate image file name
                 file_ext = os.path.splitext(portfolio_image.name)[-1].lower()
                 rand_img = secrets.token_hex(4)
-                user_portfolio_image = str(request.user.id) + '-' + rand_img + file_ext
+                user_portfolio_image = str(request.user.id) + '-port-' + rand_img + file_ext
 
                 add_portfolio.portfolio_image = image_resize(img,
                                                              portfolio_image.size,
@@ -194,7 +194,7 @@ def edit_portfolio(request, pk):
                     # generate image file name
                     file_ext = os.path.splitext(portfolio_image.name)[-1].lower()
                     rand_img = secrets.token_hex(4)
-                    user_portfolio_image = str(request.user.id) + '-' + rand_img + file_ext
+                    user_portfolio_image = str(request.user.id) + '-port-' + rand_img + file_ext
 
                     edit_portfolio.portfolio_image = image_resize(img,
                                                                   portfolio_image.size,
