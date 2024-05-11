@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from openai import OpenAI
-
+from django.conf import settings
 from .forms import RegistrationForm, PersonalInformationForm, AddEducationForm, AddExperienceForm, Portfolio, \
     PortfolioForm, NewJobListingForm, CoverLetterForm, ArticleForm
 from .models import (PersonalInformation, Education, Experience, Skill, UserSkill, JobListing, JobSkill,
@@ -688,7 +688,7 @@ def apply_job(request, pk):
 
 def generate_cover_letter(user_id, job_id):
     # this needs to be placed in the settings file
-    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     user_instance = get_object_or_404(User, id=user_id)
 

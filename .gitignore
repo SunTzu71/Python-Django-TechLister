@@ -1,4 +1,5 @@
 media/*
+techlister/.env
 techlister/.sendgrid.env
 neural_search/job_listings.json
 neural_search/job_listings.npy

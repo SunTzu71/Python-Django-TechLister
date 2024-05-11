@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.cache import cache
 from django.template.loader import render_to_string
-
+from django.conf import settings
 from openai import OpenAI
 
 from website.models import PersonalInformation, Education, Experience, UserSkill, User, AIToken
@@ -249,7 +249,7 @@ def edit_experience_cancel(request, pk):
 
 
 def generate_about(user_id):
-    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
     user_instance = get_object_or_404(User, id=user_id)
     user_about = get_about_info(user_instance)
     prompt = (f"Write me a about section that is no longer than 5 sentences. "
@@ -303,7 +303,7 @@ def generate_exp_tasks(user_id, exp_id):
     for task in tasks:
         if task:
             task_list += f"{task}"
-    client = OpenAI(api_key='sk-proj-M6KTMGUXXMSoSKO0qhqmT3BlbkFJ9Io1My5KJdGD4DKY6A26')
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
     prompt = (f"Go through the list of tasks updating the description to be more appealing. "
               f"Do not duplicate the task_list in the response "
               f"Then paste the numbered list into the input text.{task_list}")
