@@ -5,7 +5,6 @@ from django.conf import settings
 import numpy as np
 import json
 
-#qdrant_client = QdrantClient("http://localhost:6333")
 qdrant_client = QdrantClient(
     url=settings.QDRANT_URL,
     api_key=settings.QDRANT_API_KEY,
