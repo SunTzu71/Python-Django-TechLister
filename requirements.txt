@@ -13,3 +13,4 @@ qdrant-client
 django-summernote
 openai~=1.23.2
 python-dotenv~=1.0.1
+sendgrid~=6.11.0
