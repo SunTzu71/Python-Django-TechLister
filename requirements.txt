@@ -1,4 +1,5 @@
 Django>=5.0
+gunicorn
 psycopg2-binary
 Pillow~=10.2.0
 django-extensions
@@ -12,4 +13,3 @@ qdrant-client
 django-summernote
 openai~=1.23.2
 python-dotenv~=1.0.1
-sendgrid~=6.11.0
