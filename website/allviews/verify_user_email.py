@@ -9,10 +9,10 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from website.models import AIToken
 
+from django.conf import settings
 # Send grid
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
 
 from django.core.mail import send_mail
 
@@ -20,7 +20,7 @@ from django.core.mail import send_mail
 def send_verification_email(user):
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
-    verification_url = f"http://127.0.0.1:8000/verify/{uid}/{token}/"
+    verification_url = f"{settings.MAIL_DOMAIN}/verify/{uid}/{token}/"
 
     subject = 'Tech Artisan Hub Verification Email'
     message = f'Click here to verify your email address: {verification_url}'
