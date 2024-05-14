@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from website.models import SavedJobs, AppliedJobs, PersonalInformation, Education, Experience, UserSkill, AIToken
 from messaging.views import user_list_messages
 from website.views import get_resume_information
@@ -78,9 +79,6 @@ def edit_resume(request):
         return redirect('add_personalinfo')
 
     return render(request, 'users/edit_resume.html', context)
-
-
-from django.shortcuts import get_object_or_404
 
 
 @login_required

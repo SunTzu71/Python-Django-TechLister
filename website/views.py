@@ -658,11 +658,12 @@ def save_job(request, pk):
 @login_required
 def apply_job(request, pk):
     # get token amount to display AI button
-    user_tokens = AIToken.objects.get(user=request.user)
-    if user_tokens.amount > 0:
-        ai_token = True
-    else:
+    user_tokens = AIToken.objects.filter(user=request.user).first()
+    if user_tokens is None:
+        ai_token = AIToken(user=request.user, amount=0)
         ai_token = False
+    else:
+        ai_token = True
 
     if request.method == 'POST':
         job = JobListing.objects.get(pk=pk)

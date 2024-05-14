@@ -26,11 +26,12 @@ def get_ai_experience(user_inst):
 @login_required
 def ai_resume(request):
     # get token amount to display AI button
-    user_tokens = AIToken.objects.get(user=request.user)
-    if user_tokens.amount > 0:
-        ai_token = True
-    else:
+    user_tokens = AIToken.objects.filter(user=request.user).first()
+    if user_tokens is None:
+        ai_token = AIToken(user=request.user, amount=0)
         ai_token = False
+    else:
+        ai_token = True
 
     context = {
         'pii': get_about_info(request.user),
