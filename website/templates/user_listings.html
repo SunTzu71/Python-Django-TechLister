@@ -3,9 +3,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            {% if no_results is None %}
-                No users found.
-            {% endif %}
             {% for result in search_results %}
             <div class="card mb-4" style="max-width: 540px;">
                 <div class="row g-0">
