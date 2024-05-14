@@ -636,14 +636,20 @@ def user_search(request):
         query = request.POST.get('query')
         search_results = neural_user_search.search(text=query)
 
-        # get the first element from the json result
-        first_user = search_results[0]['user_id']
+        context = {'search_results': search_results}
 
-        if search_results and first_user:
-            context = {'search_results': search_results,
-                       'first': get_resume_information(first_user)}
-        else:
-            context = ''
+        # Attempt to get first user's resume information
+        try:
+            first_user = search_results[0]['user_id']
+            context['first'] = get_resume_information(first_user)
+        except User.DoesNotExist:
+            # handle exception
+            context['no_results'] = None
+            # Make sure to replace the print statement with your desired way of handling exception.
+            # The main idea is to ensure your code doesn't break if a user does not exist.
+        except IndexError:
+            # handle scenario where search_results is empty
+            context['no_results'] = None
 
         return render(request, 'user_listings.html', context)
         # may want to add a no results text and pass it in or check it in the template
