@@ -135,9 +135,8 @@
                                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Remove Resume</button>
                                     </div>
                                     {% else %}
-
-                                    {% if first.pii.user.id %}
                                     <div id="saved-user">
+                                        {% if first.pii.user.id %}
                                         <button
                                                 hx-post="{% url 'save_user' first.pii.user.id %}"
                                                 hx-target="#saved-user"
@@ -145,17 +144,21 @@
                                                 class="btn btn-primary"
                                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Save Resume
                                         </button>
-                                    </div>
-                                    <div class="mt-2">
-                                    <button
-                                            hx-get="{% url 'new_message' first.pii.user.id %}"
-                                            hx-target="#new-message"
-                                            hx-swap="innerHTML"
-                                            class="btn btn-primary"
-                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                        Message User</button>
+                                        {% endif %}
                                     </div>
                                     {% endif %}
+                                    <div class="mt-2">
+                                        {% if first.pii.user.id %}
+                                        <button
+                                                hx-get="{% url 'new_message' first.pii.user.id %}"
+                                                hx-target="#new-message"
+                                                hx-swap="innerHTML"
+                                                class="btn btn-primary"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                            Message User
+                                        </button>
+                                        {% endif %}
+                                    </div>
                             {% else %}
                             You must be logged in to view all details<br />
 
