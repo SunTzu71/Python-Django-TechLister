@@ -80,11 +80,14 @@ def edit_resume(request):
     return render(request, 'users/edit_resume.html', context)
 
 
+from django.shortcuts import get_object_or_404
+
+
+@login_required
 def ai_info(request):
     user_id = request.user.id
-    personal_info = PersonalInformation.objects.get(user_id=user_id)
-    ai_token = AIToken.objects.get(user=request.user)
-
+    personal_info = get_object_or_404(PersonalInformation, user_id=user_id)
+    ai_token = get_object_or_404(AIToken, user=request.user)
     context = {'pii': personal_info,
                'ai_token': ai_token}
     return render(request, 'users/ai_info.html', context)
