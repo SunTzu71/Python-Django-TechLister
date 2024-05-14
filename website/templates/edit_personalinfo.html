@@ -82,11 +82,9 @@
                             <button type="submit" class="btn md-yellow-button">Save</button>
                         </div>
                     </div>
-
-
-
-
+                        {% if form.instance.profile_image %}
                         <img src="{{ form.instance.profile_image.url }}" class="card-img-top mt-2 mb-2" alt="Portfolio Image">
+                        {% endif %}
                 </div>
 
             </div>
