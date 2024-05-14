@@ -136,12 +136,15 @@
                                     </div>
                                     {% else %}
                                     <div id="saved-user">
-                                    <button
-                                            hx-post="{% url 'save_user' first.pii.user.id %}"
-                                            hx-target="#saved-user"
-                                            hx-swap="innerHTML"
-                                            class="btn btn-primary"
-                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Save Resume</button>
+                                        {% if first.pii.user.id %}
+                                        <button
+                                                hx-post="{% url 'save_user' first.pii.user.id %}"
+                                                hx-target="#saved-user"
+                                                hx-swap="innerHTML"
+                                                class="btn btn-primary"
+                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Save Resume
+                                        </button>
+                                        {% endif %}
                                     </div>
                                     {% endif %}
                                     <div class="mt-2">
