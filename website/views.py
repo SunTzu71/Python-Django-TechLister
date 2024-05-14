@@ -638,8 +638,12 @@ def user_search(request):
 
         # get the first element from the json result
         first_user = search_results[0]['user_id']
-        context = {'search_results': search_results,
-                   'first': get_resume_information(first_user)}
+
+        if search_results and first_user:
+            context = {'search_results': search_results,
+                       'first': get_resume_information(first_user)}
+        else:
+            context = ''
 
         return render(request, 'user_listings.html', context)
         # may want to add a no results text and pass it in or check it in the template
