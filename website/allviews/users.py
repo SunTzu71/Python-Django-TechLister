@@ -87,7 +87,11 @@ from django.shortcuts import get_object_or_404
 def ai_info(request):
     user_id = request.user.id
     personal_info = get_object_or_404(PersonalInformation, user_id=user_id)
-    ai_token = get_object_or_404(AIToken, user=request.user)
+    ai_token = AIToken.objects.filter(user=request.user).first()
+
+    if ai_token is None:
+        ai_token = AIToken(user=request.user, amount=0)
+
     context = {'pii': personal_info,
                'ai_token': ai_token}
     return render(request, 'users/ai_info.html', context)
