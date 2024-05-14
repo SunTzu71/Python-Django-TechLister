@@ -90,7 +90,7 @@
                               <a href="{{ first.pii.linked_in }}" target="_blank">Linked In</a>
                           </p>
                         {% endif %}
-                            {% if request.session.recruiter == False %}
+                            {% if request.session.recruiter == False and first.job.id %}
                                 {% if first.saved_job %}
                                 <div id="removed-job">
                                  <button
