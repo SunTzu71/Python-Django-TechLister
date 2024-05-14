@@ -232,7 +232,9 @@ def edit_personal_info(request, pk):
 
                 if 'profile_image' in request.FILES:
                     # user updating image so delete the old one from file system
-                    personal_info.profile_image.delete()
+                    if personal_info.profile_image and os.path.isfile(
+                            os.path.join(settings.MEDIA_ROOT, personal_info.profile_image.path)):
+                        personal_info.profile_image.delete()
 
                     # upload new image
                     profile_image = request.FILES['profile_image']
