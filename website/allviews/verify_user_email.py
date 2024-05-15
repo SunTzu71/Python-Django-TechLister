@@ -27,16 +27,17 @@ def send_verification_email(user):
     from_email = 'chall0311@gmail.com'
     to_email = 'chris@techartisanpro.com'
 
+    message = Mail(
+        from_email='chris@techartisanhub.com',
+        to_emails='chris@techartisanpro.com',
+        subject='Tech Artisan Hub Verification Email',
+        html_content=f'Click here to verify your email address: {verification_url}')
     try:
-        send_mail(
-            subject,
-            message,
-            from_email,
-            [to_email],
-            fail_silently=False,
-        )
+        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+        response = sg.send(message)
+        print(response.status_code)
     except Exception as e:
-        print(e)  # update this to redirect to failed page
+        print(e.message)
 
 
 def verify_email(request, uidb64, token):
