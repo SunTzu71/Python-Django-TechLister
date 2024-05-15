@@ -48,7 +48,8 @@
                               hx-get="{% url 'add_experience_submit' %}"
                               hx-target="#exp-list"
                               hx-swap="beforeend"
-                              class="btn btn-success btn-sm mx-2">Add
+                              class="btn btn-success btn-sm mx-2"
+                              onclick="scrollToForm()">Add
                       </button>
 
                       <div id="exp_result"
@@ -59,6 +60,20 @@
                       </div>
                   </div>
               </div>
+              <script>
+                  document.body.addEventListener('htmx:afterOnLoad', function(event) {
+                      scrollToForm();
+                  });
+
+                  function scrollToForm() {
+                      var expForm = document.getElementById('exp-add');
+                      if (expForm) { // check if expForm exists to avoid errors when it doesn't
+                          expForm.scrollIntoView({ behavior: 'smooth' });
+                      } else {
+                          console.log("'exp-form' element not found");
+                      }
+                  }
+              </script>
           </div>
             <!-- End First Column -->
 
