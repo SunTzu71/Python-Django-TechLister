@@ -29,7 +29,7 @@
                       <button
                               hx-get="{% url 'add_education_submit' %}"
                               hx-target="#edu-list"
-                              hx-swap="afterbegin"
+                              hx-swap="beforeend"
                               class="btn btn-success btn-sm mx-2">Add
                       </button>
                       <div id="query_result"
@@ -47,7 +47,7 @@
                        <button
                               hx-get="{% url 'add_experience_submit' %}"
                               hx-target="#exp-list"
-                              hx-swap="afterbegin"
+                              hx-swap="beforeend"
                               class="btn btn-success btn-sm mx-2">Add
                       </button>
 
