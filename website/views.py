@@ -38,11 +38,15 @@ def register_user(request):
             user.save()
 
             send_verification_email(user)
-            return redirect('home')
+            return redirect('check_email_verify')
     else:
         form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
     return render(request, 'register.html', {'form': form})
+
+
+def check_email_verify(request):
+    return render(request, 'check_email.html', {})
 
 
 def logout_user(request):

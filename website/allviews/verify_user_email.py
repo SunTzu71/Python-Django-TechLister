@@ -44,8 +44,6 @@ def verify_email(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
-        #print('uid: ', uidb64)
-        #print('token: ', token)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 

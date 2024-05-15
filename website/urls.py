@@ -20,6 +20,7 @@ urlpatterns = [
     path('verify/<slug:uidb64>/<slug:token>/', verify_user_email.verify_email, name='verify_email'),
     path('verify/success/', verify_user_email.verification_success, name='verification_success'),
     path('verify/failure/', verify_user_email.verification_failure, name='verification_failure'),
+    path('verify/email/', views.check_email_verify, name='check_email_verify'),
 
     # password reset
     # Class based view passes in the form directly for us so we can use it in the template
