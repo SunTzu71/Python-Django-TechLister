@@ -17,6 +17,7 @@ urlpatterns = [
     path('recruiter/job/listing/edit/<int:pk>', views.edit_job, name='edit_job'),
     path('get/job/skills', views.get_job_skills, name='get_job_skills'),
     path('get/session/skills/<int:job_id>', views.get_session_skills, name='get_session_skills'),
+    path('list/session/skills', views.list_session_skills, name='list_session_skills'),
     path('job/skill/delete/<str:skill_name>', views.job_skill_delete, name='job_skill_delete'),
 ]
 

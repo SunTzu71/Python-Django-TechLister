@@ -87,6 +87,11 @@ def get_session_skills(request, job_id):
     return render(request, 'job_skill_list.html', {'job_skills': job_skills})
 
 
+def list_session_skills(request):
+    job_skills = request.session.get('job_skills', [])
+    return render(request, 'job_skill_list.html', {'job_skills': job_skills})
+
+
 def job_skill_delete(request, skill_name):
     if 'job_skills' in request.session:
         job_skills = request.session['job_skills']
