@@ -1,6 +1,5 @@
 db.sqlite3
 *.pyc
-techlister/settings.py
 media/*
 techlister/.env
 techlister/.sendgrid.env
