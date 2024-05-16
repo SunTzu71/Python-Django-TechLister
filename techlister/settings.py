@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_URL = os.getenv("QDRANT_URL")
 MAIL_DOMAIN = os.getenv("MAIL_DOMAIN")
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 
@@ -31,23 +33,7 @@ SECRET_KEY = 'django-insecure-ps%t)7q5rj^o1ei7p2cm2$a%k-c8rk2xe0j#5p(nnntd4a&1j!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/home/tahub/django.log',
-        },
-    },
-    'root': {
-        'handlers': ['file'],
-        'level': 'DEBUG',
-    },
-}
-
-ALLOWED_HOSTS = ['techartisanhub.com', 'www.techartisanhub.com', '64.225.52.105', 'localhost']
+ALLOWED_HOSTS = ['techartisanhub.com', 'www.techartisanhub.com', '64.225.52.105', 'localhost', '127.0.0.1']
 
 LOGIN_URL = 'please/login/'
 
