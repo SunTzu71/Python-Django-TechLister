@@ -130,6 +130,8 @@ def add_job(request):
                 return render(request, 'add_joblisting.html', {'form': form})
         else:
             form = NewJobListingForm()
+            if 'job_skills' in request.session:
+                del request.session['job_skills']
         return render(request, 'add_joblisting.html', {'form': form})
     except ObjectDoesNotExist:
         return redirect('restricted_access')
