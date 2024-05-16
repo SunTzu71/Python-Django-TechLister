@@ -22,16 +22,11 @@ def send_verification_email(user):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verification_url = f"{settings.MAIL_DOMAIN}/verify/{uid}/{token}/"
 
-    subject = 'Tech Artisan Hub Verification Email'
-    message = f'Click here to verify your email address: {verification_url}'
-    from_email = 'chall0311@gmail.com'
-    to_email = 'chris@techartisanpro.com'
-
     message = Mail(
         from_email='chris@techartisanhub.com',
-        to_emails='chris@techartisanpro.com',
+        to_emails=user.email,
         subject='Tech Artisan Hub Verification Email',
-        html_content=f'Click here to verify your email address: {verification_url}')
+        html_content=f'Hello {user.first_name}<p>Click here to verify your email address: {verification_url}</p>')
     try:
         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
         response = sg.send(message)
