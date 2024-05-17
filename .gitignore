@@ -3,6 +3,7 @@ db.sqlite3
 media/*
 static/*
 staticfiles/*
+techlister/settings.py
 techlister/.env
 techlister/.sendgrid.env
 neural_search/job_listings.json
