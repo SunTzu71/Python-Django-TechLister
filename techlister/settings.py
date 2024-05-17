@@ -14,7 +14,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 QDRANT_URL = os.getenv("QDRANT_URL")
@@ -33,7 +32,7 @@ SECRET_KEY = 'django-insecure-ps%t)7q5rj^o1ei7p2cm2$a%k-c8rk2xe0j#5p(nnntd4a&1j!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['techartisanhub.com', 'www.techartisanhub.com', '64.225.52.105', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = 'please/login/'
 
@@ -163,8 +162,12 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles/'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -174,12 +177,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# SSL 465 TLS 587 This is used for password reset. Can not use SendGrid for password reset
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.privateemail.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'chris@techartisanhub.com'
-EMAIL_HOST_PASSWORD = 'ZRRiPlPp8FdolaqijVND'
-DEFAULT_FROM_EMAIL = 'chris@techartisanhub.com'

@@ -1,6 +1,7 @@
 db.sqlite3
 *.pyc
 media/*
+staticfiles/*
 techlister/.env
 techlister/.sendgrid.env
 neural_search/job_listings.json
@@ -8,4 +9,3 @@ neural_search/job_listings.npy
 neural_search/user_listings.json
 neural_search/user_listings.npy
 *__pycache__*
-staticfiles/*
