@@ -23,7 +23,7 @@ class NeuralSearcher:
             collection_name=self.collection_name,
             query_vector=vector,
             query_filter=None,  # If you don't want any filters for now
-            limit=5,
+            limit=100,
         )
         # `search_result` contains found vector ids with similarity scores along with the stored payload
         # In this function you are interested in payload only
