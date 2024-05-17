@@ -1586,14 +1586,6 @@ Tech Artisan Custom CSS
     color: #00b3ff;
 }
 
-.alllinked-url {
-   color: #0a53be;
-}
-
-.alllinked-url:hover {
-    color: #00b3ff;
-}
-
 .md-yellow-button {
     --bs-btn-padding-y: .25rem;
     --bs-btn-padding-x: .5rem;
