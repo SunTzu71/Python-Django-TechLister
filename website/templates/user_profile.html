@@ -7,7 +7,15 @@
               {% include 'users/user_info.html' %}
           </div>
           <div class="col 8">
-              <h3>Messages</h3>
+            <div class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Attention</h4>
+              <p>
+                 When you post your resume, please allow a few hours for it to appear in the search results.
+                  Resumes must be structured and stored properly for the AI system to process them. We are working
+                  on a system to enable real-time listing.
+              </p>
+            </div>
+            <h3>Messages</h3>
              <table class="table table-hover table-bordered">
                   <thead class="table-dark">
                   <tr>
@@ -34,7 +42,6 @@
                           {% else %}
                           <a href="{% url 'view_message' message.id %}">
                               <button
-
                                       class="btn btn-sm btn-success">Read
                               </button>
                           </a>
