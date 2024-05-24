@@ -1,66 +1,62 @@
-
 <div class="container px-4 text-center">
-<nav class="profile-navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Profile
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'user_profile' %}">View Profile</a></li>
-            <li><a class="dropdown-item" href="{% url 'edit_personalinfo' user.id %}">Edit Profile</a></li>
-            <li><a class="dropdown-item" href="{% url 'ai_info' %}">AI/Tokens</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Jobs
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'saved_jobs' %}">Saved Jobs</a></li>
-            <li><a class="dropdown-item" href="{% url 'applied_jobs' %}">Applied Jobs</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Resume
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'user_page' user.username %}">View Resume</a></li>
-            <li><a class="dropdown-item" href="{% url 'ai_resume' %}">Add/Edit/AI Resume</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Portfolio
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'user_portfolio' user.username %}">View Portfolio</a></li>
-            <li><a class="dropdown-item" href="/user/portfolio/add">Add/Edit Portfolio</a></li>
-          </ul>
-        </li>
-<!--        <li class="nav-item dropdown">-->
-<!--          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--            Article-->
-<!--          </a>-->
-<!--          <ul class="dropdown-menu">-->
-<!--            <li><a class="dropdown-item" href="{% url 'add_article' %}">Add Article</a></li>-->
-<!--            <li><a class="dropdown-item" href="{% url 'list_articles' %}">List Articles</a></li>-->
-<!--          </ul>-->
-<!--        </li>-->
-      </ul>
-      <form class="d-flex w-100" method="POST" action="{% url 'job_search' %}">
-                {% csrf_token %}
-                <input class="form-control w-100 me-2" type="text" name="query" placeholder="Search Jobs" />
-                <button type="submit" class="btn lg-button-yellow">Search</button>
-      </form>
+  <nav class="profile-navbar navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <!-- Toggler button for mobile devices -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible navbar content -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Profile
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'user_profile' %}">View Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'edit_personalinfo' user.id %}">Edit Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'ai_info' %}">AI/Tokens</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Jobs
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'saved_jobs' %}">Saved Jobs</a></li>
+              <li><a class="dropdown-item" href="{% url 'applied_jobs' %}">Applied Jobs</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Resume
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'user_page' user.username %}">View Resume</a></li>
+              <li><a class="dropdown-item" href="{% url 'ai_resume' %}">Add/Edit/AI Resume</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Portfolio
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'user_portfolio' user.username %}">View Portfolio</a></li>
+              <li><a class="dropdown-item" href="/user/portfolio/add">Add/Edit Portfolio</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex w-100" method="POST" action="{% url 'job_search' %}">
+          {% csrf_token %}
+          <input class="form-control w-100 me-2" type="text" name="query" placeholder="Search Jobs" />
+          <button type="submit" class="btn lg-button-yellow">Search</button>
+        </form>
+      </div>
     </div>
-  </div>
-</nav>
-    <hr />
+  </nav>
+  <hr />
 </div>
