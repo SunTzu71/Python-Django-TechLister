@@ -351,7 +351,7 @@ def login_user(request):
                 return redirect('add_personalinfo')
         else:
             messages.error(request, 'Invalid login')
-            return redirect('home')
+            return render(request, 'user_login_failed.html')
     else:
         return render(request, 'home.html', {})
 
