@@ -21,14 +21,13 @@ def send_verification_email(user):
     subject = 'Tech Artisan Hub Verification Email'
     message = f'Click here to verify your email address: {verification_url}'
     from_email = 'chris@techartisanhub.com'
-    to_email = user.email
 
     try:
         send_mail(
             subject,
             message,
             from_email,
-            [to_email],
+            [user.email],
             fail_silently=False,
         )
     except Exception as e:
