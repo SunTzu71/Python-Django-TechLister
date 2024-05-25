@@ -1,0 +1,52 @@
+{% load static %}
+{% include 'inner-header.html' %}
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header header-bg-color-dark text-white">
+                    <h2>Welcome to Tech Artisan Hub</h2>
+                </div>
+                <div class="card-body">
+                <h5>Connecting Talented Professionals with the Right Opportunities</h5>
+                   <p>
+                       I’m a software engineer with 15 years of experience, and I know how tough it can be to
+                       find the right job. That's why I founded Tech Artisan Hub; to connect talented professionals
+                       with companies that truly match their skills and goals.
+                   </p>
+                    <h5>Personalized Job Matching Assistance</h5>
+                    <p>
+                        We are offering personalized job matching assistance to the first 100 IT professionals who join.
+                    </p>
+                    <p>Here’s how the <strong>no cost</strong> service works:<br />
+                    We have access to thousands of companies that are actively looking for your skill set.
+                    </p>
+                    <ul>
+                        <li>Signup - it's free</li>
+                        <li>Create your profile so people can contact you.</li>
+                        <li>Go to resume builder and add your resume. Use our AI assistant if needed.</li>
+                        <li>Go to portfolio section. Add your projects with image, description and link to website.</li>
+                        <li>We will add your information to our AI search.</li>
+                        <li>We will tailor a personal message to 100 companies with a link to your personal page.</li>
+                        <li>Choose the right offer letter.</li>
+                    </ul>
+                    <h5>View Chris Hall's Resume and Portfolio</h5>
+                    <p>
+                        <button
+                                class="btn btn-primary mt-2"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            <a href="https://techartisanhub.com/resume/chall" target="_blank" style="color: white;">View User Page</a>
+                        </button>
+                    </p>
+                    <div class="text-center">
+                        <h5>What are you waiting for</h5>
+                        <button type="button" class="btn btn-warning">
+                            <a href="{% url 'register' %}" target="_blank" style="color: black;">Create User Page</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}

@@ -1,0 +1,47 @@
+{% load static %}
+{% include 'inner-header.html' %}
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header header-bg-color-dark text-white">
+                    <h2>Welcome to Tech Artisan Hub</h2>
+                </div>
+                <div class="card-body">
+                <h5>Connecting Businesses with the Right Talent</h5>
+                   <p>
+                       My name is Chris Hall and I have been a software engineer for over 10 years.
+                       I understand finding good talent can be
+                       difficult and time consuming. That's why I started Tech Artisan Hub.
+                   </p>
+                    <h5>Talent Matching Assistance</h5>
+                    <p>
+                        We are offering talent matching assistance to the first 50 businesses or recruiters who join.
+                        Let us find the right talent for your position. There is no need for you to waist time with
+                        candidates that are not qualified.
+                    </p>
+                    <p>
+                        Here's how the <strong>no cost</strong> service works:<br />
+                        We have access to thousands of job seekers looking for their next career move.
+                    </p>
+                    <ul>
+                        <li>Signup - it's free</li>
+                        <li>Create your profile so people can contact you.</li>
+                        <li>Go to Job Listing section and add the position you want to fill.</li>
+                        <li>We will add your open position to our AI search.</li>
+                        <li>We will tailor a personal message to 100 candidates that have the skills you are looking for.</li>
+                        <li>Choose the right candidate you would like to work with.</li>
+
+                    </ul>
+                    <div class="text-center">
+                        <h5>What are you waiting for</h5>
+                        <button type="button" class="btn btn-warning">
+                            <a href="{% url 'register' %}" target="_blank" style="color: black;">Add Job Listing</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}

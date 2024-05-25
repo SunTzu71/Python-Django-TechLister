@@ -24,6 +24,14 @@ def home(request):
     return render(request, 'home.html', {})
 
 
+def job_seeker(request):
+    return render(request, 'job_seekers.html')
+
+
+def business_recruiter(request):
+    return render(request, 'business_recruiter.html')
+
+
 def restricted_access(request):
     return render(request, 'restricted_access.html', {})
 

@@ -13,6 +13,10 @@ urlpatterns = [
     path('restricted/access/', views.restricted_access, name='restricted_access'),
     path('summernote/', include('django_summernote.urls')),
 
+    # job seeker and business recruiter funnel page
+    path('job/seeker/', views.job_seeker, name='job_seeker'),
+    path('business/recruiter/', views.business_recruiter, name='business_recruiter'),
+
     # login register
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
