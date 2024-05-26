@@ -6,6 +6,7 @@ from django_summernote.fields import SummernoteTextField
 class PersonalInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='personal_information')
     recruiter = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     city = models.CharField(max_length=100)

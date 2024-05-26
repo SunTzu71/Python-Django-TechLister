@@ -119,11 +119,12 @@ class PersonalInformationForm(CustomModelForm):
         ]
 
         model = PersonalInformation
-        fields = ['recruiter', 'first_name', 'last_name', 'city', 'state',
+        fields = ['recruiter', 'active', 'first_name', 'last_name', 'city', 'state',
                   'email', 'phone', 'linked_in', 'about', 'profile_image']
 
         widgets = {
             'recruiter': forms.CheckboxInput(),
+            'active': forms.CheckboxInput(),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City'}),

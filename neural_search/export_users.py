@@ -12,11 +12,11 @@ conn = psycopg2.connect(
 
 # Construct the SQL query to join job listings with their skills
 query = """
-SELECT pi.recruiter, pi.first_name, pi.last_name, pi.city, pi.state, pi.about,
+SELECT pi.recruiter, pi.active, pi.first_name, pi.last_name, pi.city, pi.state, pi.about,
        pi.profile_image, pi.user_id,  COALESCE(STRING_AGG(us.skill_name, ', '), '') AS skills
 FROM website_personalinformation AS pi
 LEFT JOIN website_userskill AS us ON pi.user_id = us.user_id
-WHERE pi.recruiter = false GROUP BY pi.id
+WHERE pi.recruiter = false AND pi.active = true GROUP BY pi.id
 """
 
 # Read the SQL query result into a DataFrame
