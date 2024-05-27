@@ -1,6 +1,7 @@
 import os
 import secrets
 from django.http import Http404
+from django.core.mail import send_mail
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -46,11 +47,29 @@ def register_user(request):
             user.save()
 
             send_verification_email(user)
+            new_user_message()
             return redirect('check_email_verify')
     else:
         form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
     return render(request, 'register.html', {'form': form})
+
+
+def new_user_message():
+    subject = 'TAHub - New User'
+    message = 'There is a new users'
+    tahub_email = 'chris@techartisanhub.com'
+
+    try:
+        send_mail(
+            subject,
+            message,
+            tahub_email,
+            [tahub_email],
+            fail_silently=False,
+        )
+    except Exception as e:
+        print(e)
 
 
 def check_email_verify(request):
