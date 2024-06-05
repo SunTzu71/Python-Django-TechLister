@@ -210,7 +210,6 @@ class PortfolioForm(CustomModelForm):
         'title': [validate_title_length],
         'description': [validate_description_length],
         'website_link': [validate_website_link],
-        'portfolio_image': [validate_portfolio_image],
     }
 
     class Meta:

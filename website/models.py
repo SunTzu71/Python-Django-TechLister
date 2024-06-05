@@ -41,7 +41,7 @@ class Portfolio(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     website_link = models.URLField()
-    portfolio_image = models.ImageField(upload_to='images')
+    portfolio_image = models.ImageField(upload_to='images/', default='images/default-profile.jpeg')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
