@@ -4,8 +4,8 @@ from django.conf import settings
 import numpy as np
 import json
 
-QDRANT_API_KEY = 'LBtuvaZRmX_kTUZJTTaj2D7DOqSl8DoipFBnMqWH9C16BC15u7MqlQ'
-QDRANT_URL = 'https://a70aa4ee-b102-4f72-87bc-2d84095c40fd.us-east4-0.gcp.cloud.qdrant.io:6333'
+QDRANT_API_KEY = 'your-api-key'
+QDRANT_URL = 'your-qdrant-url'
 
 qdrant_client = QdrantClient(
     url=QDRANT_URL,
